@@ -103,9 +103,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="container">
             <div className="footer-grid">
               <div className="footer-brand">
-                <Link href="/" className="logo" aria-label="ToolHub home">
+                <Link href="/" className="logo" aria-label={`${SITE_NAME} home`}>
                   <span className="logo-mark" aria-hidden="true">◆</span>
-                  Tool<span className="logo-accent">Hub</span>
+                  {SITE_NAME.slice(0, 4)}<span className="logo-accent">{SITE_NAME.slice(4)}</span>
                 </Link>
                 <p>
                   Free online tools that run entirely in your browser. No uploads,

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CATEGORIES } from "@/lib/tools";
+import { SITE_NAME } from "@/lib/site";
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -41,9 +42,9 @@ export default function SiteHeader() {
   return (
     <header className="site-header">
       <div className="container header-inner">
-        <Link href="/" className="logo" aria-label="ToolHub home">
+        <Link href="/" className="logo" aria-label={`${SITE_NAME} home`}>
           <span className="logo-mark" aria-hidden="true">◆</span>
-          Tool<span className="logo-accent">Hub</span>
+          {SITE_NAME.slice(0, 4)}<span className="logo-accent">{SITE_NAME.slice(4)}</span>
         </Link>
 
         <button
