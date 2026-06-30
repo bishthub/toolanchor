@@ -1,0 +1,10 @@
+[build]
+  command = "next build"
+  publish = ".next"
+
+[build.environment]
+  # Next.js 16 + React 19 need a modern Node; match local build.
+  NODE_VERSION = "22"
+
+# Netlify auto-installs the Next.js Runtime, which handles SSR and the
+# /api/ai-detect route as serverless functions. No manual plugin config needed.
