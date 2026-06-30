@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const KEY = "toolhub-notepad";
+const KEY = "toolanchor-notepad";
 
 export default function OnlineNotepad() {
   const [text, setText] = useState("");
