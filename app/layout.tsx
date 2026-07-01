@@ -5,6 +5,7 @@ import { CATEGORIES, LIVE_TOOLS } from "@/lib/tools";
 import { SITE_NAME, SITE_URL, SITE_DESCRIPTION } from "@/lib/site";
 import SiteHeader from "@/components/SiteHeader";
 import JsonLd from "@/components/JsonLd";
+import Analytics from "@/components/Analytics";
 import "./globals.css";
 
 // Self-hosted via next/font → no layout shift, no external request (great CWV/SEO).
@@ -46,6 +47,12 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
   },
   robots: { index: true, follow: true },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    other: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+      ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION }
+      : {},
+  },
 };
 
 export const viewport = {
@@ -93,6 +100,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <JsonLd data={siteJsonLd} />
+        <Analytics />
         <a href="#main" className="skip-link">Skip to content</a>
 
         <SiteHeader />
@@ -116,23 +124,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div className="footer-col">
                 <h4>Browse</h4>
                 <Link href="/tools">All tools (A–Z)</Link>
-                {CATEGORIES.slice(0, 2).map((c) => (
-                  <Link key={c.id} href={`/category/${c.id}`}>{c.name}</Link>
-                ))}
+                <Link href="/ask">Ask (describe a task)</Link>
+                <Link href="/guides">Guides</Link>
+                <Link href="/alternatives">Alternatives</Link>
               </div>
 
               <div className="footer-col">
                 <h4>Categories</h4>
-                {CATEGORIES.slice(2).map((c) => (
+                {CATEGORIES.map((c) => (
                   <Link key={c.id} href={`/category/${c.id}`}>{c.name}</Link>
                 ))}
               </div>
 
               <div className="footer-col">
-                <h4>Popular</h4>
-                {LIVE_TOOLS.slice(0, 5).map((t) => (
-                  <Link key={t.slug} href={`/tools/${t.slug}`}>{t.name}</Link>
-                ))}
+                <h4>Company</h4>
+                <Link href="/about">About</Link>
+                <Link href="/contact">Contact</Link>
+                <Link href="/privacy">Privacy</Link>
+                <Link href="/terms">Terms</Link>
               </div>
             </div>
 

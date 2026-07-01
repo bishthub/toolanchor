@@ -3,7 +3,10 @@ import Link from "next/link";
 // import ToolSearch from "@/components/ToolSearch";
 import ToolAssistant from "@/components/ToolAssistant";
 import ToolCard from "@/components/ToolCard";
-import { CATEGORIES, LIVE_TOOLS, TRENDING_TOOLS, toolsByCategory } from "@/lib/tools";
+import {
+  CATEGORIES, LIVE_TOOLS, TRENDING_TOOLS, POPULAR_TOOLS,
+  sampleTools, liveCountByCategory,
+} from "@/lib/tools";
 
 export default function HomePage() {
   return (
@@ -22,14 +25,6 @@ export default function HomePage() {
         <div className="hero-assistant reveal">
           <ToolAssistant />
         </div>
-        {/* Quick-search temporarily disabled — the Assistant above handles search.
-        <div className="hero-search reveal" style={{ marginTop: 16 }}>
-          <p style={{ color: "var(--muted)", fontSize: ".85rem", margin: "0 0 8px" }}>
-            Or jump straight to a tool:
-          </p>
-          <ToolSearch />
-        </div>
-        */}
         <div className="trust reveal">
           <span><span className="dot" /> <b>{LIVE_TOOLS.length}</b>&nbsp;live tools</span>
           <span><b>0</b>&nbsp;uploads</span>
@@ -43,7 +38,6 @@ export default function HomePage() {
           <div className="section-head">
             <h2>✨ New &amp; Trending</h2>
             <span className="count">just added</span>
-            <Link href="/tools" className="more">View all →</Link>
           </div>
           <div className="grid">
             {TRENDING_TOOLS.map((t) => (
@@ -53,48 +47,58 @@ export default function HomePage() {
         </section>
       )}
 
-      {LIVE_TOOLS.length > 0 && (
+      {POPULAR_TOOLS.length > 0 && (
         <section>
           <div className="section-head">
             <h2>Popular tools</h2>
-            <span className="count">{LIVE_TOOLS.length} live</span>
-            <Link href="/tools" className="more">View all →</Link>
+            <Link href="/tools" className="more">View all {LIVE_TOOLS.length} →</Link>
           </div>
           <div className="grid">
-            {LIVE_TOOLS.map((t) => (
+            {POPULAR_TOOLS.map((t) => (
               <ToolCard key={t.slug} tool={t} />
             ))}
           </div>
         </section>
       )}
 
-      {CATEGORIES.map((cat) => {
-        const tools = toolsByCategory(cat.id);
-        if (!tools.length) return null;
-        return (
-          <section key={cat.id} style={{ ["--cat" as string]: `var(--cat-${cat.id})` }}>
-            <div className="cat-head">
-              <span className="cat-emoji" aria-hidden="true">{cat.emoji}</span>
-              <div>
-                <h2 style={{ fontSize: "1.5rem", margin: 0 }}>{cat.name}</h2>
-                <p className="section-blurb">{cat.blurb}</p>
+      {/* Compact category overview — a few samples each, links to full pages.
+          Keeps the homepage short instead of dumping all 87 tools. */}
+      <section>
+        <div className="section-head">
+          <h2>Browse by category</h2>
+        </div>
+        {CATEGORIES.map((cat) => {
+          const samples = sampleTools(cat.id, 4);
+          const total = liveCountByCategory(cat.id);
+          if (!samples.length) return null;
+          return (
+            <div key={cat.id} style={{ ["--cat" as string]: `var(--cat-${cat.id})`, marginBottom: 30 }}>
+              <div className="cat-head">
+                <span className="cat-emoji" aria-hidden="true">{cat.emoji}</span>
+                <div>
+                  <h3 style={{ fontSize: "1.25rem", margin: 0 }}>{cat.name}</h3>
+                  <p className="section-blurb">{cat.blurb}</p>
+                </div>
+                <Link href={`/category/${cat.id}`} className="more" style={{ marginLeft: "auto", alignSelf: "center" }}>
+                  All {total} →
+                </Link>
               </div>
-              <Link
-                href={`/category/${cat.id}`}
-                className="more"
-                style={{ marginLeft: "auto", alignSelf: "center" }}
-              >
-                View all →
-              </Link>
+              <div className="grid">
+                {samples.map((t) => (
+                  <ToolCard key={t.slug} tool={t} />
+                ))}
+              </div>
             </div>
-            <div className="grid">
-              {tools.map((t) => (
-                <ToolCard key={t.slug} tool={t} />
-              ))}
-            </div>
-          </section>
-        );
-      })}
+          );
+        })}
+      </section>
+
+      {/* Final CTA to the full A-Z directory */}
+      <section style={{ textAlign: "center", padding: "10px 0 20px" }}>
+        <Link href="/tools" className="btn" style={{ display: "inline-flex" }}>
+          Browse all {LIVE_TOOLS.length} tools A–Z →
+        </Link>
+      </section>
     </div>
   );
 }

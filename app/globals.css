@@ -614,10 +614,11 @@ input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px;
 .faq summary::-webkit-details-marker { display: none; }
 .faq summary::before {
   content: "+"; flex: none; width: 24px; height: 24px; border-radius: 7px;
-  display: grid; place-items: center; color: var(--accent); background: var(--accent-soft);
-  font-weight: 700; font-size: 1.1rem; transition: transform .2s;
+  display: inline-flex; align-items: center; justify-content: center;
+  line-height: 1; text-align: center; color: var(--accent); background: var(--accent-soft);
+  font-weight: 700; font-size: 1.15rem; transition: transform .2s;
 }
-.faq[open] summary::before { content: "−"; transform: rotate(180deg); }
+.faq[open] summary::before { content: "−"; }
 .faq p { color: var(--muted); margin: 12px 0 0 36px; }
 
 /* ── Footer ──────────────────────────────────────────────────────────── */

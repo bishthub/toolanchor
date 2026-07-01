@@ -1127,6 +1127,23 @@ export const LIVE_TOOLS = TOOLS.filter((t) => t.status === "live");
 /** Newest / featured tools shown in the homepage "New & Trending" section. */
 export const TRENDING_TOOLS = TOOLS.filter((t) => t.trending && t.status === "live");
 
+/** Hand-picked high-traffic tools for the homepage "Popular" row. */
+const POPULAR_SLUGS = [
+  "merge-pdf", "compress-pdf", "background-remover", "resize-image",
+  "qr-code-generator", "word-counter", "ai-content-detector", "password-generator",
+];
+export const POPULAR_TOOLS = POPULAR_SLUGS
+  .map((s) => TOOLS.find((t) => t.slug === s))
+  .filter((t): t is Tool => !!t && t.status === "live");
+
+/** A few sample tools per category for the homepage category overview. */
+export function sampleTools(id: CategoryId, n = 4): Tool[] {
+  return TOOLS.filter((t) => t.category === id && t.status === "live").slice(0, n);
+}
+export function liveCountByCategory(id: CategoryId): number {
+  return TOOLS.filter((t) => t.category === id && t.status === "live").length;
+}
+
 export function getTool(slug: string): Tool | undefined {
   return TOOLS.find((t) => t.slug === slug);
 }

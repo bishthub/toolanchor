@@ -1,4 +1,6 @@
 import { CATEGORIES, LIVE_TOOLS, toolsByCategory } from "@/lib/tools";
+import { GUIDES } from "@/lib/guides";
+import { ALTERNATIVES } from "@/lib/alternatives";
 import { SITE_NAME, SITE_URL, SITE_DESCRIPTION } from "@/lib/site";
 
 export const dynamic = "force-static";
@@ -27,9 +29,18 @@ export function GET() {
     lines.push("");
   }
 
+  lines.push("## Guides");
+  for (const g of GUIDES) lines.push(`- [${g.title}](${SITE_URL}/guides/${g.slug}): ${g.description}`);
+  lines.push("");
+
+  lines.push("## Free alternatives");
+  for (const a of ALTERNATIVES) lines.push(`- [${a.title}](${SITE_URL}/alternatives/${a.slug}): ${a.description}`);
+  lines.push("");
+
   lines.push("## Key pages");
   lines.push(`- [Ask — describe your task](${SITE_URL}/ask): Type what you need (e.g. "compress this PDF") and attach a file; matches and runs the right tool in your browser. No AI guesswork — deterministic intent matching.`);
   lines.push(`- [All tools A-Z](${SITE_URL}/tools): The complete alphabetical directory of every tool.`);
+  lines.push(`- [Guides](${SITE_URL}/guides) · [Alternatives](${SITE_URL}/alternatives) · [About](${SITE_URL}/about) · [Contact](${SITE_URL}/contact)`);
   lines.push("");
   lines.push("## Notes");
   lines.push("- All tools are free with no account required.");
