@@ -776,3 +776,42 @@ input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px;
 .dp-chip:hover { border-color: var(--accent); }
 .dp-chip.ghost { background: var(--surface-2); color: var(--muted); margin-left: auto; }
 .dp-chip.ghost:hover { color: var(--danger); border-color: var(--danger); }
+
+/* ── Quick-answer callout + freshness line (AEO/GEO) ─────────────────────
+   .answer-box is the self-contained answer AI engines love to extract; it
+   sits high on tool/guide pages. .updated shows a visible freshness date. */
+.updated {
+  font-family: var(--font-mono), monospace;
+  font-size: .74rem; letter-spacing: .02em; color: var(--muted);
+  margin: -18px 0 0;
+}
+.answer-box {
+  margin: 26px 0 30px;
+  padding: 18px 20px;
+  font-size: 1.06rem; line-height: 1.6; color: var(--text);
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+  border-left: 3px solid var(--cat, var(--accent));
+  border-radius: var(--radius-sm);
+}
+
+/* ── "Which tool should I use?" chooser (category pages) ─────────────────── */
+.chooser { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.chooser li {
+  padding: 14px 16px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--muted);
+}
+.chooser li strong { color: var(--text); }
+.chooser a { color: var(--accent); font-weight: 600; }
+
+/* ── Glossary definition block ───────────────────────────────────────────── */
+.definition {
+  margin: 26px 0 30px; padding: 18px 20px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: var(--radius-sm);
+}
+.definition dt {
+  font-family: var(--font-mono), monospace; font-size: .72rem; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+}
+.definition dd { margin: 0; font-size: 1.06rem; line-height: 1.6; color: var(--text); }

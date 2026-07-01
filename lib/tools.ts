@@ -6,6 +6,8 @@
 // components/tools/registry.tsx (slug must match).
 // ─────────────────────────────────────────────────────────────────────────
 
+import { LAST_REVIEWED } from "./site";
+
 export type CategoryId =
   | "pdf"
   | "image"
@@ -18,6 +20,9 @@ export interface Category {
   name: string;
   emoji: string;
   blurb: string;
+  intro?: string;                                  // longer intro paragraph for the category page
+  chooser?: { need: string; toolSlug: string }[];  // "which tool should I use?" decision list
+  faqs?: Faq[];                                     // category-level FAQ → FAQPage schema
 }
 
 export interface Faq {
@@ -36,14 +41,100 @@ export interface Tool {
   steps: string[]; // "How to use" list → rendered + HowTo JSON-LD
   faqs: Faq[]; // rendered as content + FAQPage JSON-LD
   trending?: boolean; // surfaced in the homepage "New & Trending" section
+  // Optional 40–60 word self-contained answer, rendered as a "quick answer"
+  // callout at the top of the page — the most extractable passage for AI
+  // answer engines. Falls back to `description` when omitted.
+  answer?: string;
+  // ISO yyyy-mm-dd this tool was last reviewed. Falls back to LAST_REVIEWED.
+  updated?: string;
 }
 
 export const CATEGORIES: Category[] = [
-  { id: "pdf", name: "PDF Tools", emoji: "📄", blurb: "Merge, split, rotate and convert PDFs — right in your browser, no uploads." },
-  { id: "image", name: "Image Tools", emoji: "🖼️", blurb: "Resize, crop, compress and convert images. Nothing leaves your device." },
-  { id: "text", name: "Text Tools", emoji: "🔤", blurb: "Count, convert and transform text instantly and privately." },
-  { id: "developer", name: "Developer Tools", emoji: "⚙️", blurb: "Encoders, formatters and generators for everyday dev work." },
-  { id: "calculator", name: "Calculators", emoji: "🧮", blurb: "Fast, accurate calculators for everyday math." },
+  {
+    id: "pdf", name: "PDF Tools", emoji: "📄",
+    blurb: "Merge, split, rotate and convert PDFs — right in your browser, no uploads.",
+    intro: "These PDF tools handle the everyday document jobs — combining files, pulling out pages, fixing orientation, shrinking file size and converting to and from images and text. Unlike most online PDF services, every tool here runs locally in your browser using the pdf-lib and pdf.js libraries, so your documents are never uploaded to a server. That makes them fast and safe for sensitive files like contracts and statements.",
+    chooser: [
+      { need: "Combine several PDFs into one file", toolSlug: "merge-pdf" },
+      { need: "Pull specific pages out of a PDF", toolSlug: "split-pdf" },
+      { need: "Make a PDF small enough to email", toolSlug: "compress-pdf" },
+      { need: "Turn photos or scans into a PDF", toolSlug: "jpg-to-pdf" },
+      { need: "Copy the text out of a PDF", toolSlug: "pdf-to-text" },
+    ],
+    faqs: [
+      { q: "Are my PDFs uploaded to a server?", a: "No. Every PDF tool here processes your file entirely in your browser, so the document never leaves your device." },
+      { q: "Is there a file-size or daily limit?", a: "There are no artificial limits — you're bounded only by your device's available memory." },
+      { q: "Do I need to install anything or sign up?", a: "No. The tools run in any modern browser with no installation and no account." },
+    ],
+  },
+  {
+    id: "image", name: "Image Tools", emoji: "🖼️",
+    blurb: "Resize, crop, compress and convert images. Nothing leaves your device.",
+    intro: "From resizing and cropping to background removal, compression, format conversion and metadata stripping, these image tools cover the common photo tasks. They use the browser's Canvas API and, for background removal, an AI model that runs on your device via WebAssembly — so your images are processed locally and never uploaded, at full resolution and with no watermark.",
+    chooser: [
+      { need: "Change an image's pixel dimensions", toolSlug: "resize-image" },
+      { need: "Reduce an image's file size", toolSlug: "compress-image" },
+      { need: "Cut out the background", toolSlug: "background-remover" },
+      { need: "Convert between JPG, PNG and WebP", toolSlug: "jpg-to-png" },
+      { need: "Remove EXIF/GPS data before sharing", toolSlug: "image-metadata-remover" },
+    ],
+    faqs: [
+      { q: "Are my photos uploaded?", a: "No — image tools run in your browser, so your photos stay on your device at full resolution." },
+      { q: "Is there a watermark or resolution limit?", a: "Never. Downloads are free at full resolution with no watermark." },
+      { q: "Which formats are supported?", a: "The common web formats — JPG/JPEG, PNG and WebP — are supported across the tools." },
+    ],
+  },
+  {
+    id: "text", name: "Text Tools", emoji: "🔤",
+    blurb: "Count, convert and transform text instantly and privately.",
+    intro: "These text tools count, clean, convert and transform writing and data — word and character counts, case conversion, find-and-replace, sorting, de-duplication and more. Everything runs instantly in your browser as you type, with nothing sent to a server, which makes them safe for private notes, drafts and confidential text.",
+    chooser: [
+      { need: "Count words, characters and reading time", toolSlug: "word-counter" },
+      { need: "Change text to UPPER, lower or Title Case", toolSlug: "case-converter" },
+      { need: "Find and replace text in bulk", toolSlug: "find-and-replace" },
+      { need: "Sort or de-duplicate a list of lines", toolSlug: "sort-text-lines" },
+      { need: "Strip line breaks from pasted text", toolSlug: "remove-line-breaks" },
+    ],
+    faqs: [
+      { q: "Is my text stored or uploaded?", a: "No — text tools run entirely in your browser, so nothing you type is sent anywhere." },
+      { q: "Do they work offline?", a: "Once the page has loaded, most text tools keep working even without a connection." },
+      { q: "Is there a length limit?", a: "No practical limit beyond your device's memory — paste as much as you need." },
+    ],
+  },
+  {
+    id: "developer", name: "Developer Tools", emoji: "⚙️",
+    blurb: "Encoders, formatters and generators for everyday dev work.",
+    intro: "A toolbox for everyday development: encode and decode Base64 and URLs, format and convert JSON/CSV/YAML, decode JWTs, generate hashes, UUIDs, QR codes and passwords, test regular expressions and look up HTTP status codes and MIME types. Each runs locally in your browser — safe for tokens, keys and other sensitive input — and pairs with a plain-English definition in our Glossary.",
+    chooser: [
+      { need: "Encode or decode Base64", toolSlug: "base64" },
+      { need: "Inspect a JSON Web Token", toolSlug: "jwt-decoder" },
+      { need: "Format and validate JSON", toolSlug: "json-formatter" },
+      { need: "Generate a secure random password", toolSlug: "password-generator" },
+      { need: "Create a QR code from a link", toolSlug: "qr-code-generator" },
+    ],
+    faqs: [
+      { q: "Is my input (tokens, keys) sent to a server?", a: "No — developer tools run in your browser, so it's safe to paste sensitive tokens and data." },
+      { q: "Where can I learn what these terms mean?", a: "See the Glossary for plain-English, cited definitions of JWT, Base64, UUID, MIME type and more." },
+      { q: "Are they free?", a: "Yes — every developer tool is free with no sign-up." },
+    ],
+  },
+  {
+    id: "calculator", name: "Calculators", emoji: "🧮",
+    blurb: "Fast, accurate calculators for everyday math.",
+    intro: "Quick, accurate calculators for money, health, dates and everyday math — percentages, discounts, loan EMIs, compound interest, BMI and calories, tips, GPA, age and date differences, and more. Each shows its result instantly as you type, runs in your browser, and stores nothing.",
+    chooser: [
+      { need: "Work out a percentage", toolSlug: "percentage-calculator" },
+      { need: "Estimate a loan repayment (EMI)", toolSlug: "loan-emi-calculator" },
+      { need: "Project savings with compound interest", toolSlug: "compound-interest-calculator" },
+      { need: "Check your BMI", toolSlug: "bmi-calculator" },
+      { need: "Split a bill and tip", toolSlug: "tip-calculator" },
+    ],
+    faqs: [
+      { q: "Are the calculators free and private?", a: "Yes — every calculator is free, needs no sign-up, and runs entirely in your browser." },
+      { q: "Should I rely on these for financial or medical decisions?", a: "They're accurate estimates for everyday use, but not a substitute for professional financial or medical advice." },
+      { q: "Do results update as I type?", a: "Yes — results recalculate instantly as you change the inputs." },
+    ],
+  },
 ];
 
 export const TOOLS: Tool[] = [
@@ -164,6 +255,7 @@ export const TOOLS: Tool[] = [
   {
     slug: "word-counter", name: "Word Counter", category: "text", status: "live",
     description: "Free word counter and character counter. Count words, characters, sentences, paragraphs and reading time as you type. Private and instant.",
+    answer: "A word counter tallies the words, characters (with and without spaces), sentences and paragraphs in your text, plus an estimated reading time based on an average adult reading speed of about 230 words per minute. It updates live as you type or paste, which helps you hit essay targets and platform limits. Everything runs in your browser — no text is uploaded.",
     keywords: ["word counter", "character counter", "word count", "count words", "letter counter"],
     intro: "Word Counter tallies your words, characters, sentences, paragraphs and estimated reading time in real time as you type or paste text. Nothing is sent anywhere — it all runs in your browser.",
     steps: ["Type or paste your text into the box.", "Watch the live counts update instantly.", "Use the stats for essays, posts and SEO limits."],
@@ -202,6 +294,7 @@ export const TOOLS: Tool[] = [
   {
     slug: "base64", name: "Base64 Encode / Decode", category: "developer", status: "live",
     description: "Encode text to Base64 or decode Base64 back to text instantly. Free, private, in-browser — supports full Unicode (UTF-8).",
+    answer: "Base64 (specified in RFC 4648) encodes binary or text data using 64 printable ASCII characters, so it can travel safely through systems that only handle text — such as email or data URIs. Encoding increases size by roughly 33%, since every 3 bytes become 4 characters. This tool encodes and decodes with full Unicode (UTF-8) support, entirely in your browser.",
     keywords: ["base64", "base64 decode", "base64 encode", "base64 converter", "encode decode base64"],
     intro: "This Base64 tool encodes plain text to Base64 and decodes Base64 back to text, with full Unicode (UTF-8) support. Everything runs in your browser.",
     steps: ["Paste your text or Base64 string.", "Choose Encode or Decode.", "Copy the result."],
@@ -312,6 +405,7 @@ export const TOOLS: Tool[] = [
   {
     slug: "qr-code-generator", name: "QR Code Generator", category: "developer", status: "live",
     description: "Generate a QR code from any text, link, email or phone number and download it as a PNG. Free, instant and fully in-browser.",
+    answer: "A QR code generator converts a link, text, email, phone number or Wi-Fi credentials into a scannable 2D barcode. These are static QR codes — the data is encoded directly in the image (up to 4,296 alphanumeric characters per the ISO/IEC 18004 standard), so they never expire and need no server. Generate and download a high-resolution PNG free, entirely in your browser.",
     keywords: ["qr code generator", "create qr code", "qr code maker", "free qr code", "url to qr code"],
     intro: "QR Code Generator turns any text or link into a scannable QR code you can download as a high-resolution PNG. Everything is generated in your browser.",
     steps: ["Type or paste a URL or any text.", "Adjust the size if needed.", "Click “Download PNG” to save your QR code."],
@@ -324,6 +418,7 @@ export const TOOLS: Tool[] = [
   {
     slug: "password-generator", name: "Password Generator", category: "developer", status: "live",
     description: "Generate strong, random passwords with custom length and character sets, using the secure Web Crypto API. Free and fully private.",
+    answer: "A password generator creates strong, random passwords you can't easily guess or reuse. This one draws randomness from the browser's cryptographically secure Web Crypto API (crypto.getRandomValues), not Math.random, and lets you set length and character sets. A 16-character password mixing upper, lower, digits and symbols has roughly 105 bits of entropy — far beyond brute-force reach. Nothing is stored or uploaded.",
     keywords: ["password generator", "random password", "strong password generator", "secure password", "create password"],
     intro: "Password Generator creates strong, random passwords using your browser's secure Web Crypto API. Pick the length and which character types to include, then copy with one click.",
     steps: ["Choose a length and character types.", "Click “Generate”.", "Copy your new password."],
@@ -458,6 +553,7 @@ export const TOOLS: Tool[] = [
   {
     slug: "jwt-decoder", name: "JWT Decoder", category: "developer", status: "live",
     description: "Decode a JSON Web Token (JWT) to read its header and payload instantly. Free, private, in-browser — no token is uploaded.",
+    answer: "A JWT (JSON Web Token, defined in RFC 7519) is a compact, URL-safe token made of three Base64url-encoded parts separated by dots: header, payload and signature. This decoder splits the token and shows the readable header and payload JSON — including standard claims like exp, iat and iss — entirely in your browser. It does not verify the signature, which requires the signing key.",
     keywords: ["jwt decoder", "decode jwt", "json web token decoder", "jwt parser", "read jwt"],
     intro: "JWT Decoder splits a JSON Web Token into its header and payload and decodes them to readable JSON, so you can inspect claims like expiry and issuer.",
     steps: ["Paste your JWT.", "Read the decoded header and payload.", "Inspect the claims."],
@@ -1154,6 +1250,16 @@ export function getCategory(id: CategoryId): Category | undefined {
 
 export function toolsByCategory(id: CategoryId): Tool[] {
   return TOOLS.filter((t) => t.category === id);
+}
+
+/** The self-contained "quick answer" for a tool (falls back to its description). */
+export function toolAnswer(tool: Tool): string {
+  return tool.answer ?? tool.description;
+}
+
+/** ISO date this tool was last reviewed (falls back to the site-wide date). */
+export function toolUpdated(tool: Tool): string {
+  return tool.updated ?? LAST_REVIEWED;
 }
 
 /** Other live tools in the same category — powers "Related tools" internal links. */

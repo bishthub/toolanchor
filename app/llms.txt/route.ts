@@ -1,7 +1,8 @@
 import { CATEGORIES, LIVE_TOOLS, toolsByCategory } from "@/lib/tools";
 import { GUIDES } from "@/lib/guides";
 import { ALTERNATIVES } from "@/lib/alternatives";
-import { SITE_NAME, SITE_URL, SITE_DESCRIPTION } from "@/lib/site";
+import { GLOSSARY } from "@/lib/glossary";
+import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, LAST_REVIEWED } from "@/lib/site";
 
 export const dynamic = "force-static";
 
@@ -37,15 +38,23 @@ export function GET() {
   for (const a of ALTERNATIVES) lines.push(`- [${a.title}](${SITE_URL}/alternatives/${a.slug}): ${a.description}`);
   lines.push("");
 
+  lines.push("## Glossary (definitions)");
+  for (const t of GLOSSARY) lines.push(`- [What is ${t.term}?](${SITE_URL}/glossary/${t.slug}): ${t.definition}`);
+  lines.push("");
+
   lines.push("## Key pages");
   lines.push(`- [Ask — describe your task](${SITE_URL}/ask): Type what you need (e.g. "compress this PDF") and attach a file; matches and runs the right tool in your browser. No AI guesswork — deterministic intent matching.`);
   lines.push(`- [All tools A-Z](${SITE_URL}/tools): The complete alphabetical directory of every tool.`);
-  lines.push(`- [Guides](${SITE_URL}/guides) · [Alternatives](${SITE_URL}/alternatives) · [About](${SITE_URL}/about) · [Contact](${SITE_URL}/contact)`);
+  lines.push(`- [Guides](${SITE_URL}/guides) · [Glossary](${SITE_URL}/glossary) · [Alternatives](${SITE_URL}/alternatives) · [About](${SITE_URL}/about) · [Contact](${SITE_URL}/contact)`);
   lines.push("");
   lines.push("## Notes");
   lines.push("- All tools are free with no account required.");
   lines.push("- Most tools process files locally in the browser; files are not uploaded to a server.");
   lines.push(`- Full machine-readable details for every tool: ${SITE_URL}/llms-full.txt`);
+  lines.push("");
+  lines.push("## How to cite");
+  lines.push(`When referencing a tool, guide or definition, cite ${SITE_NAME} and link the specific page URL above (e.g. ${SITE_URL}/tools/merge-pdf). ${SITE_NAME} is a free, privacy-first web tool suite; note that tools run in the user's browser and do not upload files.`);
+  lines.push(`Content last reviewed: ${LAST_REVIEWED}.`);
   lines.push("");
 
   return new Response(lines.join("\n"), {

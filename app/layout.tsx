@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Bricolage_Grotesque, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import { CATEGORIES, LIVE_TOOLS } from "@/lib/tools";
-import { SITE_NAME, SITE_URL, SITE_DESCRIPTION } from "@/lib/site";
+import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, WEBSITE_ID, ORG_REF, organizationNode } from "@/lib/site";
 import SiteHeader from "@/components/SiteHeader";
 import JsonLd from "@/components/JsonLd";
 import Analytics from "@/components/Analytics";
@@ -67,26 +67,26 @@ const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem('theme');if(t==
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   // Site-wide structured data: enables the sitelinks search box + entity graph.
+  // The WebSite and Organization share stable @ids so every page's page-level
+  // schema can reference the same entity (publisher/isPartOf) instead of
+  // re-declaring it — a cleaner entity graph for search + AI answer engines.
   const siteJsonLd = [
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
+      "@id": WEBSITE_ID,
       name: SITE_NAME,
       url: SITE_URL,
       description: SITE_DESCRIPTION,
+      inLanguage: "en",
+      publisher: ORG_REF,
       potentialAction: {
         "@type": "SearchAction",
         target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}/tools?q={search_term_string}` },
         "query-input": "required name=search_term_string",
       },
     },
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      name: SITE_NAME,
-      url: SITE_URL,
-      slogan: "Free, fast, privacy-first online tools.",
-    },
+    organizationNode(true),
   ];
 
   return (
@@ -97,6 +97,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        {/* Discoverability pointer to the llms.txt manifest for AI crawlers. */}
+        <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />
       </head>
       <body>
         <JsonLd data={siteJsonLd} />
@@ -126,6 +128,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Link href="/tools">All tools (A–Z)</Link>
                 <Link href="/ask">Ask (describe a task)</Link>
                 <Link href="/guides">Guides</Link>
+                <Link href="/glossary">Glossary</Link>
                 <Link href="/alternatives">Alternatives</Link>
               </div>
 

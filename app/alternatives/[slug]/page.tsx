@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ALTERNATIVES, getAlternative } from "@/lib/alternatives";
+import { ALTERNATIVES, getAlternative, alternativeUpdated } from "@/lib/alternatives";
 import { getTool } from "@/lib/tools";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { SITE_NAME, SITE_URL, WEBSITE_ID, formatUpdated } from "@/lib/site";
 import ToolCard from "@/components/ToolCard";
 import JsonLd from "@/components/JsonLd";
 
@@ -31,6 +31,8 @@ export default async function AlternativePage({ params }: { params: Promise<{ sl
 
   const tools = a.toolSlugs.map(getTool).filter((t) => t && t.status === "live");
   const url = `${SITE_URL}/alternatives/${a.slug}`;
+  const answer = a.answer ?? a.intro;
+  const updated = alternativeUpdated(a);
 
   const jsonLd: object[] = [
     {
@@ -40,6 +42,13 @@ export default async function AlternativePage({ params }: { params: Promise<{ sl
         { "@type": "ListItem", position: 2, name: "Alternatives", item: `${SITE_URL}/alternatives` },
         { "@type": "ListItem", position: 3, name: a.title, item: url },
       ],
+    },
+    {
+      "@context": "https://schema.org", "@type": "WebPage",
+      "@id": `${url}#webpage`, url, name: `${a.title} — ${SITE_NAME}`,
+      description: a.description, inLanguage: "en", dateModified: updated,
+      isPartOf: { "@id": WEBSITE_ID },
+      speakable: { "@type": "SpeakableSpecification", cssSelector: [".answer-box", ".tool-head h1"] },
     },
     {
       "@context": "https://schema.org", "@type": "FAQPage",
@@ -59,7 +68,11 @@ export default async function AlternativePage({ params }: { params: Promise<{ sl
         <span className="eyebrow">{SITE_NAME} vs {a.competitor}</span>
         <h1>{a.title}</h1>
         <p className="lede">{a.intro}</p>
+        <p className="updated">Last updated: {formatUpdated(updated)}</p>
       </div>
+
+      {/* Quick answer — the most extractable passage for AI answer engines. */}
+      <p className="answer-box">{answer}</p>
 
       <section className="content-block">
         <h2>How they compare</h2>

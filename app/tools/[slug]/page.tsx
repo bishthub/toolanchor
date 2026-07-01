@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getTool, getCategory, LIVE_TOOLS, relatedTools } from "@/lib/tools";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { getTool, getCategory, LIVE_TOOLS, relatedTools, toolAnswer, toolUpdated } from "@/lib/tools";
+import { SITE_NAME, SITE_URL, FOUNDING_YEAR, ORG_REF, WEBSITE_ID, formatUpdated } from "@/lib/site";
 import ToolRunner from "@/components/tools/registry";
 import ToolCard from "@/components/ToolCard";
 import JsonLd from "@/components/JsonLd";
@@ -52,6 +52,8 @@ export default async function ToolPage({
   const cat = getCategory(tool.category);
   const related = relatedTools(tool);
   const url = `${SITE_URL}/tools/${tool.slug}`;
+  const answer = toolAnswer(tool);
+  const updated = toolUpdated(tool);
 
   // ── Structured data for rich results + AI search ──────────────────────
   const jsonLd: object[] = [
@@ -63,7 +65,28 @@ export default async function ToolPage({
       url,
       applicationCategory: "UtilitiesApplication",
       operatingSystem: "Any (web browser)",
+      browserRequirements: "Requires a modern web browser with JavaScript enabled.",
+      softwareVersion: "1.0",
+      inLanguage: "en",
+      isAccessibleForFree: true,
+      featureList: tool.keywords,
+      datePublished: `${FOUNDING_YEAR}-01-01`,
+      dateModified: updated,
+      publisher: ORG_REF,
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": `${url}#webpage`,
+      url,
+      name: `${tool.name} — ${SITE_NAME}`,
+      description: tool.description,
+      inLanguage: "en",
+      dateModified: updated,
+      isPartOf: { "@id": WEBSITE_ID },
+      // Voice-assistant hint: the extractable answer + heading.
+      speakable: { "@type": "SpeakableSpecification", cssSelector: [".answer-box", ".tool-head h1"] },
     },
     {
       "@context": "https://schema.org",
@@ -78,7 +101,16 @@ export default async function ToolPage({
       "@context": "https://schema.org",
       "@type": "HowTo",
       name: `How to use ${tool.name}`,
-      step: tool.steps.map((s, i) => ({ "@type": "HowToStep", position: i + 1, text: s })),
+      description: answer,
+      totalTime: "PT1M",
+      tool: [{ "@type": "HowToTool", name: `${SITE_NAME} ${tool.name}` }],
+      step: tool.steps.map((s, i) => ({
+        "@type": "HowToStep",
+        position: i + 1,
+        name: `Step ${i + 1}`,
+        text: s,
+        url: `${url}#step-${i + 1}`,
+      })),
     },
     {
       "@context": "https://schema.org",
@@ -114,7 +146,11 @@ export default async function ToolPage({
         {cat && <span className="eyebrow">{cat.emoji} {cat.name}</span>}
         <h1>{tool.name}</h1>
         <p className="lede">{tool.intro}</p>
+        <p className="updated">Last updated: {formatUpdated(updated)}</p>
       </div>
+
+      {/* Quick answer — the most extractable passage for AI answer engines. */}
+      <p className="answer-box">{answer}</p>
 
       <div className="tool-shell">
         <div className="tool-shell-bar">
@@ -132,7 +168,7 @@ export default async function ToolPage({
         <h2>How to use {tool.name}</h2>
         <ol className="steps">
           {tool.steps.map((s, i) => (
-            <li key={i}>{s}</li>
+            <li key={i} id={`step-${i + 1}`}>{s}</li>
           ))}
         </ol>
       </section>

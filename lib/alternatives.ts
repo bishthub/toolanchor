@@ -4,6 +4,8 @@
 // honest comparison. Data-driven → pages/list/sitemap generate from here.
 // ─────────────────────────────────────────────────────────────────────────
 
+import { LAST_REVIEWED } from "./site";
+
 export interface CompareRow { feature: string; us: string; them: string; }
 export interface Alternative {
   slug: string;          // e.g. "ilovepdf-alternative"
@@ -12,10 +14,12 @@ export interface Alternative {
   description: string;
   keywords: string[];
   intro: string;
+  answer?: string;       // 40–60 word self-contained answer callout (falls back to intro)
   toolSlugs: string[];   // our matching tools
   comparison: CompareRow[];
   whyUs: string[];
   faqs: { q: string; a: string }[];
+  updated?: string;      // ISO yyyy-mm-dd last reviewed (falls back to LAST_REVIEWED)
 }
 
 const PRIVACY_ROW: CompareRow = { feature: "Privacy", us: "Runs in your browser — files never uploaded", them: "Files uploaded to their servers" };
@@ -187,8 +191,133 @@ export const ALTERNATIVES: Alternative[] = [
       { q: "Is it free?", a: "Yes, with no sign-up." },
     ],
   },
+  {
+    slug: "adobe-acrobat-online-alternative",
+    competitor: "Adobe Acrobat online",
+    title: "Free Adobe Acrobat Online Alternative — Private PDF Tools",
+    description: "A free Adobe Acrobat online alternative for merging, splitting, rotating and compressing PDFs — in your browser, with no Adobe account and no uploads.",
+    keywords: ["adobe acrobat alternative", "free acrobat online alternative", "acrobat without subscription", "free pdf editor no account"],
+    intro: "Adobe Acrobat's online tools are powerful but push you toward an Adobe account and a subscription, and they upload your files. ToolAnchor covers the everyday PDF jobs free and processes them locally in your browser.",
+    answer: "Adobe Acrobat online is a full PDF suite, but its handier features sit behind an Adobe account and a paid plan, and your files are uploaded to Adobe's cloud. ToolAnchor offers the common PDF jobs — merge, split, rotate, compress, images-to-PDF and PDF-to-text — free, with no account and everything processed in your browser.",
+    toolSlugs: ["merge-pdf", "split-pdf", "rotate-pdf", "compress-pdf", "jpg-to-pdf", "pdf-to-images", "pdf-to-text"],
+    comparison: [
+      PRIVACY_ROW, PRICE_ROW, SIGNUP_ROW,
+      { feature: "Account", us: "None", them: "Adobe ID required for most tools" },
+      { feature: "Subscription", us: "Never", them: "Acrobat Pro for full features" },
+    ],
+    whyUs: [
+      "No Adobe ID, no trial countdown, no upsell to Acrobat Pro.",
+      "Files are processed on your device instead of uploaded to Adobe's cloud.",
+      "Instant — no waiting on a server round-trip.",
+    ],
+    faqs: [
+      { q: "Can it edit PDFs like Acrobat?", a: "It covers the most common tasks — merge, split, rotate, compress, images-to-PDF and text extraction. It isn't a full visual PDF editor." },
+      { q: "Do I need an Adobe account?", a: "No account of any kind is needed." },
+    ],
+  },
+  {
+    slug: "pdf2go-alternative",
+    competitor: "PDF2Go",
+    title: "Free PDF2Go Alternative — No Uploads, No Sign-up",
+    description: "A free PDF2Go alternative for merging, splitting and compressing PDFs entirely in your browser — no uploads to a server and no daily limits.",
+    keywords: ["pdf2go alternative", "free pdf2go alternative", "pdf2go without upload", "online pdf tools no upload"],
+    intro: "PDF2Go is convenient but uploads your documents to its servers and limits free use. ToolAnchor runs the same everyday PDF tasks locally in your browser, with no upload and no cap.",
+    answer: "PDF2Go processes your PDFs on its servers, which means uploading potentially sensitive documents and living within free-tier limits. ToolAnchor does merge, split, rotate, compress, images-to-PDF and PDF-to-text entirely in your browser — nothing is uploaded, and there are no daily task limits.",
+    toolSlugs: ["merge-pdf", "split-pdf", "rotate-pdf", "compress-pdf", "jpg-to-pdf", "pdf-to-images", "pdf-to-text"],
+    comparison: [
+      PRIVACY_ROW, PRICE_ROW, SIGNUP_ROW,
+      { feature: "Daily limits", us: "None", them: "Free tier caps tasks/size" },
+    ],
+    whyUs: [
+      "Your documents never leave your device.",
+      "No daily task or file-size limits on the in-browser tools.",
+      "No account or email required.",
+    ],
+    faqs: [
+      { q: "Are my PDFs uploaded?", a: "No — every PDF task runs locally in your browser." },
+      { q: "Is it really free?", a: "Yes, with no sign-up and no daily limits." },
+    ],
+  },
+  {
+    slug: "photoroom-alternative",
+    competitor: "PhotoRoom",
+    title: "Free PhotoRoom Alternative — Remove Backgrounds In-browser",
+    description: "A free PhotoRoom alternative that removes image backgrounds in your browser and gives you a full-resolution transparent PNG — no account, no watermark.",
+    keywords: ["photoroom alternative", "free photoroom alternative", "background remover no watermark", "remove background free"],
+    intro: "PhotoRoom is a slick background remover, but full-resolution exports and extras sit behind a subscription and it uploads your photo. ToolAnchor's Background Remover runs the AI model in your browser and hands you a full-resolution PNG free.",
+    answer: "PhotoRoom removes backgrounds well, but gates HD exports and features behind a subscription and uploads your image to its servers. ToolAnchor's Background Remover runs an AI segmentation model directly in your browser, giving you a full-resolution transparent PNG for free — no account, no watermark, and nothing uploaded.",
+    toolSlugs: ["background-remover", "resize-image", "compress-image", "crop-image"],
+    comparison: [
+      PRIVACY_ROW,
+      { feature: "Price", us: "Free, full resolution", them: "Subscription for HD/extras" },
+      SIGNUP_ROW,
+      { feature: "Watermark", us: "Never", them: "Some exports/templates branded" },
+    ],
+    whyUs: [
+      "Full-resolution transparent PNG at no cost.",
+      "The AI model runs on your device — your photo is never uploaded.",
+      "No subscription and no watermark.",
+    ],
+    faqs: [
+      { q: "Is the export full resolution?", a: "Yes — you get the full-resolution transparent PNG for free." },
+      { q: "Is my photo uploaded?", a: "No, the model runs in your browser (it downloads once, then is cached)." },
+    ],
+  },
+  {
+    slug: "zerogpt-alternative",
+    competitor: "ZeroGPT",
+    title: "Free ZeroGPT Alternative — AI Content Detector",
+    description: "A free ZeroGPT alternative that estimates AI-written text privately in your browser, with an optional deeper AI-powered check. Honest about its limits.",
+    keywords: ["zerogpt alternative", "free ai detector", "ai content detector free", "chatgpt detector alternative"],
+    intro: "ZeroGPT is a popular AI detector, but it processes your text on its servers and limits longer inputs. ToolAnchor's AI Content Detector gives an instant private check for free, plus an optional deeper AI-powered analysis.",
+    answer: "ZeroGPT estimates whether text is AI-written, but sends your text to its servers and caps free input length. ToolAnchor's AI Content Detector runs an instant heuristic check entirely in your browser and shows the signals behind the score, with an optional deeper AI-powered analysis — and it's honest that no detector is proof.",
+    toolSlugs: ["ai-content-detector", "ai-image-checker", "word-counter"],
+    comparison: [
+      { feature: "Price", us: "Free quick check", them: "Length/scan limits on free tier" },
+      { feature: "Privacy", us: "Quick check runs in your browser", them: "Text sent to their servers" },
+      SIGNUP_ROW,
+      { feature: "Honesty", us: "Clearly labelled as a heuristic", them: "Varies" },
+    ],
+    whyUs: [
+      "Instant, private, in-browser scoring with a full signal breakdown.",
+      "Optional deep analysis blends multiple AI models when you want more.",
+      "We're upfront that detectors produce false positives — protecting you from false accusations.",
+    ],
+    faqs: [
+      { q: "Is any AI detector reliable?", a: "No detector is fully reliable — all produce false positives. Use the score as one signal, never as proof." },
+      { q: "Is it free?", a: "Yes — the quick check is free and unlimited in your browser." },
+    ],
+  },
+  {
+    slug: "iloveimg-alternative",
+    competitor: "iLoveIMG",
+    title: "Free iLoveIMG Alternative — Private In-browser Image Tools",
+    description: "A free iLoveIMG alternative to resize, crop, compress and convert images entirely in your browser — no uploads, no account, no limits.",
+    keywords: ["iloveimg alternative", "free iloveimg alternative", "image tools no upload", "resize compress image free"],
+    intro: "iLoveIMG offers handy image tools but uploads your photos and gates heavier use. ToolAnchor's image tools run locally in your browser, so you can resize, crop, compress and convert with no upload and no cap.",
+    answer: "iLoveIMG bundles image resize, crop, compress and convert, but uploads your images to its servers and limits free use. ToolAnchor runs the same jobs — resize, crop, compress, convert and metadata removal — entirely in your browser, so your images stay on your device with no daily limits and no account.",
+    toolSlugs: ["resize-image", "crop-image", "compress-image", "jpg-to-png", "image-metadata-remover"],
+    comparison: [
+      PRIVACY_ROW, PRICE_ROW, SIGNUP_ROW,
+      { feature: "Daily limits", us: "None", them: "Free tier caps tasks" },
+    ],
+    whyUs: [
+      "Resize, crop, compress and convert without uploading a thing.",
+      "No task-per-day limits or file-size paywalls.",
+      "No account or email required.",
+    ],
+    faqs: [
+      { q: "Are my images uploaded?", a: "No — every image tool runs locally in your browser." },
+      { q: "Is it free with no limits?", a: "Yes — free, no sign-up, and no daily task limits." },
+    ],
+  },
 ];
 
 export function getAlternative(slug: string): Alternative | undefined {
   return ALTERNATIVES.find((a) => a.slug === slug);
+}
+
+/** ISO date this comparison was last reviewed (falls back to the site-wide date). */
+export function alternativeUpdated(a: Alternative): string {
+  return a.updated ?? LAST_REVIEWED;
 }

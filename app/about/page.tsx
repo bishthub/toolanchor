@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SITE_NAME, SITE_URL, SITE_EMAIL } from "@/lib/site";
+import { SITE_NAME, SITE_URL, SITE_EMAIL, organizationNode } from "@/lib/site";
 import { LIVE_TOOLS, CATEGORIES } from "@/lib/tools";
 import JsonLd from "@/components/JsonLd";
 
@@ -16,13 +16,7 @@ export default function AboutPage() {
     "@type": "AboutPage",
     name: `About ${SITE_NAME}`,
     url: `${SITE_URL}/about`,
-    mainEntity: {
-      "@type": "Organization",
-      name: SITE_NAME,
-      url: SITE_URL,
-      email: SITE_EMAIL,
-      slogan: "Free, fast, privacy-first online tools.",
-    },
+    mainEntity: organizationNode(),
   };
 
   return (

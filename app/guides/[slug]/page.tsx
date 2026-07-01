@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { GUIDES, getGuide } from "@/lib/guides";
+import { GUIDES, getGuide, guideUpdated } from "@/lib/guides";
 import { getTool } from "@/lib/tools";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { SITE_NAME, SITE_URL, FOUNDING_YEAR, ORG_REF, formatUpdated } from "@/lib/site";
 import ToolCard from "@/components/ToolCard";
 import JsonLd from "@/components/JsonLd";
 
@@ -32,17 +32,24 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
   const tool = getTool(g.toolSlug);
   const related = g.related.map(getTool).filter((t) => t && t.status === "live");
   const url = `${SITE_URL}/guides/${g.slug}`;
+  const answer = g.answer ?? g.description;
+  const updated = guideUpdated(g);
 
   const jsonLd: object[] = [
     {
       "@context": "https://schema.org", "@type": "Article",
       headline: g.title, description: g.description, url,
-      author: { "@type": "Organization", name: SITE_NAME },
-      publisher: { "@type": "Organization", name: SITE_NAME },
+      inLanguage: "en",
+      datePublished: `${FOUNDING_YEAR}-01-01`,
+      dateModified: updated,
+      author: ORG_REF,
+      publisher: ORG_REF,
+      speakable: { "@type": "SpeakableSpecification", cssSelector: [".answer-box", ".tool-head h1"] },
     },
     {
       "@context": "https://schema.org", "@type": "HowTo", name: g.title,
-      step: g.steps.map((s, i) => ({ "@type": "HowToStep", position: i + 1, text: s })),
+      description: answer, totalTime: "PT2M",
+      step: g.steps.map((s, i) => ({ "@type": "HowToStep", position: i + 1, name: `Step ${i + 1}`, text: s })),
     },
     {
       "@context": "https://schema.org", "@type": "BreadcrumbList",
@@ -70,7 +77,11 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
         <span className="eyebrow">Guide</span>
         <h1>{g.title}</h1>
         <p className="lede">{g.intro}</p>
+        <p className="updated">Last updated: {formatUpdated(updated)}</p>
       </div>
+
+      {/* Quick answer — the most extractable passage for AI answer engines. */}
+      <p className="answer-box">{answer}</p>
 
       {/* Prominent CTA to the tool */}
       {tool && (
@@ -110,6 +121,21 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
           <div className="grid">
             {related.map((t) => <ToolCard key={t!.slug} tool={t!} />)}
           </div>
+        </section>
+      )}
+
+      {g.sources && g.sources.length > 0 && (
+        <section className="content-block">
+          <h2>Sources &amp; further reading</h2>
+          <ul className="steps">
+            {g.sources.map((s, i) => (
+              <li key={i}>
+                <a href={s.url} target="_blank" rel="noopener noreferrer nofollow" style={{ color: "var(--accent)" }}>
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </section>
       )}
     </div>
