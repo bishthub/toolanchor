@@ -119,6 +119,30 @@ const AiImageChecker = dynamic(() => import("./AiImageChecker"), { loading });
 const ImageMetadataViewer = dynamic(() => import("./ImageMetadataViewer"), { loading });
 const ImageMetadataRemover = dynamic(() => import("./ImageMetadataRemover"), { loading });
 
+// Batch 8 — trending additions (2026)
+const PdfPageNumbers = dynamic(() => import("./PdfPageNumbers"), { loading });
+const WatermarkPdf = dynamic(() => import("./WatermarkPdf"), { loading });
+const OrganizePdf = dynamic(() => import("./OrganizePdf"), { loading });
+const SipCalculator = dynamic(() => import("./SipCalculator"), { loading });
+const FdCalculator = dynamic(() => import("./FdCalculator"), { loading });
+const CurlConverter = dynamic(() => import("./CurlConverter"), { loading });
+const JsonToTypescript = dynamic(() => import("./JsonToTypescript"), { loading });
+
+// Batch 9 — Video & Audio (ffmpeg.wasm) + photo/signature
+const Mp4ToMp3 = dynamic(() => import("./Mp4ToMp3"), { loading });
+const VideoToGif = dynamic(() => import("./VideoToGif"), { loading });
+const TrimVideo = dynamic(() => import("./TrimVideo"), { loading });
+const PassportPhotoMaker = dynamic(() => import("./PassportPhotoMaker"), { loading });
+const SignatureGenerator = dynamic(() => import("./SignatureGenerator"), { loading });
+
+// Image-format landing pages reuse the ImageConverter engine with a preset
+// target format (users can still switch). HEIC needs the on-demand decoder.
+function HeicToJpg(p: ToolProps) { return <ImageConverter {...p} heic defaultFormat="jpeg" />; }
+function WebpToJpg(p: ToolProps) { return <ImageConverter {...p} defaultFormat="jpeg" />; }
+function JpgToWebp(p: ToolProps) { return <ImageConverter {...p} defaultFormat="webp" />; }
+function PngToWebp(p: ToolProps) { return <ImageConverter {...p} defaultFormat="webp" />; }
+function AvifToJpg(p: ToolProps) { return <ImageConverter {...p} defaultFormat="jpeg" />; }
+
 const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
   "compress-pdf": CompressPdf,
   "merge-pdf": MergePdf,
@@ -207,6 +231,25 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
   "ai-image-checker": AiImageChecker,
   "image-metadata-viewer": ImageMetadataViewer,
   "image-metadata-remover": ImageMetadataRemover,
+  // Batch 8 — trending additions (2026)
+  "heic-to-jpg": HeicToJpg,
+  "webp-to-jpg": WebpToJpg,
+  "jpg-to-webp": JpgToWebp,
+  "png-to-webp": PngToWebp,
+  "avif-to-jpg": AvifToJpg,
+  "pdf-page-numbers": PdfPageNumbers,
+  "watermark-pdf": WatermarkPdf,
+  "organize-pdf": OrganizePdf,
+  "sip-calculator": SipCalculator,
+  "fd-calculator": FdCalculator,
+  "curl-converter": CurlConverter,
+  "json-to-typescript": JsonToTypescript,
+  // Batch 9 — Video & Audio + photo/signature
+  "mp4-to-mp3": Mp4ToMp3,
+  "video-to-gif": VideoToGif,
+  "trim-video": TrimVideo,
+  "passport-photo-maker": PassportPhotoMaker,
+  "signature-generator": SignatureGenerator,
 };
 
 export default function ToolRunner({ slug, initialFiles }: { slug: string; initialFiles?: File[] }) {

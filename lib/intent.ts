@@ -13,6 +13,11 @@ export const FILE_AUTOLOAD = new Set<string>([
   "compress-pdf", "merge-pdf", "split-pdf", "rotate-pdf", "pdf-to-text", "pdf-to-images",
   "compress-image", "resize-image", "background-remover", "image-to-text",
   "ai-image-checker", "image-metadata-viewer", "image-metadata-remover",
+  // Batch 8
+  "heic-to-jpg", "webp-to-jpg", "jpg-to-webp", "png-to-webp", "avif-to-jpg",
+  "pdf-page-numbers", "watermark-pdf", "organize-pdf",
+  // Batch 9
+  "mp4-to-mp3", "video-to-gif", "trim-video", "passport-photo-maker",
 ]);
 
 // Extra natural-language phrases that should map strongly to a slug.
@@ -45,6 +50,25 @@ const ALIASES: Record<string, string[]> = {
   "ai-image-checker": ["ai image detector", "is this image ai", "ai generated image", "detect ai image", "was this image made by ai", "check ai photo"],
   "image-metadata-viewer": ["image metadata", "exif viewer", "see exif", "view metadata", "photo metadata", "check exif", "gps from photo"],
   "image-metadata-remover": ["remove metadata", "remove exif", "strip metadata", "remove gps", "clear exif", "delete metadata", "remove location from photo"],
+  // Batch 8
+  "heic-to-jpg": ["heic to jpg", "heic to jpeg", "convert heic", "iphone photo to jpg", "heif to jpg", "open heic"],
+  "webp-to-jpg": ["webp to jpg", "webp to jpeg", "convert webp", "open webp", "webp to png"],
+  "jpg-to-webp": ["jpg to webp", "jpeg to webp", "convert to webp", "make webp", "image to webp"],
+  "png-to-webp": ["png to webp", "convert png to webp", "shrink png webp"],
+  "avif-to-jpg": ["avif to jpg", "avif to jpeg", "convert avif", "open avif"],
+  "pdf-page-numbers": ["add page numbers to pdf", "number pdf pages", "pdf page numbers", "insert page numbers"],
+  "watermark-pdf": ["watermark pdf", "add watermark to pdf", "stamp pdf", "mark pdf confidential"],
+  "organize-pdf": ["reorder pdf pages", "delete pdf pages", "organize pdf", "rearrange pdf", "remove pages from pdf"],
+  "sip-calculator": ["sip calculator", "systematic investment plan", "mutual fund sip", "sip returns"],
+  "fd-calculator": ["fd calculator", "fixed deposit calculator", "fd maturity", "fixed deposit interest"],
+  "curl-converter": ["curl to fetch", "curl to python", "convert curl", "curl converter", "curl to javascript"],
+  "json-to-typescript": ["json to typescript", "json to interface", "generate typescript types", "json to ts"],
+  // Batch 9
+  "mp4-to-mp3": ["mp4 to mp3", "video to mp3", "extract audio", "video to audio", "get audio from video", "convert video to mp3"],
+  "video-to-gif": ["video to gif", "mp4 to gif", "make a gif", "gif from video", "convert video to gif"],
+  "trim-video": ["trim video", "cut video", "shorten video", "video cutter", "crop video length"],
+  "passport-photo-maker": ["passport photo", "passport size photo", "visa photo", "id photo", "passport picture"],
+  "signature-generator": ["signature", "make a signature", "draw signature", "create signature", "e-signature", "sign document"],
 };
 
 const STOP = new Set("a an the to my this that please can i want need help me with from of for into make do convert my our your it is".split(" "));

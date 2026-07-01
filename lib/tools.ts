@@ -11,6 +11,7 @@ import { LAST_REVIEWED } from "./site";
 export type CategoryId =
   | "pdf"
   | "image"
+  | "media"
   | "text"
   | "developer"
   | "calculator";
@@ -47,6 +48,9 @@ export interface Tool {
   answer?: string;
   // ISO yyyy-mm-dd this tool was last reviewed. Falls back to LAST_REVIEWED.
   updated?: string;
+  // Optional explicit related tool slugs (may cross categories). When present,
+  // these lead the "Related tools" list; the rest is filled from the category.
+  related?: string[];
 }
 
 export const CATEGORIES: Category[] = [
@@ -82,6 +86,21 @@ export const CATEGORIES: Category[] = [
       { q: "Are my photos uploaded?", a: "No — image tools run in your browser, so your photos stay on your device at full resolution." },
       { q: "Is there a watermark or resolution limit?", a: "Never. Downloads are free at full resolution with no watermark." },
       { q: "Which formats are supported?", a: "The common web formats — JPG/JPEG, PNG and WebP — are supported across the tools." },
+    ],
+  },
+  {
+    id: "media", name: "Video & Audio", emoji: "🎬",
+    blurb: "Convert, trim and turn videos into GIFs — right in your browser, no uploads.",
+    intro: "Extract audio, cut clips and turn video into GIFs without uploading a thing. These tools run FFmpeg compiled to WebAssembly (ffmpeg.wasm) directly in your browser, so your footage never leaves your device. The video engine (~32 MB) downloads once on first use and is then cached — after that, processing is fully local. Best suited to short clips; very large files can exceed a browser tab's memory.",
+    chooser: [
+      { need: "Get the audio (MP3) out of a video", toolSlug: "mp4-to-mp3" },
+      { need: "Turn a video clip into a GIF", toolSlug: "video-to-gif" },
+      { need: "Cut a shorter clip from a video", toolSlug: "trim-video" },
+    ],
+    faqs: [
+      { q: "Are my videos uploaded?", a: "No — everything runs locally in your browser via ffmpeg.wasm. Only the engine binary is downloaded (once), not your video." },
+      { q: "Why does the first run take a moment?", a: "The FFmpeg engine (~32 MB) downloads and initialises on first use, then it's cached for the rest of your session." },
+      { q: "Is there a file-size limit?", a: "There's no upload, but browser memory limits very large videos. Short clips work best; trim long videos first." },
     ],
   },
   {
@@ -1214,6 +1233,234 @@ export const TOOLS: Tool[] = [
       { q: "Is my photo uploaded?", a: "No — stripping happens locally; your image never leaves your device." },
     ],
   },
+
+  // ── BATCH 8 — trending additions (2026) ───────────────────────────────
+  {
+    slug: "heic-to-jpg", name: "HEIC to JPG", category: "image", status: "live", trending: true,
+    description: "Convert iPhone HEIC/HEIF photos to JPG for free, right in your browser. No upload, no app — decode and download instantly.",
+    keywords: ["heic to jpg", "heic to jpeg", "convert heic", "iphone photo to jpg", "heif to jpg"],
+    answer: "HEIC to JPG converts Apple's High Efficiency Image format (used by iPhones) into the universally supported JPG. It's needed because many websites, forms and Windows apps can't open HEIC. This tool decodes the HEIC file and re-encodes it as JPG entirely in your browser, so your photo is never uploaded to a server.",
+    intro: "iPhones save photos as HEIC to keep files small, but lots of sites and apps can't open them. HEIC to JPG converts them to the universal JPG format, right in your browser.",
+    steps: ["Choose a HEIC or HEIF photo.", "Wait a moment while it decodes (the decoder loads on first use).", "Keep JPG selected and click “Convert & download”."],
+    faqs: [
+      { q: "Why won't my iPhone photo open on Windows or a website?", a: "Because it's in HEIC format, which many apps and upload forms don't support. Converting to JPG fixes it everywhere." },
+      { q: "Is my photo uploaded?", a: "No — the HEIC file is decoded and converted locally in your browser." },
+      { q: "Will I lose quality?", a: "JPG is re-encoded at high quality (92%). For most photos the difference is invisible." },
+    ],
+    related: ["jpg-to-png", "compress-image", "resize-image"], updated: "2026-07-01",
+  },
+  {
+    slug: "webp-to-jpg", name: "WebP to JPG", category: "image", status: "live",
+    description: "Convert WebP images to JPG for free, instantly, in your browser. No upload — pick JPG and download.",
+    keywords: ["webp to jpg", "webp to jpeg", "convert webp", "webp converter", "change webp to jpg"],
+    answer: "WebP to JPG converts Google's WebP image format into the widely compatible JPG. WebP saves images downloaded from the web often use, but some editors and older apps can't open them. This converter re-encodes the image to JPG entirely in your browser, filling any transparency with white, so nothing is uploaded.",
+    intro: "WebP is great for the web but awkward in older apps and editors. WebP to JPG converts it to the universal JPG format, in your browser.",
+    steps: ["Choose a WebP image.", "Keep JPG selected as the target format.", "Click “Convert & download”."],
+    faqs: [
+      { q: "Why convert WebP to JPG?", a: "Some editors, email clients and older software can't open WebP. JPG works everywhere." },
+      { q: "Are my images uploaded?", a: "No — conversion runs entirely in your browser." },
+    ],
+    related: ["jpg-to-webp", "png-to-webp", "jpg-to-png"], updated: "2026-07-01",
+  },
+  {
+    slug: "jpg-to-webp", name: "JPG to WebP", category: "image", status: "live",
+    description: "Convert JPG images to WebP for smaller, faster-loading files — free and in your browser. No upload required.",
+    keywords: ["jpg to webp", "jpeg to webp", "convert to webp", "webp converter", "image to webp"],
+    answer: "JPG to WebP converts standard JPG photos into Google's WebP format, which typically produces 25–35% smaller files at the same visual quality — ideal for faster-loading websites. This tool re-encodes the image to WebP entirely in your browser, so your photo is never uploaded.",
+    intro: "WebP files are noticeably smaller than JPG at the same quality, which speeds up websites. JPG to WebP converts your images in the browser.",
+    steps: ["Choose a JPG image.", "Keep WebP selected as the target format.", "Click “Convert & download”."],
+    faqs: [
+      { q: "Why use WebP?", a: "WebP images are usually 25–35% smaller than JPG at similar quality, so pages load faster and use less bandwidth." },
+      { q: "Are my images uploaded?", a: "No — conversion runs entirely in your browser." },
+    ],
+    related: ["webp-to-jpg", "png-to-webp", "compress-image"], updated: "2026-07-01",
+  },
+  {
+    slug: "png-to-webp", name: "PNG to WebP", category: "image", status: "live",
+    description: "Convert PNG images to WebP for much smaller files that keep transparency — free and in your browser. No upload.",
+    keywords: ["png to webp", "convert png to webp", "webp converter", "png webp", "shrink png"],
+    answer: "PNG to WebP converts PNG images into Google's WebP format, which supports transparency like PNG but produces far smaller files — often 60–80% smaller for graphics. This tool re-encodes the image to WebP entirely in your browser, so nothing is uploaded.",
+    intro: "PNG keeps transparency but the files are large. WebP keeps transparency too, at a fraction of the size. PNG to WebP converts them in your browser.",
+    steps: ["Choose a PNG image.", "Keep WebP selected as the target format.", "Click “Convert & download”."],
+    faqs: [
+      { q: "Does WebP keep PNG transparency?", a: "Yes — WebP supports an alpha channel, so transparent areas are preserved." },
+      { q: "How much smaller are the files?", a: "For flat graphics and logos, WebP is often 60–80% smaller than PNG." },
+    ],
+    related: ["jpg-to-webp", "webp-to-jpg", "compress-image"], updated: "2026-07-01",
+  },
+  {
+    slug: "avif-to-jpg", name: "AVIF to JPG", category: "image", status: "live",
+    description: "Convert AVIF images to JPG for free, in your browser. Open modern AVIF files anywhere by converting them to JPG. No upload.",
+    keywords: ["avif to jpg", "avif to jpeg", "convert avif", "open avif file", "avif converter"],
+    answer: "AVIF to JPG converts the modern AV1-based AVIF image format into the universally supported JPG. AVIF offers excellent compression but many apps and editors still can't open it. This tool decodes the AVIF (which your browser supports) and re-encodes it as JPG locally, so nothing is uploaded.",
+    intro: "AVIF is a highly efficient modern image format, but support in apps is still catching up. AVIF to JPG converts it to the universal JPG, in your browser.",
+    steps: ["Choose an AVIF image.", "Keep JPG selected as the target format.", "Click “Convert & download”."],
+    faqs: [
+      { q: "Why can't I open AVIF files?", a: "AVIF is new — many editors and older apps don't support it yet. Converting to JPG makes it open everywhere." },
+      { q: "Is my image uploaded?", a: "No — conversion happens locally in your browser." },
+    ],
+    related: ["webp-to-jpg", "jpg-to-png", "compress-image"], updated: "2026-07-01",
+  },
+  {
+    slug: "pdf-page-numbers", name: "Add Page Numbers to PDF", category: "pdf", status: "live",
+    description: "Add page numbers to a PDF for free, in your browser — choose position, start number and “n / total” format. No uploads.",
+    keywords: ["add page numbers to pdf", "pdf page numbers", "number pdf pages", "insert page numbers pdf"],
+    answer: "This tool stamps page numbers onto every page of a PDF. You choose the position (left, centre or right), the starting number, and whether to show a plain number or “n / total”. The numbers are drawn into the file with pdf-lib entirely in your browser, so your document is never uploaded.",
+    intro: "Add clean, printed page numbers to any PDF — pick the position and starting number, and download the numbered file. Everything runs in your browser.",
+    steps: ["Choose a PDF file.", "Pick the position and starting number.", "Click “Add page numbers & download”."],
+    faqs: [
+      { q: "Can I start numbering from a specific page number?", a: "Yes — set the “Start at” value and the first page takes that number, incrementing from there." },
+      { q: "Is my PDF uploaded?", a: "No — the page numbers are added locally in your browser." },
+    ],
+    related: ["watermark-pdf", "organize-pdf", "merge-pdf"], updated: "2026-07-01",
+  },
+  {
+    slug: "watermark-pdf", name: "Add Watermark to PDF", category: "pdf", status: "live", trending: true,
+    description: "Add a text watermark to every page of a PDF for free, in your browser — adjustable opacity, size and angle. No uploads.",
+    keywords: ["add watermark to pdf", "pdf watermark", "watermark pdf free", "stamp pdf confidential"],
+    answer: "This tool stamps a text watermark — like “CONFIDENTIAL” or “DRAFT” — across every page of a PDF, with adjustable opacity, font size and a diagonal or horizontal angle. The watermark is drawn into the file with pdf-lib entirely in your browser, so your document is never uploaded to a server.",
+    intro: "Mark a PDF as confidential, draft or your own with a text watermark on every page. Adjust the opacity and angle, then download — all in your browser.",
+    steps: ["Choose a PDF file.", "Type your watermark text and adjust opacity, size and angle.", "Click “Add watermark & download”."],
+    faqs: [
+      { q: "Does it watermark every page?", a: "Yes — the text is applied to all pages of the document." },
+      { q: "Is my PDF uploaded?", a: "No — watermarking happens locally in your browser." },
+    ],
+    related: ["pdf-page-numbers", "organize-pdf", "watermark-image"], updated: "2026-07-01",
+  },
+  {
+    slug: "organize-pdf", name: "Organize PDF Pages", category: "pdf", status: "live",
+    description: "Reorder and delete pages in a PDF for free, in your browser — rearrange the sequence and remove unwanted pages. No uploads.",
+    keywords: ["organize pdf", "reorder pdf pages", "delete pdf pages", "rearrange pdf", "remove pages from pdf"],
+    answer: "Organize PDF lets you rearrange and delete pages in a PDF. Load a file, move pages up or down into the order you want, remove any you don't need, then rebuild the document — all with pdf-lib in your browser, so the file is never uploaded.",
+    intro: "Rearrange or drop pages from a PDF without any upload. Reorder the pages, delete the ones you don't need, and download the tidied-up file.",
+    steps: ["Choose a PDF file.", "Use the arrows to reorder pages and ✕ to remove them.", "Click “Save reorganized PDF”."],
+    faqs: [
+      { q: "Can I delete specific pages?", a: "Yes — remove any page from the list, then save. The new PDF contains only the pages you kept, in your chosen order." },
+      { q: "Is my PDF uploaded?", a: "No — reorganizing happens entirely in your browser." },
+    ],
+    related: ["split-pdf", "merge-pdf", "rotate-pdf"], updated: "2026-07-01",
+  },
+  {
+    slug: "sip-calculator", name: "SIP Calculator", category: "calculator", status: "live", trending: true,
+    description: "Calculate the future value of a monthly SIP (Systematic Investment Plan) for free — see invested amount, estimated returns and total value.",
+    keywords: ["sip calculator", "systematic investment plan calculator", "mutual fund sip", "sip returns calculator"],
+    answer: "A SIP calculator estimates what a monthly Systematic Investment Plan could grow to. Enter your monthly investment, expected annual return and time period, and it computes the future value using the compound-growth annuity formula, splitting the result into the amount you invested and the estimated returns. Returns are illustrative, not guaranteed.",
+    intro: "See how a monthly SIP could grow over time. Enter your monthly amount, an expected annual return and the number of years to estimate your maturity value.",
+    steps: ["Enter your monthly investment amount.", "Enter the expected annual return (%) and time in years.", "Read the invested amount, estimated returns and total value."],
+    faqs: [
+      { q: "How is the SIP value calculated?", a: "It uses the future-value-of-annuity formula with monthly compounding, assuming each instalment is invested at the start of the month." },
+      { q: "Are the returns guaranteed?", a: "No — market returns vary. The result is an estimate for planning, based on the rate you enter." },
+    ],
+    related: ["compound-interest-calculator", "fd-calculator", "loan-emi-calculator"], updated: "2026-07-01",
+  },
+  {
+    slug: "fd-calculator", name: "FD Calculator", category: "calculator", status: "live",
+    description: "Calculate fixed deposit maturity and interest for free — enter amount, rate, term and compounding frequency. Instant and private.",
+    keywords: ["fd calculator", "fixed deposit calculator", "fd maturity calculator", "fd interest calculator"],
+    answer: "An FD calculator works out the maturity value of a fixed deposit. Enter the deposit amount, annual interest rate, term and compounding frequency (quarterly is typical), and it applies the compound-interest formula to show the interest earned and the final maturity value. The figure is before any tax (TDS).",
+    intro: "Work out what a fixed deposit will be worth at maturity. Enter the amount, interest rate, term and how often interest compounds.",
+    steps: ["Enter the deposit amount.", "Enter the interest rate, term and compounding frequency.", "Read the interest earned and maturity value."],
+    faqs: [
+      { q: "How often do FDs compound?", a: "Most banks compound quarterly, but you can choose annually, half-yearly, quarterly or monthly here." },
+      { q: "Is the result after tax?", a: "No — it's the gross maturity value before any TDS or income tax on the interest." },
+    ],
+    related: ["sip-calculator", "compound-interest-calculator", "loan-emi-calculator"], updated: "2026-07-01",
+  },
+  {
+    slug: "curl-converter", name: "cURL Converter", category: "developer", status: "live", trending: true,
+    description: "Convert a cURL command to JavaScript fetch and Python requests code for free, in your browser. Paste curl, copy the code.",
+    keywords: ["curl converter", "curl to fetch", "curl to python", "convert curl command", "curl to javascript"],
+    answer: "A cURL converter turns a curl command into equivalent code in another language. Paste a curl command and this tool parses its method, headers, body and URL, then generates ready-to-use JavaScript (fetch) and Python (requests) snippets. It runs entirely in your browser, so commands containing tokens or keys are never uploaded.",
+    intro: "Turn any curl command into JavaScript fetch and Python requests code. Paste the command and copy the generated snippets — all in your browser.",
+    steps: ["Paste a cURL command (e.g. from your browser's network tab).", "Read the generated fetch and requests code.", "Copy the snippet you need."],
+    faqs: [
+      { q: "Which flags are supported?", a: "Common ones: -X/--request, -H/--header, -d/--data (and variants), -u/--user and -b/--cookie. Unknown flags are skipped." },
+      { q: "Is my command uploaded?", a: "No — parsing and conversion happen entirely in your browser, so it's safe for commands with tokens." },
+    ],
+    related: ["json-formatter", "jwt-decoder", "url-encoder"], updated: "2026-07-01",
+  },
+  {
+    slug: "json-to-typescript", name: "JSON to TypeScript", category: "developer", status: "live",
+    description: "Generate TypeScript interfaces from JSON for free, in your browser. Paste JSON, get typed interfaces with nested types inferred.",
+    keywords: ["json to typescript", "json to interface", "generate typescript types", "json to ts type"],
+    answer: "JSON to TypeScript generates TypeScript interfaces from a sample JSON object. Paste JSON and this tool infers the type of each field — strings, numbers, booleans, arrays and nested objects (which become their own named interfaces) — and outputs ready-to-paste interface definitions. It all runs in your browser, so your data is never uploaded.",
+    intro: "Turn a sample JSON payload into TypeScript interfaces. Paste the JSON and get typed interfaces with nested objects and arrays inferred automatically.",
+    steps: ["Paste a JSON object or array.", "Read the generated TypeScript interfaces.", "Copy them into your project."],
+    faqs: [
+      { q: "Does it handle nested objects and arrays?", a: "Yes — nested objects become their own interfaces, and arrays infer their element type (with a union if the items differ)." },
+      { q: "Is my JSON uploaded?", a: "No — type generation runs entirely in your browser." },
+    ],
+    related: ["json-formatter", "json-to-yaml", "csv-to-json"], updated: "2026-07-01",
+  },
+
+  // ── BATCH 9 — Video & Audio + photo/signature ─────────────────────────
+  {
+    slug: "mp4-to-mp3", name: "MP4 to MP3", category: "media", status: "live", trending: true,
+    description: "Extract the audio from a video and download it as an MP3 — free and in your browser. No upload; runs via ffmpeg.wasm.",
+    keywords: ["mp4 to mp3", "video to mp3", "extract audio from video", "convert mp4 to mp3", "video to audio"],
+    answer: "MP4 to MP3 extracts the audio track from a video and saves it as an MP3 file. Choose a video, pick a quality (128–320 kbps), and the tool re-encodes just the audio using FFmpeg compiled to WebAssembly — entirely in your browser, so the video is never uploaded. The engine downloads once on first use, then is cached.",
+    intro: "Pull the soundtrack, podcast or music out of a video and save it as an MP3. Everything runs in your browser via ffmpeg.wasm — nothing is uploaded.",
+    steps: ["Choose a video file (MP4, MOV, WebM, etc.).", "Pick an MP3 quality (192 kbps is a good default).", "Click Extract, then download the MP3."],
+    faqs: [
+      { q: "Is my video uploaded?", a: "No — the audio is extracted locally in your browser via ffmpeg.wasm. Only the engine binary is downloaded (once)." },
+      { q: "Why is the first run slower?", a: "The FFmpeg engine (~32 MB) loads on first use, then it's cached for the rest of your session." },
+      { q: "What video formats work?", a: "Most common ones — MP4, MOV, WebM, MKV and more — as long as they contain an audio track." },
+    ],
+    related: ["video-to-gif", "trim-video", "text-to-speech"], updated: "2026-07-01",
+  },
+  {
+    slug: "video-to-gif", name: "Video to GIF", category: "media", status: "live", trending: true,
+    description: "Convert a video clip into an animated GIF — free, in your browser. Set fps, size and duration. No upload; runs via ffmpeg.wasm.",
+    keywords: ["video to gif", "mp4 to gif", "make a gif from video", "convert video to gif", "gif maker"],
+    answer: "Video to GIF turns a clip into an animated GIF. Pick a start time and duration, set the frame rate and width, and the tool renders a GIF using a two-pass palette for clean colours — all via FFmpeg in your browser (ffmpeg.wasm), so nothing is uploaded. Keep clips short (a few seconds) to keep the GIF small.",
+    intro: "Turn a short video clip into a shareable animated GIF. Choose the segment, frame rate and size — it all runs in your browser via ffmpeg.wasm, with no upload.",
+    steps: ["Choose a video file.", "Set the start time, duration, fps and width.", "Click “Make GIF” and download it."],
+    faqs: [
+      { q: "Why keep the clip short?", a: "GIFs are large and memory-heavy. A few seconds at a modest width and fps keeps the file small and avoids exceeding browser memory." },
+      { q: "Is my video uploaded?", a: "No — the GIF is rendered locally in your browser via ffmpeg.wasm." },
+    ],
+    related: ["mp4-to-mp3", "trim-video", "compress-image"], updated: "2026-07-01",
+  },
+  {
+    slug: "trim-video", name: "Trim Video", category: "media", status: "live",
+    description: "Cut a shorter clip from a video for free, in your browser — pick start and end, no re-encoding, no quality loss. No upload.",
+    keywords: ["trim video", "cut video", "crop video length", "video cutter", "shorten video online"],
+    answer: "Trim Video cuts a clip out of a longer video between a start and end time. It copies the original streams without re-encoding, so it's fast and there's no quality loss. Processing runs via FFmpeg in your browser (ffmpeg.wasm), so your footage is never uploaded to a server.",
+    intro: "Cut a shorter clip from a video by choosing a start and end point. Because it copies the stream rather than re-encoding, it's fast and lossless — and it all runs in your browser.",
+    steps: ["Choose a video file and let it load.", "Set the start and end times in seconds.", "Click “Trim & export” and download the clip."],
+    faqs: [
+      { q: "Does trimming reduce quality?", a: "No — it copies the original video and audio streams without re-encoding, so quality is preserved." },
+      { q: "Is my video uploaded?", a: "No — trimming happens locally in your browser via ffmpeg.wasm." },
+    ],
+    related: ["mp4-to-mp3", "video-to-gif", "compress-image"], updated: "2026-07-01",
+  },
+  {
+    slug: "passport-photo-maker", name: "Passport Photo Maker", category: "image", status: "live", trending: true,
+    description: "Make a passport or visa photo at the correct size (US, UK, EU, Canada) for free, in your browser — plus a 6×4 print sheet. No upload.",
+    keywords: ["passport photo maker", "passport size photo", "visa photo", "passport photo online", "id photo maker"],
+    answer: "A passport photo maker crops and sizes your photo to an official passport or visa specification — for example 2×2 inches (600×600 px) for the US and India, or 35×45 mm for the UK, EU and Schengen. This tool lets you zoom and position the head, then download the photo at the exact pixel size plus a 6×4 inch print sheet of copies, all in your browser.",
+    intro: "Create a correctly sized passport or visa photo for the US, UK, EU or Canada. Position your face, then download a single photo at the exact dimensions or a 6×4 print sheet — all in your browser.",
+    steps: ["Choose a clear, front-facing photo.", "Pick your country/size and use zoom and position to centre the head.", "Download the photo, or a 6×4 inch print sheet of copies."],
+    faqs: [
+      { q: "Is my photo uploaded?", a: "No — the photo is cropped and resized locally in your browser and never sent to a server." },
+      { q: "Will it pass official checks?", a: "It produces the correct pixel dimensions and a print sheet, but you're responsible for meeting pose, expression and background rules. Many authorities now reject AI-enhanced photos, so this tool only crops and resizes — it doesn't alter your face." },
+      { q: "How do I get a white background?", a: "Use the Background Remover first, place the cut-out on white, then bring it here to size it." },
+    ],
+    related: ["background-remover", "crop-image", "resize-image"], updated: "2026-07-01",
+  },
+  {
+    slug: "signature-generator", name: "Signature Generator", category: "image", status: "live",
+    description: "Draw or type your signature and download it as a transparent PNG — free and in your browser. Perfect for signing documents. No upload.",
+    keywords: ["signature generator", "draw signature online", "create signature", "electronic signature maker", "signature png"],
+    answer: "A signature generator lets you create a digital signature you can drop into documents. Draw it with your mouse or finger, or type your name in a handwriting-style font, then download it as a PNG with a transparent background. Everything is created in your browser, so your signature is never uploaded.",
+    intro: "Create a digital signature by drawing it or typing your name in a signature font, then download it as a transparent PNG to drop into PDFs, emails and documents.",
+    steps: ["Choose Draw or Type mode.", "Draw your signature or type your name and pick a style.", "Download the transparent PNG."],
+    faqs: [
+      { q: "Does the PNG have a transparent background?", a: "Yes — so it sits cleanly on top of any document or form." },
+      { q: "Is my signature uploaded?", a: "No — it's created entirely in your browser and never sent anywhere." },
+    ],
+    related: ["watermark-pdf", "passport-photo-maker", "crop-image"], updated: "2026-07-01",
+  },
 ];
 
 // ── Derived helpers used across the site ──────────────────────────────────
@@ -1262,11 +1509,23 @@ export function toolUpdated(tool: Tool): string {
   return tool.updated ?? LAST_REVIEWED;
 }
 
-/** Other live tools in the same category — powers "Related tools" internal links. */
+/** Related tools for internal linking: explicit `related` slugs first (may
+ *  cross categories), then filled out with other live tools in the same category. */
 export function relatedTools(tool: Tool, limit = 4): Tool[] {
-  return TOOLS.filter(
-    (t) => t.category === tool.category && t.slug !== tool.slug && t.status === "live"
-  ).slice(0, limit);
+  const out: Tool[] = [];
+  const seen = new Set<string>([tool.slug]);
+  for (const slug of tool.related ?? []) {
+    const t = getTool(slug);
+    if (t && t.status === "live" && !seen.has(t.slug)) { out.push(t); seen.add(t.slug); }
+  }
+  for (const t of TOOLS) {
+    if (out.length >= limit) break;
+    if (t.category === tool.category && t.status === "live" && !seen.has(t.slug)) {
+      out.push(t);
+      seen.add(t.slug);
+    }
+  }
+  return out.slice(0, limit);
 }
 
 /** Tools grouped A-Z by first letter, sorted — powers the index page. */
