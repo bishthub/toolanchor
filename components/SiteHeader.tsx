@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CATEGORIES } from "@/lib/tools";
 import { SITE_NAME } from "@/lib/site";
+import { HeaderPaletteButton } from "@/components/CommandPalette";
+import CategoryIcon from "@/components/CategoryIcon";
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -47,6 +49,8 @@ export default function SiteHeader() {
           {SITE_NAME.slice(0, 4)}<span className="logo-accent">{SITE_NAME.slice(4)}</span>
         </Link>
 
+        <HeaderPaletteButton />
+
         <button
           type="button"
           className="nav-toggle"
@@ -58,11 +62,17 @@ export default function SiteHeader() {
         </button>
 
         <nav className="nav" data-open={open} aria-label="Primary">
-          <Link href="/ask" className="cta">💬 Ask</Link>
-          <Link href="/tools" className="cta">All Tools (A–Z)</Link>
+          <Link href="/ask">Ask</Link>
+          <Link href="/guides">Guides</Link>
+          <Link href="/tools" className="cta">All tools A–Z</Link>
           {CATEGORIES.map((c) => (
-            <Link key={c.id} href={`/category/${c.id}`}>
-              {c.name}
+            <Link key={c.id} href={`/category/${c.id}`} className="mobile-only">
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 9 }}>
+                <span style={{ color: `var(--cat-${c.id})`, display: "inline-flex" }}>
+                  <CategoryIcon id={c.id} size={15} />
+                </span>
+                {c.name}
+              </span>
             </Link>
           ))}
           <button

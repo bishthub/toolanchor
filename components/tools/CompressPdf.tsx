@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePreset, presetNumber } from "@/lib/preset";
+import SendToTool from "@/components/SendToTool";
 
 function fmt(n: number): string {
   if (n < 1024) return `${n} B`;
@@ -8,10 +10,25 @@ function fmt(n: number): string {
   return `${(n / 1024 / 1024).toFixed(2)} MB`;
 }
 
-export default function CompressPdf({ initialFiles }: { initialFiles?: File[] }) {
+export default function CompressPdf({
+  initialFiles,
+  preset,
+}: {
+  initialFiles?: File[];
+  preset?: Record<string, string>;
+}) {
   const [file, setFile] = useState<File | null>(null);
   const [quality, setQuality] = useState(0.6);
   const [scale, setScale] = useState(1.5);
+
+  // Preset / deep-link settings (e.g. ?q=0.5&r=1.2) — applied once on mount.
+  const presetValues = usePreset(preset, ["q", "r"]);
+  useEffect(() => {
+    const q = presetNumber(presetValues, "q", 0.2, 0.9);
+    const r = presetNumber(presetValues, "r", 1, 2.5);
+    if (q !== undefined) setQuality(q);
+    if (r !== undefined) setScale(r);
+  }, [presetValues]);
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -111,6 +128,16 @@ export default function CompressPdf({ initialFiles }: { initialFiles?: File[] })
           </div>
           {saved <= 0 && <p style={{ color: "var(--muted)", fontSize: ".82rem", marginTop: 8 }}>This PDF was already well-optimised — try a lower quality/resolution for more savings.</p>}
           <button className="btn" style={{ marginTop: 12 }} onClick={download}>⬇ Download compressed PDF</button>
+
+          <SendToTool
+            kind="pdf"
+            exclude="compress-pdf"
+            getFile={async () => {
+              if (!result || !file) return null;
+              const blob = await fetch(result.url).then((r) => r.blob());
+              return new File([blob], `${file.name.replace(/\.pdf$/i, "")}-compressed.pdf`, { type: "application/pdf" });
+            }}
+          />
         </div>
       )}
 

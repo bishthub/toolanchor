@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { PDFDocument } from "pdf-lib";
+import SendToTool from "@/components/SendToTool";
 
 interface Item {
   id: string;
@@ -13,6 +14,7 @@ export default function MergePdf({ initialFiles }: { initialFiles?: File[] }) {
   const [items, setItems] = useState<Item[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [merged, setMerged] = useState<Blob | null>(null);
 
   useEffect(() => {
     const pdfs = (initialFiles ?? []).filter((f) => f.type === "application/pdf");
@@ -27,11 +29,13 @@ export default function MergePdf({ initialFiles }: { initialFiles?: File[] }) {
       ...prev,
       ...files.map((f) => ({ id: `${f.name}-${f.size}-${Math.random()}`, name: f.name, file: f })),
     ]);
+    setMerged(null);
     e.target.value = "";
   }
 
   function remove(id: string) {
     setItems((prev) => prev.filter((i) => i.id !== id));
+    setMerged(null);
   }
 
   function move(index: number, dir: -1 | 1) {
@@ -56,9 +60,10 @@ export default function MergePdf({ initialFiles }: { initialFiles?: File[] }) {
         const pages = await out.copyPages(doc, doc.getPageIndices());
         pages.forEach((p) => out.addPage(p));
       }
-      const merged = await out.save();
+      const bytes = await out.save();
       // Copy into a fresh ArrayBuffer so the Blob type is unambiguous.
-      const blob = new Blob([merged.slice().buffer], { type: "application/pdf" });
+      const blob = new Blob([bytes.slice().buffer], { type: "application/pdf" });
+      setMerged(blob);
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
       a.download = "merged.pdf";
@@ -100,6 +105,14 @@ export default function MergePdf({ initialFiles }: { initialFiles?: File[] }) {
       </button>
 
       {error && <p style={{ color: "#ff6b6b", marginTop: 12 }}>{error}</p>}
+
+      {merged && (
+        <SendToTool
+          kind="pdf"
+          exclude="merge-pdf"
+          getFile={() => new File([merged], "merged.pdf", { type: "application/pdf" })}
+        />
+      )}
 
       <p className="privacy-note">🔒 Merging runs in your browser — files are never uploaded.</p>
     </div>

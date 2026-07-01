@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import ToolCard from "@/components/ToolCard";
+import CategoryIcon from "@/components/CategoryIcon";
 import JsonLd from "@/components/JsonLd";
 import { SITE_NAME, SITE_URL, WEBSITE_ID, LAST_REVIEWED, formatUpdated } from "@/lib/site";
 import {
@@ -102,7 +103,7 @@ export default async function CategoryPage({
       </nav>
 
       <div className="cat-head" style={{ marginTop: 6 }}>
-        <span className="cat-emoji" aria-hidden="true">{cat.emoji}</span>
+        <span className="cat-emoji" aria-hidden="true"><CategoryIcon id={cat.id} size={19} /></span>
         <div>
           <span className="eyebrow">{live.length} free {cat.name.toLowerCase()}</span>
           <h1 style={{ margin: "8px 0 0" }}>{cat.name}</h1>

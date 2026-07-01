@@ -2,9 +2,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getTool, getCategory, LIVE_TOOLS, relatedTools, toolAnswer, toolUpdated } from "@/lib/tools";
+import { presetsForTool } from "@/lib/presets";
 import { SITE_NAME, SITE_URL, FOUNDING_YEAR, ORG_REF, WEBSITE_ID, formatUpdated } from "@/lib/site";
-import ToolRunner from "@/components/tools/registry";
+import ToolPageRunner from "@/components/ToolPageRunner";
 import ToolCard from "@/components/ToolCard";
+import CategoryIcon from "@/components/CategoryIcon";
+import ToolUsageTracker from "@/components/ToolUsageTracker";
+import PinButton from "@/components/PinButton";
 import JsonLd from "@/components/JsonLd";
 
 // Pre-render a static page for every LIVE tool (great for SEO + speed).
@@ -51,6 +55,7 @@ export default async function ToolPage({
 
   const cat = getCategory(tool.category);
   const related = relatedTools(tool);
+  const presets = presetsForTool(tool.slug);
   const url = `${SITE_URL}/tools/${tool.slug}`;
   const answer = toolAnswer(tool);
   const updated = toolUpdated(tool);
@@ -125,10 +130,11 @@ export default async function ToolPage({
 
   return (
     <div
-      className="container tool-page"
+      className="container tool-page tool-focus"
       style={{ ["--cat" as string]: `var(--cat-${tool.category})` }}
     >
       <JsonLd data={jsonLd} />
+      <ToolUsageTracker slug={tool.slug} />
 
       <nav className="breadcrumb" aria-label="Breadcrumb">
         <Link href="/">Home</Link>
@@ -143,7 +149,7 @@ export default async function ToolPage({
       </nav>
 
       <div className="tool-head">
-        {cat && <span className="eyebrow">{cat.emoji} {cat.name}</span>}
+        {cat && <span className="eyebrow">{cat.name}</span>}
         <h1>{tool.name}</h1>
         <p className="lede">{tool.intro}</p>
         <p className="updated">Last updated: {formatUpdated(updated)}</p>
@@ -152,14 +158,29 @@ export default async function ToolPage({
       {/* Quick answer — the most extractable passage for AI answer engines. */}
       <p className="answer-box">{answer}</p>
 
+      {/* One-tap presets — deep links that open this tool pre-configured. */}
+      {presets.length > 0 && (
+        <div className="preset-chips" style={{ margin: "-12px 0 26px" }}>
+          <span className="preset-chips-label">Popular presets:</span>
+          {presets.map((p) => (
+            <Link key={p.slug} href={`/tools/${p.tool}/${p.slug}`} className="preset-chip">
+              {p.chip}
+            </Link>
+          ))}
+        </div>
+      )}
+
       <div className="tool-shell">
         <div className="tool-shell-bar">
-          <span className="dots" aria-hidden="true"><i /><i /><i /></span>
-          <span className="label">{tool.name.toLowerCase().replace(/\s+/g, "-")}</span>
-          <span className="privacy-chip">🔒 Runs in your browser</span>
+          <span className="tool-shell-icon" aria-hidden="true">
+            <CategoryIcon id={tool.category} size={16} />
+          </span>
+          <span className="label">{tool.name}</span>
+          <PinButton slug={tool.slug} />
+          <span className="privacy-chip">Runs in your browser</span>
         </div>
         <div className="tool-shell-body">
-          <ToolRunner slug={tool.slug} />
+          <ToolPageRunner slug={tool.slug} />
         </div>
       </div>
 

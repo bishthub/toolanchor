@@ -11,7 +11,9 @@ import dynamic from "next/dynamic";
 
 // Props every tool component may receive. Tools that take a file can read
 // `initialFiles` to auto-load an attachment handed over by the Tool Assistant.
-export interface ToolProps { initialFiles?: File[] }
+// `preset` carries pre-configured values (from /tools/<tool>/<preset> pages);
+// tools that support presets merge it with URL query params via lib/preset.
+export interface ToolProps { initialFiles?: File[]; preset?: Record<string, string> }
 
 const loading = () => <p style={{ color: "var(--muted)" }}>Loading tool…</p>;
 
@@ -252,10 +254,18 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
   "signature-generator": SignatureGenerator,
 };
 
-export default function ToolRunner({ slug, initialFiles }: { slug: string; initialFiles?: File[] }) {
+export default function ToolRunner({
+  slug,
+  initialFiles,
+  preset,
+}: {
+  slug: string;
+  initialFiles?: File[];
+  preset?: Record<string, string>;
+}) {
   const Component = REGISTRY[slug];
   if (!Component) {
     return <p style={{ color: "var(--muted)" }}>This tool is coming soon.</p>;
   }
-  return <Component initialFiles={initialFiles} />;
+  return <Component initialFiles={initialFiles} preset={preset} />;
 }

@@ -1,0 +1,163 @@
+// ─────────────────────────────────────────────────────────────────────────
+// Tool presets — programmatic SEO pages that open a tool pre-configured.
+// Each preset renders at /tools/<tool>/<slug>, is statically generated,
+// listed in the sitemap, and cross-linked from its parent tool page.
+// ─────────────────────────────────────────────────────────────────────────
+
+import type { Faq } from "@/lib/tools";
+
+export interface ToolPreset {
+  slug: string;                    // URL segment under the tool
+  tool: string;                    // parent tool slug
+  name: string;                    // H1 / card title
+  metaTitle: string;               // <title>
+  description: string;             // meta description + lede
+  answer: string;                  // quick-answer callout (extractable)
+  params: Record<string, string>;  // handed to the tool component
+  chip: string;                    // short label for preset chips
+  faqs: Faq[];
+}
+
+/* ── Resize-image size presets ───────────────────────────────────────── */
+
+interface SizeDef {
+  slug: string;
+  label: string;      // "Instagram post"
+  w: number;
+  h: number;
+  context: string;    // where this size is used, for copy
+}
+
+const SIZES: SizeDef[] = [
+  { slug: "instagram-post",    label: "Instagram post",      w: 1080, h: 1080, context: "square Instagram feed posts" },
+  { slug: "instagram-story",   label: "Instagram story",     w: 1080, h: 1920, context: "full-screen Instagram Stories and Reels covers" },
+  { slug: "youtube-thumbnail", label: "YouTube thumbnail",   w: 1280, h: 720,  context: "YouTube video thumbnails" },
+  { slug: "youtube-banner",    label: "YouTube banner",      w: 2560, h: 1440, context: "YouTube channel art" },
+  { slug: "facebook-cover",    label: "Facebook cover",      w: 820,  h: 312,  context: "Facebook page cover photos" },
+  { slug: "twitter-header",    label: "X / Twitter header",  w: 1500, h: 500,  context: "X (Twitter) profile headers" },
+  { slug: "linkedin-banner",   label: "LinkedIn banner",     w: 1584, h: 396,  context: "LinkedIn profile background banners" },
+  { slug: "pinterest-pin",     label: "Pinterest pin",       w: 1000, h: 1500, context: "standard Pinterest pins" },
+  { slug: "og-image",          label: "Open Graph image",    w: 1200, h: 630,  context: "link-preview (Open Graph) images for websites" },
+  { slug: "discord-avatar",    label: "Discord avatar",      w: 512,  h: 512,  context: "Discord profile pictures" },
+  { slug: "whatsapp-dp",       label: "WhatsApp profile",    w: 500,  h: 500,  context: "WhatsApp profile photos" },
+  { slug: "full-hd",           label: "Full HD (1080p)",     w: 1920, h: 1080, context: "Full HD wallpapers and video frames" },
+  { slug: "4k",                label: "4K (2160p)",          w: 3840, h: 2160, context: "4K UHD wallpapers and displays" },
+  { slug: "hd-720p",           label: "HD (720p)",           w: 1280, h: 720,  context: "HD displays and lightweight web images" },
+  { slug: "passport-2x2",      label: "Passport 2×2 in",     w: 600,  h: 600,  context: "US passport photos (2×2 inches at 300 DPI)" },
+  { slug: "a4-print",          label: "A4 print (300 DPI)",  w: 2480, h: 3508, context: "A4 documents printed at 300 DPI" },
+];
+
+const RESIZE_PRESETS: ToolPreset[] = SIZES.map((s) => ({
+  slug: s.slug,
+  tool: "resize-image",
+  name: `Resize Image for ${s.label} (${s.w}×${s.h})`,
+  metaTitle: `Resize Image to ${s.w}×${s.h} — ${s.label} Size, Free`,
+  description: `Resize any photo to exactly ${s.w}×${s.h} pixels — the right size for ${s.context}. Free, private, in your browser: no upload, no sign-up.`,
+  answer: `To resize an image for ${s.context}, set the dimensions to ${s.w}×${s.h} pixels. This tool is pre-configured with that size — drop your image, and the width and height are applied automatically. Everything runs in your browser; the image is never uploaded.`,
+  params: { w: String(s.w), h: String(s.h) },
+  chip: `${s.label} · ${s.w}×${s.h}`,
+  faqs: [
+    {
+      q: `What is the correct image size for ${s.context}?`,
+      a: `${s.w}×${s.h} pixels. This preset applies that size automatically when you load an image.`,
+    },
+    {
+      q: "Will resizing distort my photo?",
+      a: `If your photo has a different aspect ratio than ${s.w}:${s.h}, it will be stretched to fit. For a distortion-free result, crop it to the right ratio first with the Crop Image tool, then resize.`,
+    },
+    {
+      q: "Is my image uploaded anywhere?",
+      a: "No. Resizing happens entirely in your browser using the canvas API — the file never leaves your device.",
+    },
+  ],
+}));
+
+/* ── Compression presets ─────────────────────────────────────────────── */
+
+const COMPRESS_PRESETS: ToolPreset[] = [
+  {
+    slug: "for-web",
+    tool: "compress-image",
+    name: "Compress Image for Web (70% quality)",
+    metaTitle: "Compress Image for Web — Fast, Free, No Upload",
+    description: "Compress a photo to web-friendly size at 70% JPEG quality — the sweet spot between sharpness and file size. Free and private, right in your browser.",
+    answer: "For websites, 70% JPEG quality is the widely used sweet spot: files shrink by 60–80% with barely visible quality loss. This preset applies it automatically — drop an image and download the compressed result. Nothing is uploaded.",
+    params: { q: "0.7" },
+    chip: "For web · 70%",
+    faqs: [
+      { q: "What quality should I use for web images?", a: "70% JPEG quality is the standard recommendation — big savings with virtually no visible difference at normal viewing sizes." },
+      { q: "How much smaller will my image get?", a: "Typically 60–80% smaller than an unoptimised original, depending on the source image." },
+    ],
+  },
+  {
+    slug: "for-email",
+    tool: "compress-image",
+    name: "Compress Image for Email (50% quality)",
+    metaTitle: "Compress Image for Email Attachments — Free, No Upload",
+    description: "Shrink a photo enough to attach to any email at 50% JPEG quality. Free, private, in-browser — no upload, no sign-up.",
+    answer: "Email providers commonly cap attachments at 20–25 MB. Compressing at 50% JPEG quality typically cuts photo size by 75–90%, letting several photos fit in one email. This preset applies 50% automatically; your image never leaves your device.",
+    params: { q: "0.5" },
+    chip: "For email · 50%",
+    faqs: [
+      { q: "Why do my photos fail to send by email?", a: "Most providers cap attachments (Gmail: 25 MB). Modern phone photos can be 5–12 MB each, so a few photos exceed the cap — compressing them first fixes it." },
+      { q: "Is 50% quality too low?", a: "For photos viewed in an email client, 50% is usually fine. If you see artifacts, try the 70% web preset instead." },
+    ],
+  },
+  {
+    slug: "for-email",
+    tool: "compress-pdf",
+    name: "Compress PDF for Email (small size)",
+    metaTitle: "Compress PDF for Email — Under Attachment Limits, Free",
+    description: "Shrink a PDF to fit email attachment limits with an aggressive size-focused preset. Free and private — the PDF is processed in your browser, never uploaded.",
+    answer: "Email attachment limits are usually 20–25 MB. This preset re-renders PDF pages at reduced image quality (50%) and resolution (1.2×), which typically shrinks scanned or image-heavy PDFs by 70–90% — enough to attach to any email. Processing happens locally in your browser.",
+    params: { q: "0.5", r: "1.2" },
+    chip: "For email · small",
+    faqs: [
+      { q: "Why is my PDF too big to email?", a: "Scanned pages and embedded photos inflate PDFs quickly. Re-rendering them at lower quality and resolution removes most of that weight." },
+      { q: "Will the text stay selectable?", a: "No — pages are re-rendered as images to achieve the size reduction, so text becomes part of the image. Keep the original if you need selectable text." },
+    ],
+  },
+];
+
+/* ── Case-converter mode presets ─────────────────────────────────────── */
+
+interface CaseDef {
+  slug: string;
+  mode: string;
+  label: string;     // "UPPERCASE"
+  example: string;   // "HELLO WORLD"
+  useCase: string;
+}
+
+const CASES: CaseDef[] = [
+  { slug: "uppercase",     mode: "upper",    label: "UPPERCASE",     example: "HELLO WORLD",  useCase: "headings, acronyms and emphasis" },
+  { slug: "lowercase",     mode: "lower",    label: "lowercase",     example: "hello world",  useCase: "normalising shouty text or data cleanup" },
+  { slug: "title-case",    mode: "title",    label: "Title Case",    example: "Hello World",  useCase: "headlines, book titles and UI labels" },
+  { slug: "sentence-case", mode: "sentence", label: "Sentence case", example: "Hello world.", useCase: "fixing text typed in all-caps" },
+];
+
+const CASE_PRESETS: ToolPreset[] = CASES.map((c) => ({
+  slug: c.slug,
+  tool: "case-converter",
+  name: `Convert Text to ${c.label}`,
+  metaTitle: `Convert Text to ${c.label} — Free Online, Instant`,
+  description: `Paste any text and convert it to ${c.label} instantly (e.g. “${c.example}”) — useful for ${c.useCase}. Free, private, in your browser.`,
+  answer: `To convert text to ${c.label}, paste it into the box below — the conversion happens live as you type, then copy the result with one click. Everything runs in your browser; nothing is uploaded.`,
+  params: { mode: c.mode },
+  chip: c.label,
+  faqs: [
+    { q: `How do I convert text to ${c.label}?`, a: `Paste your text into this page — it converts to ${c.label} automatically as you type. Click “Copy result” when done.` },
+    { q: "Is there a length limit?", a: "No. Conversion runs locally in your browser, so even very long documents convert instantly." },
+    { q: "Is my text stored or uploaded?", a: "No — the text never leaves your device." },
+  ],
+}));
+
+export const PRESETS: ToolPreset[] = [...RESIZE_PRESETS, ...COMPRESS_PRESETS, ...CASE_PRESETS];
+
+export function presetsForTool(toolSlug: string): ToolPreset[] {
+  return PRESETS.filter((p) => p.tool === toolSlug);
+}
+
+export function getPreset(toolSlug: string, presetSlug: string): ToolPreset | undefined {
+  return PRESETS.find((p) => p.tool === toolSlug && p.slug === presetSlug);
+}

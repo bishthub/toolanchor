@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePreset, presetNumber } from "@/lib/preset";
+import SendToTool from "@/components/SendToTool";
 
 function fmtBytes(n: number): string {
   if (n < 1024) return `${n} B`;
@@ -8,20 +10,40 @@ function fmtBytes(n: number): string {
   return `${(n / 1024 / 1024).toFixed(2)} MB`;
 }
 
-export default function CompressImage({ initialFiles }: { initialFiles?: File[] }) {
+export default function CompressImage({
+  initialFiles,
+  preset,
+}: {
+  initialFiles?: File[];
+  preset?: Record<string, string>;
+}) {
   const [origSize, setOrigSize] = useState(0);
   const [outSize, setOutSize] = useState<number | null>(null);
   const [quality, setQuality] = useState(0.7);
   const [outUrl, setOutUrl] = useState<string | null>(null);
   const [fileName, setFileName] = useState("image");
   const imgRef = useRef<HTMLImageElement | null>(null);
+  const qualityRef = useRef(0.7);
+  qualityRef.current = quality;
+
+  // Preset / deep-link quality (e.g. ?q=0.5) — applied once on mount.
+  const presetValues = usePreset(preset, ["q"]);
+  useEffect(() => {
+    const q = presetNumber(presetValues, "q", 0.1, 1);
+    if (q !== undefined) {
+      setQuality(q);
+      qualityRef.current = q;
+      if (imgRef.current) compress(q);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [presetValues]);
 
   function loadFile(file: File) {
     setFileName(file.name.replace(/\.[^.]+$/, ""));
     setOrigSize(file.size);
     const url = URL.createObjectURL(file);
     const img = new Image();
-    img.onload = () => { imgRef.current = img; compress(0.7, img); };
+    img.onload = () => { imgRef.current = img; compress(qualityRef.current, img); };
     img.src = url;
   }
 
@@ -98,6 +120,16 @@ export default function CompressImage({ initialFiles }: { initialFiles?: File[] 
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           {outUrl && <img src={outUrl} alt="compressed preview" className="preview-img" style={{ maxHeight: 280 }} />}
+
+          <SendToTool
+            kind="image"
+            exclude="compress-image"
+            getFile={async () => {
+              if (!outUrl) return null;
+              const blob = await fetch(outUrl).then((r) => r.blob());
+              return new File([blob], `${fileName}-compressed.jpg`, { type: "image/jpeg" });
+            }}
+          />
         </>
       )}
 

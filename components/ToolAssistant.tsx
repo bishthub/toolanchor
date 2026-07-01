@@ -30,10 +30,10 @@ const EXAMPLES = [
 // Scoped styles — all selectors are prefixed with .assistant so this never
 // collides with the global stylesheet. Uses the site's design tokens.
 const ASSISTANT_CSS = `
-.assistant { max-width: 720px; margin: 0 auto; }
+.assistant { max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
 .assistant-bar {
   display: flex; align-items: center; gap: 8px;
-  background: var(--surface, #12151f); border: 1px solid var(--border, #242b3d);
+  background: var(--bg-2, #12151f); border: 1px solid var(--border, #242b3d);
   border-radius: 999px; padding: 6px 6px 6px 14px; box-shadow: var(--shadow-sm, 0 1px 2px rgba(0,0,0,.4));
 }
 .assistant-bar:focus-within { border-color: var(--accent, #7c8cff); box-shadow: 0 0 0 3px var(--accent-soft, rgba(124,140,255,.14)); }
@@ -57,17 +57,18 @@ const ASSISTANT_CSS = `
 .assistant-chip button:hover { color: var(--danger, #ff6b6b); }
 .assistant-examples { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; justify-content: center; }
 .assistant-example {
-  background: var(--surface, #12151f); border: 1px solid var(--border, #242b3d);
+  background: var(--bg-2, #12151f); border: 1px solid var(--border, #242b3d);
   border-radius: 999px; padding: 7px 14px; font-size: .85rem; color: var(--muted); cursor: pointer;
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1), border-color .15s, color .15s;
 }
-.assistant-example:hover { border-color: var(--accent); color: var(--text); }
+.assistant-example:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
 .assistant-result { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
-.assistant-msg { padding: 12px 16px; border-radius: 14px; line-height: 1.5; }
+.assistant-msg { padding: 12px 16px; border-radius: 16px; line-height: 1.5; }
 .assistant-msg.user {
   align-self: flex-end; background: var(--accent-soft, rgba(124,140,255,.14));
   display: flex; flex-wrap: wrap; gap: 8px; align-items: center; max-width: 90%;
 }
-.assistant-msg.bot { background: var(--surface, #12151f); border: 1px solid var(--border, #242b3d); }
+.assistant-msg.bot { background: var(--bg-2, #12151f); border: 1px solid var(--border, #242b3d); }
 .assistant-msg.bot p { margin: 0; }
 .assistant-alts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; font-size: .85rem; color: var(--muted); }
 .assistant-alt {
@@ -77,7 +78,8 @@ const ASSISTANT_CSS = `
 .assistant-alt:hover, .assistant-alt.on { border-color: var(--cat, var(--accent)); color: var(--cat, var(--accent)); }
 .assistant-tool {
   border: 1px solid var(--border, #242b3d); border-top: 3px solid var(--cat, var(--accent));
-  border-radius: 14px; padding: 18px; background: var(--surface, #12151f);
+  border-radius: 18px; padding: 18px; background: var(--bg-2, #12151f);
+  animation: rise .4s cubic-bezier(.22,.61,.36,1) both;
 }
 .assistant-tool-head { display: flex; align-items: center; margin-bottom: 14px; gap: 10px; }
 `;

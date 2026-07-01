@@ -1,23 +1,28 @@
 import Link from "next/link";
-import { getCategory, type Tool } from "@/lib/tools";
+import CategoryIcon from "@/components/CategoryIcon";
+import type { Tool } from "@/lib/tools";
 
 export default function ToolCard({ tool }: { tool: Tool }) {
   const isSoon = tool.status === "soon";
-  const emoji = getCategory(tool.category)?.emoji ?? "🛠️";
 
   const inner = (
     <>
       <div className="card-top">
-        <span className="card-icon" aria-hidden="true">{emoji}</span>
-        <span className={`badge ${isSoon ? "soon-badge" : ""}`}>
-          {isSoon ? "Soon" : "Live"}
+        <span className="card-icon">
+          <CategoryIcon id={tool.category} />
         </span>
+        {isSoon ? (
+          <span className="badge">Soon</span>
+        ) : (
+          <span className="card-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M7 17 17 7M8 7h9v9" />
+            </svg>
+          </span>
+        )}
       </div>
       <h3>{tool.name}</h3>
       <p>{tool.description}</p>
-      {!isSoon && (
-        <span className="card-go" aria-hidden="true">Open tool →</span>
-      )}
     </>
   );
 

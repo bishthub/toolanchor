@@ -1,20 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Bricolage_Grotesque, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Schibsted_Grotesk, Geist, JetBrains_Mono } from "next/font/google";
 import { CATEGORIES, LIVE_TOOLS } from "@/lib/tools";
 import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, WEBSITE_ID, ORG_REF, organizationNode } from "@/lib/site";
 import SiteHeader from "@/components/SiteHeader";
+import CommandPalette from "@/components/CommandPalette";
+import FileDragGlow from "@/components/FileDragGlow";
+import PwaRegister from "@/components/PwaRegister";
 import JsonLd from "@/components/JsonLd";
 import Analytics from "@/components/Analytics";
 import "./globals.css";
 
 // Self-hosted via next/font → no layout shift, no external request (great CWV/SEO).
-const display = Bricolage_Grotesque({
+const display = Schibsted_Grotesk({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
 });
-const sans = Hanken_Grotesk({
+const sans = Geist({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
@@ -57,8 +60,8 @@ export const metadata: Metadata = {
 
 export const viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0a0c12" },
-    { media: "(prefers-color-scheme: light)", color: "#f6f7fb" },
+    { media: "(prefers-color-scheme: dark)", color: "#0e0f11" },
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
   ],
 };
 
@@ -106,6 +109,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main" className="skip-link">Skip to content</a>
 
         <SiteHeader />
+        <CommandPalette />
+        <FileDragGlow />
 
         <main id="main">{children}</main>
 
@@ -152,8 +157,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span className="pill">
                 <span className="dot" /> 100% in-browser · nothing is uploaded
               </span>
+              <PwaRegister />
               <span>© {SITE_NAME}. Free forever.</span>
             </div>
+
+            <div className="footer-mega" aria-hidden="true">{SITE_NAME}</div>
           </div>
         </footer>
       </body>

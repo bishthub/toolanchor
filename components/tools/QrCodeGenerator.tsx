@@ -2,12 +2,24 @@
 
 import { useEffect, useRef, useState } from "react";
 import QRCode from "qrcode";
+import { usePreset } from "@/lib/preset";
 
-export default function QrCodeGenerator() {
+export default function QrCodeGenerator({
+  preset,
+}: {
+  initialFiles?: File[];
+  preset?: Record<string, string>;
+}) {
   const [text, setText] = useState("https://");
   const [size, setSize] = useState(320);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // Deep-link content (e.g. ?text=https://mysite.com) — pre-fills the code.
+  const presetValues = usePreset(preset, ["text"]);
+  useEffect(() => {
+    if (presetValues?.text) setText(presetValues.text);
+  }, [presetValues]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
