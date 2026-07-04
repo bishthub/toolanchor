@@ -5,6 +5,7 @@ import { getTool, getCategory, LIVE_TOOLS, relatedTools, toolAnswer, toolUpdated
 import { presetsForTool } from "@/lib/presets";
 import { SITE_NAME, SITE_URL, FOUNDING_YEAR, ORG_REF, WEBSITE_ID, formatUpdated } from "@/lib/site";
 import ToolPageRunner from "@/components/ToolPageRunner";
+import LocalBadge from "@/components/LocalBadge";
 import ToolCard from "@/components/ToolCard";
 import CategoryIcon from "@/components/CategoryIcon";
 import ToolUsageTracker from "@/components/ToolUsageTracker";
@@ -158,6 +159,8 @@ export default async function ToolPage({
       {/* Quick answer — the most extractable passage for AI answer engines. */}
       <p className="answer-box">{answer}</p>
 
+      <LocalBadge local={tool.local !== false} />
+
       {/* One-tap presets — deep links that open this tool pre-configured. */}
       {presets.length > 0 && (
         <div className="preset-chips" style={{ margin: "-12px 0 26px" }}>
@@ -177,7 +180,7 @@ export default async function ToolPage({
           </span>
           <span className="label">{tool.name}</span>
           <PinButton slug={tool.slug} />
-          <span className="privacy-chip">Runs in your browser</span>
+          <span className="privacy-chip">{tool.local !== false ? "Runs in your browser" : "Local + opt-in AI"}</span>
         </div>
         <div className="tool-shell-body">
           <ToolPageRunner slug={tool.slug} />

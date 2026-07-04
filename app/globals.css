@@ -590,6 +590,30 @@ code, .mono { font-family: var(--font-mono), ui-monospace, monospace; }
   border-radius: 5px; padding: 1px 5px; vertical-align: middle;
 }
 
+/* ── Local / privacy badge ───────────────────────────────────────────── */
+.local-badge { margin: 4px 0 22px; }
+.local-badge-main {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 999px; padding: 7px 14px; cursor: pointer;
+  color: var(--text); font-family: inherit; font-size: .84rem; font-weight: 500;
+  text-align: left; transition: border-color .12s, background .12s;
+}
+.local-badge-main:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
+.local-badge-icon { display: grid; place-items: center; flex: none; }
+.local-badge-icon svg { width: 16px; height: 16px; }
+.local-badge.is-local .local-badge-icon { color: var(--accent); }
+.local-badge.is-server .local-badge-icon { color: #d9944b; }
+.local-badge-toggle {
+  margin-left: 4px; color: var(--accent); font-weight: 550; font-size: .78rem;
+  white-space: nowrap;
+}
+.local-badge-note {
+  margin-top: 9px; max-width: 560px;
+  color: var(--muted); font-size: .82rem; line-height: 1.55;
+}
+.local-badge-note strong { color: var(--text); }
+
 /* ── Batch file list ─────────────────────────────────────────────────── */
 .batch { margin-top: 16px; }
 .batch-bar {

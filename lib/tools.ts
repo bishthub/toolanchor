@@ -51,6 +51,10 @@ export interface Tool {
   // Optional explicit related tool slugs (may cross categories). When present,
   // these lead the "Related tools" list; the rest is filled from the category.
   related?: string[];
+  // Whether the tool processes the user's data entirely on-device. Defaults to
+  // true — the whole site is local-first. Set false only for tools that send
+  // user data to a server (e.g. the AI content detector's model API).
+  local?: boolean;
 }
 
 export const CATEGORIES: Category[] = [
@@ -1191,14 +1195,15 @@ export const TOOLS: Tool[] = [
   // ── Batch 7 — AI & metadata tools ────────────────────────────────────
   {
     slug: "ai-content-detector", name: "AI Content Detector", category: "text", status: "live", trending: true,
-    description: "Free AI content detector — estimate how likely text was written by AI, using writing-pattern analysis. Private, in-browser, no sign-up.",
+    local: false,
+    description: "Free AI content detector. The quick check runs in your browser; an optional deep analysis sends your text to our server for a more accurate score. No sign-up.",
     keywords: ["ai content detector", "ai detector", "ai checker", "chatgpt detector", "detect ai writing", "is this ai written"],
-    intro: "AI Content Detector analyses your text for patterns associated with AI writing — low sentence-length variance (“burstiness”), repetition, and common AI filler phrases — and gives a likelihood score. It runs entirely in your browser.",
-    steps: ["Paste the text you want to check.", "Read the AI-likelihood score and the signals behind it.", "Use it as a guide alongside your own judgement."],
+    intro: "AI Content Detector estimates how likely a piece of text was written by AI. The quick check runs entirely in your browser using writing-pattern analysis — sentence-length variance (“burstiness”), repetition, and common AI filler phrases. An optional deep analysis, which you trigger by clicking a button, sends your text to our server (and on to AI models) for a more accurate, blended score; it is analysed for that and not stored.",
+    steps: ["Paste the text you want to check.", "Read the instant, in-browser quick-check score and the signals behind it.", "Optionally click “Run deep AI analysis” for a more accurate score — this one sends your text to our server."],
     faqs: [
-      { q: "Is this 100% accurate?", a: "No. No AI detector is reliable — even paid ones produce false positives. This is a heuristic indicator based on writing patterns, not proof. Never use it alone to accuse someone of cheating." },
-      { q: "How does it work without an AI model?", a: "It scores statistical signals of the text (sentence-length variance, repetition, vocabulary diversity and known AI filler phrases). It does not call any external AI service." },
-      { q: "Is my text uploaded?", a: "No — all analysis happens locally in your browser." },
+      { q: "Is this 100% accurate?", a: "No. No AI detector is reliable — even paid ones produce false positives. This is an indicator based on writing patterns and model estimates, not proof. Never use it alone to accuse someone of cheating." },
+      { q: "How does it work?", a: "The quick check scores statistical writing signals in your browser (sentence-length variance, repetition, vocabulary diversity, known AI filler phrases). The optional deep analysis blends those with one or more AI detection models run on our server." },
+      { q: "Is my text uploaded?", a: "Only if you choose to. The quick check is 100% in your browser. The text is sent to our server (and the AI models it uses) only when you click “Run deep AI analysis” — it's analysed for the score and not stored. Avoid pasting anything sensitive if you use deep analysis." },
     ],
   },
   {

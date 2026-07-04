@@ -45,8 +45,9 @@ export default function HomePage() {
           </h1>
           <p className="sub reveal">
             {LIVE_TOOLS.length} fast, free, privacy-first tools for PDFs, images,
-            video, text, code and everyday math. Nothing is ever uploaded —
-            everything runs on your device.
+            video, text, code and everyday math. Your files never leave your
+            device — and you can prove it: open your browser&apos;s Network tab
+            and watch nothing upload.
           </p>
 
           <div className="hero-search reveal">

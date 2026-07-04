@@ -5,6 +5,7 @@ import { getTool, getCategory } from "@/lib/tools";
 import { PRESETS, getPreset, presetsForTool } from "@/lib/presets";
 import { SITE_NAME, SITE_URL, WEBSITE_ID, ORG_REF } from "@/lib/site";
 import ToolPageRunner from "@/components/ToolPageRunner";
+import LocalBadge from "@/components/LocalBadge";
 import CategoryIcon from "@/components/CategoryIcon";
 import ToolUsageTracker from "@/components/ToolUsageTracker";
 import PinButton from "@/components/PinButton";
@@ -121,6 +122,8 @@ export default async function PresetPage({
 
       <p className="answer-box">{p.answer}</p>
 
+      <LocalBadge local={tool.local !== false} />
+
       <div className="tool-shell">
         <div className="tool-shell-bar">
           <span className="tool-shell-icon" aria-hidden="true">
@@ -128,7 +131,7 @@ export default async function PresetPage({
           </span>
           <span className="label">{tool.name} — {p.chip}</span>
           <PinButton slug={tool.slug} />
-          <span className="privacy-chip">Runs in your browser</span>
+          <span className="privacy-chip">{tool.local !== false ? "Runs in your browser" : "Local + opt-in AI"}</span>
         </div>
         <div className="tool-shell-body">
           <ToolPageRunner slug={tool.slug} preset={p.params} />

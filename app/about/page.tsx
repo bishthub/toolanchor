@@ -47,6 +47,23 @@ export default function AboutPage() {
       </section>
 
       <section className="content-block">
+        <h2>How local processing works</h2>
+        <p className="section-blurb">
+          When you open a tool and choose a file, the work happens right there in the
+          page — using the browser&apos;s Canvas API, WebAssembly (for things like PDF
+          rendering and video), and the Web Crypto API. Your file is read into memory on
+          your device, processed, and handed back as a download. It is never sent to a
+          server. You can verify this yourself: open your browser&apos;s developer tools,
+          switch to the <strong>Network</strong> tab, and run any tool — you won&apos;t see
+          your file uploaded. Some tools fetch a processing engine (for example the video
+          engine or the background-removal model) once from a CDN; that&apos;s program code,
+          not your data. The one deliberate exception is the AI Content Detector&apos;s
+          opt-in deep analysis, which is clearly labelled — see our{" "}
+          <Link href="/privacy" style={{ color: "var(--accent)" }}>privacy page</Link>.
+        </p>
+      </section>
+
+      <section className="content-block">
         <h2>What you&apos;ll find</h2>
         <p className="section-blurb">
           {CATEGORIES.map((c) => c.name).join(", ")} — {LIVE_TOOLS.length} tools in all, from

@@ -194,7 +194,16 @@ works; impossible targets produce an honest "smallest possible: X KB" result.
 
 ---
 
-## Phase 4 — Privacy as the brand ☐
+## Phase 4 — Privacy as the brand ☑ (done)
+
+> Shipped: `local?: boolean` on the Tool interface (default true). Audit found only
+> `ai-content-detector` touches a server — set `local: false`. `components/LocalBadge.tsx`
+> (expandable "prove it → Network tab" note) renders on every tool + preset page header;
+> shell-bar chip is variant-aware. Homepage hero now states the claim + verify framing;
+> About gained a "How local processing works" section (privacy page already covered it).
+> Also corrected the AI detector's copy, which falsely claimed "in-browser, no external
+> AI service" — it's now honest that quick-check is local and deep analysis is opt-in
+> server-side. Engine-from-CDN caveat worded around user *data*, not network requests.
 
 **Goal:** "your files never leave your device" is the strongest claim we have and
 it's currently buried in category intros. Make it explicit, verifiable, everywhere.
