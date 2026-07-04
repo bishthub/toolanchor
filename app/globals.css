@@ -590,6 +590,42 @@ code, .mono { font-family: var(--font-mono), ui-monospace, monospace; }
   border-radius: 5px; padding: 1px 5px; vertical-align: middle;
 }
 
+/* ── Batch file list ─────────────────────────────────────────────────── */
+.batch { margin-top: 16px; }
+.batch-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  flex-wrap: wrap; margin-bottom: 12px;
+}
+.batch-progress { font-size: .88rem; color: var(--muted); font-weight: 500; }
+.batch-actions { display: flex; gap: 8px; }
+.batch-list {
+  list-style: none; margin: 0; padding: 0;
+  border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+}
+.batch-row {
+  display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 12px;
+  padding: 10px 14px; border-top: 1px solid var(--border); font-size: .88rem;
+}
+.batch-row:first-child { border-top: none; }
+.batch-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.batch-size {
+  font-family: var(--font-mono), monospace; font-size: .76rem; color: var(--faint);
+  white-space: nowrap;
+}
+.batch-saved { color: var(--accent); font-weight: 550; }
+.batch-status { min-width: 74px; text-align: right; font-size: .8rem; color: var(--muted); }
+.batch-err { color: #ff6b6b; font-weight: 500; }
+.batch-dl {
+  background: none; border: none; cursor: pointer; padding: 0;
+  color: var(--accent); font-family: inherit; font-size: .8rem; font-weight: 550;
+}
+.batch-dl:hover { text-decoration: underline; }
+.batch-processing { background: color-mix(in srgb, var(--accent) 5%, transparent); }
+@media (max-width: 520px) {
+  .batch-row { grid-template-columns: 1fr auto; }
+  .batch-size { grid-column: 1 / -1; }
+}
+
 /* ── Section heads ───────────────────────────────────────────────────── */
 .section-head {
   display: flex; align-items: center; gap: 12px; margin: 64px 0 4px;

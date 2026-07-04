@@ -25,15 +25,15 @@ export const FILE_AUTOLOAD = new Set<string>([
 // Extra natural-language phrases that should map strongly to a slug.
 // (These supplement each tool's own `keywords`.)
 const ALIASES: Record<string, string[]> = {
-  "compress-pdf": ["compress pdf", "reduce pdf size", "shrink pdf", "make pdf smaller", "pdf too big", "lower pdf size"],
+  "compress-pdf": ["compress pdf", "reduce pdf size", "shrink pdf", "make pdf smaller", "pdf too big", "lower pdf size", "compress multiple pdfs", "bulk compress pdf", "batch compress pdf"],
   "merge-pdf": ["merge pdf", "combine pdf", "join pdf", "put pdfs together", "merge documents", "combine documents"],
   "split-pdf": ["split pdf", "extract pages", "separate pdf", "get pages from pdf", "take pages out"],
   "rotate-pdf": ["rotate pdf", "turn pdf", "pdf is sideways", "fix pdf orientation", "pdf upside down"],
   "jpg-to-pdf": ["jpg to pdf", "image to pdf", "photos to pdf", "pictures to pdf", "make a pdf from images", "png to pdf"],
   "pdf-to-images": ["pdf to image", "pdf to jpg", "pdf to png", "convert pdf to image", "pdf pages as images"],
   "pdf-to-text": ["pdf to text", "extract text from pdf", "copy text from pdf", "get text out of pdf", "read pdf text"],
-  "compress-image": ["compress image", "compress photo", "reduce image size", "shrink image", "make image smaller", "photo too big"],
-  "resize-image": ["resize image", "resize photo", "change image size", "make image bigger", "scale image", "image dimensions"],
+  "compress-image": ["compress image", "compress photo", "reduce image size", "shrink image", "make image smaller", "photo too big", "compress multiple images", "bulk compress images", "compress many photos at once"],
+  "resize-image": ["resize image", "resize photo", "change image size", "make image bigger", "scale image", "image dimensions", "bulk resize", "resize multiple images", "batch resize photos"],
   "crop-image": ["crop image", "crop photo", "cut image", "trim image"],
   "jpg-to-png": ["convert image", "jpg to png", "png to jpg", "webp to jpg", "change image format", "heic to jpg"],
   "image-to-text": ["extract text from image", "read text from image", "ocr", "image to text", "screenshot to text", "photo to text"],
@@ -51,7 +51,7 @@ const ALIASES: Record<string, string[]> = {
   "ai-content-detector": ["ai detector", "ai content detector", "detect ai", "is this ai", "ai checker", "chatgpt detector", "was this written by ai", "check if ai wrote"],
   "ai-image-checker": ["ai image detector", "is this image ai", "ai generated image", "detect ai image", "was this image made by ai", "check ai photo"],
   "image-metadata-viewer": ["image metadata", "exif viewer", "see exif", "view metadata", "photo metadata", "check exif", "gps from photo"],
-  "image-metadata-remover": ["remove metadata", "remove exif", "strip metadata", "remove gps", "clear exif", "delete metadata", "remove location from photo"],
+  "image-metadata-remover": ["remove metadata", "remove exif", "strip metadata", "remove gps", "clear exif", "delete metadata", "remove location from photo", "strip metadata from multiple photos", "bulk remove exif"],
   // Batch 8
   "heic-to-jpg": ["heic to jpg", "heic to jpeg", "convert heic", "iphone photo to jpg", "heif to jpg", "open heic"],
   "webp-to-jpg": ["webp to jpg", "webp to jpeg", "convert webp", "open webp", "webp to png"],

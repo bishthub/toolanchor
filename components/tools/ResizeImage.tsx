@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePreset, presetNumber } from "@/lib/preset";
+import { loadImage, canvasBlob } from "@/lib/canvas";
+import BatchFileList, { type BatchOutput } from "@/components/tools/BatchFileList";
 import SendToTool from "@/components/SendToTool";
 
 export default function ResizeImage({
@@ -17,6 +19,10 @@ export default function ResizeImage({
   const [height, setHeight] = useState<number>(0);
   const [lockRatio, setLockRatio] = useState(true);
   const [fileName, setFileName] = useState("image");
+  const [batchFiles, setBatchFiles] = useState<File[] | null>(null);
+  const [boxW, setBoxW] = useState(1080);
+  const [boxH, setBoxH] = useState(1080);
+  const [runToken, setRunToken] = useState(0);
   const imgRef = useRef<HTMLImageElement | null>(null);
 
   // Preset / deep-link dimensions (e.g. ?w=1080&h=1080) — applied on load.
@@ -27,6 +33,9 @@ export default function ResizeImage({
       w: presetNumber(presetValues, "w", 1, 10000),
       h: presetNumber(presetValues, "h", 1, 10000),
     };
+    // Seed the batch bounding box from a preset too.
+    if (targetRef.current.w) setBoxW(targetRef.current.w);
+    if (targetRef.current.h) setBoxH(targetRef.current.h);
   }, [presetValues]);
   const target = {
     w: presetNumber(presetValues, "w", 1, 10000),
@@ -42,7 +51,6 @@ export default function ResizeImage({
       setOrigDims({ w: img.naturalWidth, h: img.naturalHeight });
       const t = targetRef.current;
       if (t.w && t.h) {
-        // Exact preset size — both dimensions fixed.
         setWidth(t.w);
         setHeight(t.h);
         setLockRatio(false);
@@ -61,28 +69,33 @@ export default function ResizeImage({
     img.src = url;
   }
 
+  function selectFiles(files: File[]) {
+    const images = files.filter((f) => f.type.startsWith("image/"));
+    if (images.length === 0) return;
+    if (images.length === 1) {
+      setBatchFiles(null);
+      loadFile(images[0]);
+    } else {
+      setBatchFiles(images);
+    }
+  }
+
   function onFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (file) loadFile(file);
+    selectFiles(Array.from(e.target.files ?? []));
   }
 
   useEffect(() => {
-    const f = initialFiles?.find((x) => x.type.startsWith("image/"));
-    if (f) loadFile(f);
+    if (initialFiles?.length) selectFiles(initialFiles);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialFiles]);
 
   function changeWidth(w: number) {
     setWidth(w);
-    if (lockRatio && origDims) {
-      setHeight(Math.round((w / origDims.w) * origDims.h));
-    }
+    if (lockRatio && origDims) setHeight(Math.round((w / origDims.w) * origDims.h));
   }
   function changeHeight(h: number) {
     setHeight(h);
-    if (lockRatio && origDims) {
-      setWidth(Math.round((h / origDims.h) * origDims.w));
-    }
+    if (lockRatio && origDims) setWidth(Math.round((h / origDims.h) * origDims.w));
   }
 
   function makeBlob(): Promise<Blob | null> {
@@ -108,6 +121,24 @@ export default function ResizeImage({
     URL.revokeObjectURL(a.href);
   }
 
+  // Batch: scale each image to fit within boxW × boxH, keeping aspect ratio.
+  const processBatch = useCallback(
+    async (file: File): Promise<BatchOutput> => {
+      const img = await loadImage(file);
+      const scale = Math.min(boxW / img.naturalWidth, boxH / img.naturalHeight);
+      const w = Math.max(1, Math.round(img.naturalWidth * scale));
+      const h = Math.max(1, Math.round(img.naturalHeight * scale));
+      const canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      canvas.getContext("2d")!.drawImage(img, 0, 0, w, h);
+      const blob = await canvasBlob(canvas, "image/png");
+      const base = file.name.replace(/\.[^.]+$/, "");
+      return { blob, name: `${base}-${w}x${h}.png` };
+    },
+    [boxW, boxH]
+  );
+
   return (
     <div>
       {(target.w || target.h) && (
@@ -121,32 +152,47 @@ export default function ResizeImage({
       )}
 
       <div className="field">
-        <label>Choose an image</label>
-        <input type="file" accept="image/*" onChange={onFile} className="input" />
+        <label>Choose image{batchFiles ? "s" : "(s)"}</label>
+        <input type="file" accept="image/*" multiple onChange={onFile} className="input" />
       </div>
 
-      {src && origDims && (
+      {batchFiles ? (
+        <>
+          <p style={{ color: "var(--muted)", fontSize: ".88rem", marginBottom: 10 }}>
+            Each image scales to fit within this box, keeping its aspect ratio.
+          </p>
+          <div className="row">
+            <div className="field">
+              <label>Max width (px)</label>
+              <input type="number" className="input" value={boxW} min={1} onChange={(e) => setBoxW(Math.max(1, Number(e.target.value)))} />
+            </div>
+            <div className="field">
+              <label>Max height (px)</label>
+              <input type="number" className="input" value={boxH} min={1} onChange={(e) => setBoxH(Math.max(1, Number(e.target.value)))} />
+            </div>
+          </div>
+          <button type="button" className="btn secondary" style={{ marginBottom: 4 }} onClick={() => setRunToken((t) => t + 1)}>
+            Re-resize all to fit {boxW}×{boxH}
+          </button>
+          <BatchFileList
+            files={batchFiles}
+            process={processBatch}
+            runToken={runToken}
+            zipName="resized-images"
+            showSavings={false}
+            onClear={() => setBatchFiles(null)}
+          />
+        </>
+      ) : src && origDims && (
         <>
           <div className="row">
             <div className="field">
               <label>Width (px)</label>
-              <input
-                type="number"
-                className="input"
-                value={width}
-                min={1}
-                onChange={(e) => changeWidth(Number(e.target.value))}
-              />
+              <input type="number" className="input" value={width} min={1} onChange={(e) => changeWidth(Number(e.target.value))} />
             </div>
             <div className="field">
               <label>Height (px)</label>
-              <input
-                type="number"
-                className="input"
-                value={height}
-                min={1}
-                onChange={(e) => changeHeight(Number(e.target.value))}
-              />
+              <input type="number" className="input" value={height} min={1} onChange={(e) => changeHeight(Number(e.target.value))} />
             </div>
           </div>
 
@@ -156,9 +202,7 @@ export default function ResizeImage({
           </label>
 
           <div style={{ marginTop: 18 }}>
-            <button className="btn" onClick={download}>
-              ⬇ Download resized PNG
-            </button>
+            <button className="btn" onClick={download}>⬇ Download resized PNG</button>
           </div>
 
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -169,15 +213,13 @@ export default function ResizeImage({
             exclude="resize-image"
             getFile={async () => {
               const blob = await makeBlob();
-              return blob
-                ? new File([blob], `${fileName}-${width}x${height}.png`, { type: "image/png" })
-                : null;
+              return blob ? new File([blob], `${fileName}-${width}x${height}.png`, { type: "image/png" }) : null;
             }}
           />
         </>
       )}
 
-      <p className="privacy-note">🔒 Resizing happens locally — your image is never uploaded.</p>
+      <p className="privacy-note">🔒 Resizing happens locally — your image{batchFiles ? "s are" : " is"} never uploaded.</p>
     </div>
   );
 }

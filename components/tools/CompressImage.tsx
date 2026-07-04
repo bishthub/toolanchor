@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePreset, presetNumber } from "@/lib/preset";
+import { loadImage, canvasBlob, renameExt } from "@/lib/canvas";
+import BatchFileList, { type BatchOutput } from "@/components/tools/BatchFileList";
 import SendToTool from "@/components/SendToTool";
 
 function fmtBytes(n: number): string {
@@ -22,6 +24,8 @@ export default function CompressImage({
   const [quality, setQuality] = useState(0.7);
   const [outUrl, setOutUrl] = useState<string | null>(null);
   const [fileName, setFileName] = useState("image");
+  const [batchFiles, setBatchFiles] = useState<File[] | null>(null);
+  const [runToken, setRunToken] = useState(0);
   const imgRef = useRef<HTMLImageElement | null>(null);
   const qualityRef = useRef(0.7);
   qualityRef.current = quality;
@@ -47,14 +51,23 @@ export default function CompressImage({
     img.src = url;
   }
 
+  function selectFiles(files: File[]) {
+    const images = files.filter((f) => f.type.startsWith("image/"));
+    if (images.length === 0) return;
+    if (images.length === 1) {
+      setBatchFiles(null);
+      loadFile(images[0]);
+    } else {
+      setBatchFiles(images);
+    }
+  }
+
   function onFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (file) loadFile(file);
+    selectFiles(Array.from(e.target.files ?? []));
   }
 
   useEffect(() => {
-    const f = initialFiles?.find((x) => x.type.startsWith("image/"));
-    if (f) loadFile(f);
+    if (initialFiles?.length) selectFiles(initialFiles);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialFiles]);
 
@@ -89,16 +102,51 @@ export default function CompressImage({
     a.click();
   }
 
+  // Batch: compress each image to JPEG at the current quality.
+  const processBatch = useCallback(
+    async (file: File): Promise<BatchOutput> => {
+      const img = await loadImage(file);
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      canvas.getContext("2d")!.drawImage(img, 0, 0);
+      const blob = await canvasBlob(canvas, "image/jpeg", quality);
+      return { blob, name: renameExt(file.name, "jpg").replace(/(\.jpg)$/i, "-compressed$1") };
+    },
+    [quality]
+  );
+
   const saved = outSize !== null && origSize > 0 ? Math.max(0, Math.round((1 - outSize / origSize) * 100)) : 0;
 
   return (
     <div>
       <div className="field">
-        <label>Choose an image</label>
-        <input type="file" accept="image/*" onChange={onFile} className="input" />
+        <label>Choose image{batchFiles ? "s" : "(s)"}</label>
+        <input type="file" accept="image/*" multiple onChange={onFile} className="input" />
       </div>
 
-      {outSize !== null && (
+      {batchFiles ? (
+        <>
+          <div className="field">
+            <label>Quality: {Math.round(quality * 100)}%</label>
+            <input
+              type="range" min={0.1} max={1} step={0.05} value={quality}
+              onChange={(e) => setQuality(Number(e.target.value))}
+              style={{ width: "100%" }}
+            />
+            <button type="button" className="btn secondary" style={{ marginTop: 10 }} onClick={() => setRunToken((t) => t + 1)}>
+              Re-compress all at {Math.round(quality * 100)}%
+            </button>
+          </div>
+          <BatchFileList
+            files={batchFiles}
+            process={processBatch}
+            runToken={runToken}
+            zipName="compressed-images"
+            onClear={() => setBatchFiles(null)}
+          />
+        </>
+      ) : outSize !== null && (
         <>
           <div className="field">
             <label>Quality: {Math.round(quality * 100)}%</label>
@@ -133,7 +181,7 @@ export default function CompressImage({
         </>
       )}
 
-      <p className="privacy-note">🔒 Compression runs locally — your image is never uploaded.</p>
+      <p className="privacy-note">🔒 Compression runs locally — your image{batchFiles ? "s are" : " is"} never uploaded.</p>
     </div>
   );
 }

@@ -118,7 +118,16 @@ a screenshot offers image actions.
 
 ---
 
-## Phase 2 — Batch processing ☐
+## Phase 2 — Batch processing ☑ (done)
+
+> Shipped: `lib/zip.ts` (`downloadAsZip`, fflate, store-only, de-dupes names) +
+> `lib/canvas.ts` (`loadImage`/`canvasBlob`/`renameExt`) + shared
+> `components/tools/BatchFileList.tsx` (sequential run, per-row status/savings,
+> per-file + .zip download, `runToken` re-run, `onClear`). Retrofitted CompressImage,
+> ImageConverter (covers all 6 format converters), ResizeImage (batch = fit-inside
+> box), CompressPdf (shared `compressPdf` pipeline), ImageMetadataRemover — each keeps
+> its single-file UX and branches to batch when >1 file is selected. tools.ts copy +
+> intent ALIASES updated; image category intro mentions batch. `dep: fflate`.
 
 **Goal:** competitors gate batch behind paid plans (server costs); ours is free
 client-side. "Compress 50 images at once — free, no upload" is a headline feature.
