@@ -29,6 +29,7 @@ export default function SignPdf({ initialFiles }: { initialFiles?: File[] }) {
     setError(null); setOutUrl(null); setPlacement(null); setFile(f);
     try {
       const pdfjs = await import("pdfjs-dist");
+      pdfjs.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.min.mjs", import.meta.url).toString();
       const doc = await pdfjs.getDocument({ data: await f.arrayBuffer() }).promise;
       setPageCount(doc.numPages);
       setPageNum(1);
