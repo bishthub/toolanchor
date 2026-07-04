@@ -144,6 +144,7 @@ const TrimAudio = dynamic(() => import("./TrimAudio"), { loading });
 const DeletePdfPages = dynamic(() => import("./DeletePdfPages"), { loading });
 const VoiceRecorder = dynamic(() => import("./VoiceRecorder"), { loading });
 const ScreenRecorder = dynamic(() => import("./ScreenRecorder"), { loading });
+const SignPdf = dynamic(() => import("./SignPdf"), { loading });
 const SignatureGenerator = dynamic(() => import("./SignatureGenerator"), { loading });
 
 // Image-format landing pages reuse the ImageConverter engine with a preset
@@ -268,6 +269,7 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
   "delete-pdf-pages": DeletePdfPages,
   "voice-recorder": VoiceRecorder,
   "screen-recorder": ScreenRecorder,
+  "sign-pdf": SignPdf,
 };
 
 export default function ToolRunner({

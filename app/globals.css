@@ -614,6 +614,14 @@ code, .mono { font-family: var(--font-mono), ui-monospace, monospace; }
 }
 .local-badge-note strong { color: var(--text); }
 
+/* ── Signature draw pad ──────────────────────────────────────────────── */
+.sign-pad {
+  width: 100%; max-width: 400px; height: auto; aspect-ratio: 400 / 150;
+  background: #fff; border: 1px dashed var(--border); border-radius: 8px;
+  touch-action: none; cursor: crosshair;
+}
+.sign-stage { cursor: crosshair; margin-top: 6px; }
+
 /* ── Recorder panel (voice / screen) ─────────────────────────────────── */
 .recorder-panel {
   border: 1px solid var(--border); border-radius: var(--radius);

@@ -1572,6 +1572,20 @@ export const TOOLS: Tool[] = [
     ],
     related: ["compress-video", "video-to-gif", "trim-video"],
   },
+  {
+    slug: "sign-pdf", name: "Fill & Sign PDF", category: "pdf", status: "live", trending: true,
+    description: "Sign a PDF online for free — draw or upload your signature, place it on the page, and download the signed PDF. Private, in-browser, no upload.",
+    keywords: ["sign pdf", "fill and sign pdf", "add signature to pdf", "pdf signature", "esign pdf", "e-sign document", "sign document online"],
+    answer: "To sign a PDF, open it here, draw your signature (or upload a PNG), then click where it should go on the page and download the signed PDF. Everything — the document and your signature — is processed in your browser and never uploaded.",
+    intro: "Fill & Sign PDF lets you add a signature to any PDF without printing it. Draw your signature with a mouse or finger, or upload a transparent PNG, then click on the page to place and size it and download the signed document. Your PDF and signature are processed entirely in your browser, so nothing is uploaded.",
+    steps: ["Choose a PDF file.", "Draw your signature or upload a PNG, and set its size.", "Click the page to place it, then download the signed PDF."],
+    faqs: [
+      { q: "Is this a legally binding signature?", a: "It adds a visible signature image to the document, which is what most everyday forms need. It is not a cryptographic digital signature (PKI); for that, use a certificate-based service." },
+      { q: "Can I sign on more than one page?", a: "You can place a signature on the page you're viewing. Move between pages with the Prev/Next buttons and place it where it's needed before downloading." },
+      { q: "Is my document uploaded?", a: "No. The PDF and your signature never leave your device — signing happens entirely in your browser." },
+    ],
+    related: ["signature-generator", "delete-pdf-pages", "watermark-pdf"],
+  },
 ];
 
 // ── Derived helpers used across the site ──────────────────────────────────
