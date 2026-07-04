@@ -18,6 +18,8 @@ export const FILE_AUTOLOAD = new Set<string>([
   "pdf-page-numbers", "watermark-pdf", "organize-pdf",
   // Batch 9
   "mp4-to-mp3", "video-to-gif", "trim-video", "passport-photo-maker",
+  // Multi-image → PDF (wired for the universal drop zone).
+  "jpg-to-pdf",
 ]);
 
 // Extra natural-language phrases that should map strongly to a slug.
@@ -124,4 +126,71 @@ export function matchTools(query: string, file?: { type?: string; name?: string 
 
 export function bestMatches(query: string, file?: { type?: string; name?: string } | null, n = 4): Match[] {
   return matchTools(query, file).slice(0, n);
+}
+
+// ─── Universal drop zone: file → matching tools ──────────────────────────
+
+export type FileKind = "pdf" | "image" | "video" | "audio" | "text";
+
+/** Classify a dropped/pasted file by MIME type, falling back to extension. */
+export function fileKind(file: { type?: string; name?: string } | null | undefined): FileKind | null {
+  if (!file) return null;
+  const t = (file.type || "").toLowerCase();
+  const n = (file.name || "").toLowerCase();
+  if (t.includes("pdf") || n.endsWith(".pdf")) return "pdf";
+  if (t.startsWith("image/") || /\.(png|jpe?g|webp|gif|bmp|heic|heif|avif|svg|tiff?)$/.test(n)) return "image";
+  if (t.startsWith("video/") || /\.(mp4|mov|webm|mkv|avi|m4v|mpe?g)$/.test(n)) return "video";
+  if (t.startsWith("audio/") || /\.(mp3|wav|ogg|m4a|aac|flac|opus)$/.test(n)) return "audio";
+  if (t.startsWith("text/") || /\.(txt|json|csv|md|yml|yaml|xml|html?)$/.test(n)) return "text";
+  return null;
+}
+
+/** Tools that can accept more than one file at once (used for multi-drop). */
+export const MULTI_FILE_TOOLS = new Set<string>(["merge-pdf", "jpg-to-pdf"]);
+
+// Curated, usefulness-ordered candidate slugs per file kind. Filtered to
+// FILE_AUTOLOAD members below so we only ever offer tools that actually
+// auto-load the file on arrival.
+const ACTIONS_BY_KIND: Record<FileKind, string[]> = {
+  pdf: ["compress-pdf", "merge-pdf", "split-pdf", "rotate-pdf", "organize-pdf", "watermark-pdf", "pdf-page-numbers", "pdf-to-text", "pdf-to-images"],
+  image: ["compress-image", "resize-image", "background-remover", "image-to-text", "image-metadata-remover", "image-metadata-viewer", "ai-image-checker", "jpg-to-pdf"],
+  video: ["mp4-to-mp3", "video-to-gif", "trim-video"],
+  audio: [],
+  text: [],
+};
+
+/**
+ * Given a dropped file, return the ordered list of tools that can act on it.
+ * `multiple` promotes multi-file tools (merge / images→PDF) to the front so a
+ * batch drop leads with the action that uses every file.
+ */
+export function toolsForFile(
+  file: { type?: string; name?: string } | null | undefined,
+  opts?: { multiple?: boolean }
+): Tool[] {
+  const kind = fileKind(file);
+  if (!kind) return [];
+
+  const n = (file?.name || "").toLowerCase();
+  const t = (file?.type || "").toLowerCase();
+  let slugs = [...ACTIONS_BY_KIND[kind]];
+
+  // Surface HEIC→JPG (first) only when the file actually is HEIC.
+  if (kind === "image" && (/heic|heif/.test(t) || /\.(heic|heif)$/.test(n))) {
+    slugs = ["heic-to-jpg", ...slugs];
+  }
+
+  if (opts?.multiple) {
+    slugs.sort((a, b) => Number(MULTI_FILE_TOOLS.has(b)) - Number(MULTI_FILE_TOOLS.has(a)));
+  }
+
+  const seen = new Set<string>();
+  const out: Tool[] = [];
+  for (const slug of slugs) {
+    if (seen.has(slug) || !FILE_AUTOLOAD.has(slug)) continue;
+    seen.add(slug);
+    const tool = TOOLS.find((x) => x.slug === slug && x.status === "live");
+    if (tool) out.push(tool);
+  }
+  return out;
 }

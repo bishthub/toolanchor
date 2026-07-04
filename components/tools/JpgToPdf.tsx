@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PDFDocument } from "pdf-lib";
 
 interface Item { id: string; name: string; file: File; url: string; }
@@ -26,10 +26,19 @@ async function toPngBytes(file: File): Promise<Uint8Array> {
   }
 }
 
-export default function JpgToPdf() {
+export default function JpgToPdf({ initialFiles }: { initialFiles?: File[] }) {
   const [items, setItems] = useState<Item[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Seed from files handed off by another tool or the universal drop zone.
+  useEffect(() => {
+    const imgs = (initialFiles ?? []).filter((f) => f.type.startsWith("image/"));
+    if (imgs.length === 0) return;
+    setItems(
+      imgs.map((f) => ({ id: `${f.name}-${f.size}-${Math.random()}`, name: f.name, file: f, url: URL.createObjectURL(f) }))
+    );
+  }, [initialFiles]);
 
   function addFiles(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files || []).filter((f) => f.type.startsWith("image/"));

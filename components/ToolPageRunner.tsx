@@ -16,18 +16,23 @@ export default function ToolPageRunner({
   preset?: Record<string, string>;
 }) {
   const [handoff] = useState<Handoff | null>(() => takeHandoff());
-  const fromName = handoff ? getTool(handoff.from)?.name ?? handoff.from : null;
+  const files = handoff?.files ?? [];
+  const first = files[0];
+  const fromName =
+    handoff && handoff.from !== "drop" ? getTool(handoff.from)?.name ?? handoff.from : null;
 
   return (
     <>
-      {handoff && (
+      {first && (
         <p className="chain-note">
-          Loaded <strong>{handoff.file.name}</strong> from {fromName} — keep going below.
+          Loaded <strong>{first.name}</strong>
+          {files.length > 1 && ` and ${files.length - 1} more`}
+          {fromName ? ` from ${fromName}` : ""} — keep going below.
         </p>
       )}
       <ToolRunner
         slug={slug}
-        initialFiles={handoff ? [handoff.file] : undefined}
+        initialFiles={files.length ? files : undefined}
         preset={preset}
       />
     </>

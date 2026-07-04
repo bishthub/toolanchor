@@ -1,19 +1,20 @@
 // ─────────────────────────────────────────────────────────────────────────
-// Tool-to-tool file handoff. "Continue with →" stores the output file here,
-// then navigates client-side to the next tool, which picks it up via
-// takeHandoff(). Module memory survives Next.js client navigation; a full
-// page reload simply drops the handoff (the user can re-select the file).
+// Tool-to-tool file handoff. "Continue with →" (and the universal drop zone)
+// store the output file(s) here, then navigate client-side to the next tool,
+// which picks them up via takeHandoff(). Module memory survives Next.js client
+// navigation; a full page reload simply drops the handoff (the user can
+// re-select the file).
 // ─────────────────────────────────────────────────────────────────────────
 
 export interface Handoff {
-  file: File;
-  from: string; // tool slug the file came from
+  files: File[];
+  from: string; // tool slug (or "drop") the file came from
 }
 
 let pending: Handoff | null = null;
 
-export function setHandoff(file: File, from: string) {
-  pending = { file, from };
+export function setHandoff(files: File | File[], from: string) {
+  pending = { files: Array.isArray(files) ? files : [files], from };
 }
 
 export function takeHandoff(): Handoff | null {

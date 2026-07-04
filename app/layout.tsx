@@ -6,6 +6,7 @@ import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, WEBSITE_ID, ORG_REF, organizatio
 import SiteHeader from "@/components/SiteHeader";
 import CommandPalette from "@/components/CommandPalette";
 import FileDragGlow from "@/components/FileDragGlow";
+import UniversalDrop from "@/components/UniversalDrop";
 import PwaRegister from "@/components/PwaRegister";
 import JsonLd from "@/components/JsonLd";
 import Analytics from "@/components/Analytics";
@@ -111,6 +112,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteHeader />
         <CommandPalette />
         <FileDragGlow />
+        <UniversalDrop />
 
         <main id="main">{children}</main>
 

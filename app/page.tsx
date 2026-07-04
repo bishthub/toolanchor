@@ -51,6 +51,7 @@ export default function HomePage() {
 
           <div className="hero-search reveal">
             <HeroPaletteButton hint={`Search ${LIVE_TOOLS.length} tools — merge PDF, resize image, word count…`} />
+            <p className="hero-drop-hint">…or drop a file anywhere and we&apos;ll show what you can do with it.</p>
           </div>
 
           <div className="cat-chips reveal">
