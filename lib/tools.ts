@@ -1630,6 +1630,48 @@ export const TOOLS: Tool[] = [
     ],
     related: ["crop-image", "resize-image", "jpg-to-pdf"],
   },
+  {
+    slug: "code-to-image", name: "Code to Image", category: "developer", status: "live", trending: true,
+    description: "Turn a code snippet into a clean, shareable image for free. Themes, backgrounds and a window frame — rendered in your browser, no upload, no sign-up.",
+    keywords: ["code to image", "code screenshot", "carbon alternative", "code snippet image", "beautiful code image", "share code image"],
+    answer: "To turn code into an image, paste your snippet, pick a theme and background, and download a PNG. The image is drawn on a canvas in your browser with lightweight syntax highlighting — your code is never uploaded.",
+    intro: "Code to Image turns a snippet into a polished PNG for blog posts, slides and social — with a window frame, colour themes and tasteful backgrounds. It renders on a canvas in your browser using a system monospace font and lightweight, language-agnostic highlighting, so nothing is uploaded and export always works.",
+    steps: ["Paste your code.", "Choose a theme, backdrop and padding.", "Download the PNG."],
+    faqs: [
+      { q: "Which languages are supported?", a: "Highlighting is language-agnostic — it colours strings, numbers, comments and common keywords across most languages, so any snippet looks good without picking a language." },
+      { q: "Is there a watermark?", a: "No. The exported image contains only your code and the styling you choose." },
+      { q: "Is my code uploaded?", a: "No — the image is drawn entirely in your browser." },
+    ],
+    related: ["json-formatter", "screenshot-beautifier", "base64"],
+  },
+  {
+    slug: "email-signature-generator", name: "Email Signature Generator", category: "text", status: "live",
+    description: "Create a professional email signature for free. Fill in your details, preview it live, and copy it straight into Gmail or Outlook. No upload, no sign-up.",
+    keywords: ["email signature generator", "email signature", "gmail signature", "outlook signature", "signature maker", "html email signature"],
+    answer: "To make an email signature, fill in your name, title, contact details and an accent colour, preview it live, then click “Copy signature” and paste it into your email client’s signature settings. It’s built as email-safe HTML in your browser and never uploaded.",
+    intro: "Email Signature Generator builds a clean, professional signature from your details, using table-based, inline-styled HTML that email clients render reliably. Preview it live, then copy it as a formatted signature (for Gmail/Outlook settings) or as raw HTML. Everything happens in your browser.",
+    steps: ["Fill in your name, title, company and contact details.", "Pick an accent colour and check the live preview.", "Click “Copy signature” and paste it into your email settings."],
+    faqs: [
+      { q: "How do I add it to Gmail?", a: "Click “Copy signature”, then in Gmail go to Settings → General → Signature, and paste. Outlook and Apple Mail have similar signature settings." },
+      { q: "Why table-based HTML?", a: "Email clients strip modern CSS. Inline-styled tables are the one layout approach that renders consistently across Gmail, Outlook and the rest." },
+      { q: "Are my details uploaded?", a: "No — the signature is generated entirely in your browser." },
+    ],
+    related: ["signature-generator", "qr-code-generator", "slug-generator"],
+  },
+  {
+    slug: "invoice-generator", name: "Invoice Generator", category: "calculator", status: "live", trending: true,
+    description: "Create and download a professional invoice PDF for free. Add line items, tax/GST and your currency (incl. ₹) — built in your browser, no upload, no sign-up.",
+    keywords: ["invoice generator", "free invoice", "create invoice", "invoice maker", "invoice pdf", "gst invoice", "billing invoice"],
+    answer: "To create an invoice, fill in your business and client details, add line items with quantities and rates, set a tax or GST rate, and download the PDF. Totals update live and the invoice is generated in your browser with pdf-lib — nothing is uploaded, and your draft is saved locally.",
+    intro: "Invoice Generator builds a clean, professional invoice you can download as a PDF — with your business and client details, line items, automatic totals, and a configurable tax or GST line in your chosen currency (including ₹). Everything runs in your browser using pdf-lib; your draft is saved in this browser and never uploaded.",
+    steps: ["Fill in your business, client, invoice number and currency.", "Add line items with quantity and rate, and set a tax/GST rate.", "Download the invoice as a PDF."],
+    faqs: [
+      { q: "Does it support GST / VAT?", a: "Yes — set a tax label (GST, VAT, Tax) and a percentage, and it’s calculated and shown as a separate line on the invoice." },
+      { q: "Is my invoice data saved anywhere?", a: "Only in your own browser, as a draft, so you can come back to it. It is never uploaded to a server." },
+      { q: "Can I use rupees?", a: "Yes — choose ₹ (INR) among the currencies. The on-screen symbol is ₹; the PDF uses “Rs” for maximum compatibility." },
+    ],
+    related: ["gst-calculator", "markup-calculator", "signature-generator"],
+  },
 ];
 
 // ── Derived helpers used across the site ──────────────────────────────────

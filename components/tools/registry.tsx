@@ -150,6 +150,9 @@ const SignPdf = dynamic(() => import("./SignPdf"), { loading });
 const SvgToPng = dynamic(() => import("./SvgToPng"), { loading });
 const ScreenshotBeautifier = dynamic(() => import("./ScreenshotBeautifier"), { loading });
 const CollageMaker = dynamic(() => import("./CollageMaker"), { loading });
+const CodeToImage = dynamic(() => import("./CodeToImage"), { loading });
+const EmailSignatureGenerator = dynamic(() => import("./EmailSignatureGenerator"), { loading });
+const InvoiceGenerator = dynamic(() => import("./InvoiceGenerator"), { loading });
 const SignatureGenerator = dynamic(() => import("./SignatureGenerator"), { loading });
 
 // Image-format landing pages reuse the ImageConverter engine with a preset
@@ -278,6 +281,9 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
   "svg-to-png": SvgToPng,
   "screenshot-beautifier": ScreenshotBeautifier,
   "collage-maker": CollageMaker,
+  "code-to-image": CodeToImage,
+  "email-signature-generator": EmailSignatureGenerator,
+  "invoice-generator": InvoiceGenerator,
 };
 
 export default function ToolRunner({
