@@ -277,7 +277,23 @@ intro/steps/faqs/answer; appears in sitemap, search, category page, command pale
 
 ---
 
-## Phase 6 — New tools, wave 2: generators + image ☐
+## Phase 6 — New tools, wave 2: generators + image ◐ (6/7 shipped)
+
+> **Shipped (6), all building + in sitemap, tool count 112→118:**
+> - Image (canvas, no dep): **svg-to-png** (1–8× rasterize), **screenshot-beautifier**
+>   (padding/bg/radius/shadow, live preview), **collage-maker** (2–6 photos, auto grid).
+> - Generators: **code-to-image** (canvas + regex highlighting + system monospace —
+>   deviated from shiki to avoid webfont canvas-tainting I can't verify headlessly),
+>   **email-signature-generator** (table-based inline HTML, copy rich/HTML),
+>   **invoice-generator** (pdf-lib, line items + tax/GST + currency incl. ₹→"Rs" in PDF,
+>   localStorage draft).
+> - Wiring: tools.ts, registry, ALIASES; image tools added to FILE_AUTOLOAD +
+>   universal-drop actions (collage-maker multi-file). trending: screenshot-beautifier,
+>   code-to-image, invoice-generator.
+>
+> **DEFERRED (1) — `image-upscaler`:** needs onnxruntime-web + a Real-ESRGAN model
+> (heavy). Plan already flags it experimental "validate perf first; skip if it
+> disappoints" — perf can't be validated headlessly, so deferred alongside qpdf.
 
 | Slug | Name | Cat | Implementation notes |
 |---|---|---|---|
