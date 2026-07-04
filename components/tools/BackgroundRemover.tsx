@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import SendToTool from "@/components/SendToTool";
 
 export default function BackgroundRemover({ initialFiles }: { initialFiles?: File[] }) {
   const [original, setOriginal] = useState<string | null>(null);
@@ -83,6 +84,19 @@ export default function BackgroundRemover({ initialFiles }: { initialFiles?: Fil
       </div>
 
       {result && <button className="btn" style={{ marginTop: 12 }} onClick={download}>⬇ Download transparent PNG</button>}
+
+      {result && (
+        <SendToTool
+          kind="image"
+          exclude="background-remover"
+          getFile={async () => {
+            try {
+              const blob = await fetch(result).then((r) => r.blob());
+              return new File([blob], "no-background.png", { type: "image/png" });
+            } catch { return null; }
+          }}
+        />
+      )}
 
       <p className="privacy-note">🔒 The AI model runs entirely in your browser — your image is never uploaded. First run downloads the model (cached after).</p>
     </div>

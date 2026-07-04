@@ -4,6 +4,7 @@ import { PRESETS } from "@/lib/presets";
 import { GUIDES, guideUpdated } from "@/lib/guides";
 import { ALTERNATIVES } from "@/lib/alternatives";
 import { GLOSSARY } from "@/lib/glossary";
+import { WORKFLOWS } from "@/lib/workflows";
 import { SITE_URL, LAST_REVIEWED } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -15,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/tools`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/ask`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/guides`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${SITE_URL}/workflows`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE_URL}/alternatives`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE_URL}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.4 },
     { url: `${SITE_URL}/contact`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
@@ -34,6 +36,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const guidePages: MetadataRoute.Sitemap = GUIDES.map((g) => ({
     url: `${SITE_URL}/guides/${g.slug}`, lastModified: guideUpdated(g), changeFrequency: "monthly", priority: 0.6,
   }));
+  const workflowPages: MetadataRoute.Sitemap = WORKFLOWS.map((w) => ({
+    url: `${SITE_URL}/workflows/${w.slug}`, lastModified: reviewed, changeFrequency: "monthly", priority: 0.6,
+  }));
   const altPages: MetadataRoute.Sitemap = ALTERNATIVES.map((a) => ({
     url: `${SITE_URL}/alternatives/${a.slug}`, lastModified: reviewed, changeFrequency: "monthly", priority: 0.6,
   }));
@@ -44,5 +49,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ];
 
-  return [...staticPages, ...categoryPages, ...toolPages, ...presetPages, ...guidePages, ...altPages, ...glossaryPages];
+  return [...staticPages, ...categoryPages, ...toolPages, ...presetPages, ...guidePages, ...workflowPages, ...altPages, ...glossaryPages];
 }

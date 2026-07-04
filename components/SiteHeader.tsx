@@ -63,6 +63,7 @@ export default function SiteHeader() {
 
         <nav className="nav" data-open={open} aria-label="Primary">
           <Link href="/ask">Ask</Link>
+          <Link href="/workflows">Workflows</Link>
           <Link href="/guides">Guides</Link>
           <Link href="/tools" className="cta">All tools A–Z</Link>
           {CATEGORIES.map((c) => (

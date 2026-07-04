@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { getFfmpeg, toFileData } from "@/lib/ffmpeg";
+import SendToTool from "@/components/SendToTool";
 
 export default function TrimVideo({ initialFiles }: { initialFiles?: File[] }) {
   const [file, setFile] = useState<File | null>(null);
@@ -105,6 +106,16 @@ export default function TrimVideo({ initialFiles }: { initialFiles?: File[] }) {
         <div style={{ marginTop: 16 }}>
           <video controls src={url} className="preview-img" style={{ maxHeight: 260, width: "100%" }} />
           <a className="btn" href={url} download={outName.current} style={{ display: "inline-flex", marginTop: 12 }}>⬇ Download clip</a>
+
+          <SendToTool
+            kind="media"
+            exclude="trim-video"
+            getFile={async () => {
+              if (!url) return null;
+              const blob = await fetch(url).then((r) => r.blob());
+              return new File([blob], outName.current, { type: blob.type || "video/mp4" });
+            }}
+          />
         </div>
       )}
 

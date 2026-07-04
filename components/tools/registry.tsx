@@ -157,11 +157,11 @@ const SignatureGenerator = dynamic(() => import("./SignatureGenerator"), { loadi
 
 // Image-format landing pages reuse the ImageConverter engine with a preset
 // target format (users can still switch). HEIC needs the on-demand decoder.
-function HeicToJpg(p: ToolProps) { return <ImageConverter {...p} heic defaultFormat="jpeg" />; }
-function WebpToJpg(p: ToolProps) { return <ImageConverter {...p} defaultFormat="jpeg" />; }
-function JpgToWebp(p: ToolProps) { return <ImageConverter {...p} defaultFormat="webp" />; }
-function PngToWebp(p: ToolProps) { return <ImageConverter {...p} defaultFormat="webp" />; }
-function AvifToJpg(p: ToolProps) { return <ImageConverter {...p} defaultFormat="jpeg" />; }
+function HeicToJpg(p: ToolProps) { return <ImageConverter {...p} heic defaultFormat="jpeg" slug="heic-to-jpg" />; }
+function WebpToJpg(p: ToolProps) { return <ImageConverter {...p} defaultFormat="jpeg" slug="webp-to-jpg" />; }
+function JpgToWebp(p: ToolProps) { return <ImageConverter {...p} defaultFormat="webp" slug="jpg-to-webp" />; }
+function PngToWebp(p: ToolProps) { return <ImageConverter {...p} defaultFormat="webp" slug="png-to-webp" />; }
+function AvifToJpg(p: ToolProps) { return <ImageConverter {...p} defaultFormat="jpeg" slug="avif-to-jpg" />; }
 
 const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
   "compress-pdf": CompressPdf,

@@ -590,6 +590,31 @@ code, .mono { font-family: var(--font-mono), ui-monospace, monospace; }
   border-radius: 5px; padding: 1px 5px; vertical-align: middle;
 }
 
+/* ── Workflow bar + next-step CTA ─────────────────────────────────────── */
+.workflow-bar {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--border));
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  border-radius: var(--radius); padding: 10px 14px; margin-bottom: 16px;
+}
+.workflow-bar-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.workflow-bar-name { font-weight: 600; font-size: .9rem; }
+.workflow-bar-step { color: var(--muted); font-size: .8rem; }
+.workflow-dots { display: flex; gap: 6px; margin-left: auto; }
+.wf-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--border); }
+.wf-dot.done { background: color-mix(in srgb, var(--accent) 55%, transparent); }
+.wf-dot.current { background: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+.workflow-exit {
+  background: none; border: 1px solid var(--border); border-radius: 7px;
+  color: var(--muted); font-family: inherit; font-size: .76rem; padding: 4px 9px; cursor: pointer;
+}
+.workflow-exit:hover { color: var(--text); border-color: var(--faint); }
+.chain.workflow-next { margin-top: 16px; }
+.chain-btn.primary {
+  background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 560;
+}
+.chain-btn.primary:hover { filter: brightness(1.05); }
+
 /* ── Local / privacy badge ───────────────────────────────────────────── */
 .local-badge { margin: 4px 0 22px; }
 .local-badge-main {

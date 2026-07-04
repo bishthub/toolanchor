@@ -1,5 +1,6 @@
 import { CATEGORIES, LIVE_TOOLS, toolsByCategory } from "@/lib/tools";
 import { GUIDES } from "@/lib/guides";
+import { WORKFLOWS } from "@/lib/workflows";
 import { ALTERNATIVES } from "@/lib/alternatives";
 import { GLOSSARY } from "@/lib/glossary";
 import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, LAST_REVIEWED } from "@/lib/site";
@@ -32,6 +33,10 @@ export function GET() {
 
   lines.push("## Guides");
   for (const g of GUIDES) lines.push(`- [${g.title}](${SITE_URL}/guides/${g.slug}): ${g.description}`);
+  lines.push("");
+
+  lines.push("## Workflows (guided multi-step chains)");
+  for (const w of WORKFLOWS) lines.push(`- [${w.name}](${SITE_URL}/workflows/${w.slug}): ${w.description}`);
   lines.push("");
 
   lines.push("## Free alternatives");

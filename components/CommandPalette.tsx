@@ -9,6 +9,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CATEGORIES, POPULAR_TOOLS, TOOLS, getTool, type CategoryId, type Tool } from "@/lib/tools";
+import { WORKFLOWS } from "@/lib/workflows";
 import { getPins, getRecents } from "@/lib/usage";
 import CategoryIcon from "@/components/CategoryIcon";
 
@@ -120,13 +121,25 @@ export default function CommandPalette() {
         })),
       ];
     }
-    return TOOLS
+    const toolMatches = TOOLS
       .filter((t) => t.status === "live")
       .map((t) => ({ t, s: score(t, term) }))
       .filter((x) => x.s > 0)
       .sort((a, b) => b.s - a.s)
       .slice(0, 12)
       .map((x) => toolItem(x.t, "Tools"));
+    const workflowMatches: Item[] = WORKFLOWS
+      .filter((w) => w.name.toLowerCase().includes(term) || w.description.toLowerCase().includes(term) || term.includes("workflow"))
+      .slice(0, 4)
+      .map((w) => ({
+        key: `wf-${w.slug}`,
+        name: w.name,
+        desc: w.description,
+        cat: getTool(w.steps[0].tool)?.category ?? "pdf",
+        href: `/workflows/${w.slug}`,
+        group: "Workflows",
+      }));
+    return [...toolMatches, ...workflowMatches];
   }, [q, mine]);
 
   const go = useCallback(

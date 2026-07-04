@@ -9,12 +9,17 @@
 export interface Handoff {
   files: File[];
   from: string; // tool slug (or "drop") the file came from
+  workflow?: { slug: string; step: number }; // set when advancing a workflow
 }
 
 let pending: Handoff | null = null;
 
-export function setHandoff(files: File | File[], from: string) {
-  pending = { files: Array.isArray(files) ? files : [files], from };
+export function setHandoff(
+  files: File | File[],
+  from: string,
+  workflow?: { slug: string; step: number }
+) {
+  pending = { files: Array.isArray(files) ? files : [files], from, workflow };
 }
 
 export function takeHandoff(): Handoff | null {

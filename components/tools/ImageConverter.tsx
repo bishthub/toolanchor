@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { loadImage, canvasBlob } from "@/lib/canvas";
 import BatchFileList, { type BatchOutput } from "@/components/tools/BatchFileList";
+import SendToTool from "@/components/SendToTool";
 
 type Fmt = "png" | "jpeg" | "webp";
 const MIME: Record<Fmt, string> = { png: "image/png", jpeg: "image/jpeg", webp: "image/webp" };
@@ -14,6 +15,8 @@ interface Props {
   defaultFormat?: Fmt;
   /** Decode HEIC/HEIF input (needs heic2any, loaded on demand). */
   heic?: boolean;
+  /** The tool slug this instance is rendered as (for chaining / workflows). */
+  slug?: string;
 }
 
 function isHeic(file: File) {
@@ -45,7 +48,7 @@ function drawToCanvas(img: HTMLImageElement, format: Fmt): HTMLCanvasElement {
   return canvas;
 }
 
-export default function ImageConverter({ initialFiles, defaultFormat = "png", heic }: Props) {
+export default function ImageConverter({ initialFiles, defaultFormat = "png", heic, slug = "jpg-to-png" }: Props) {
   const [src, setSrc] = useState<string | null>(null);
   const [format, setFormat] = useState<Fmt>(defaultFormat);
   const [fileName, setFileName] = useState("image");
@@ -180,6 +183,19 @@ export default function ImageConverter({ initialFiles, defaultFormat = "png", he
           <button className="btn" onClick={convert}>⬇ Convert &amp; download</button>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={src} alt="preview" className="preview-img" style={{ maxHeight: 280 }} />
+
+          <SendToTool
+            kind="image"
+            exclude={slug}
+            getFile={async () => {
+              const img = imgRef.current;
+              if (!img) return null;
+              try {
+                const blob = await canvasBlob(drawToCanvas(img, format), MIME[format], 0.92);
+                return new File([blob], `${fileName}.${EXT[format]}`, { type: MIME[format] });
+              } catch { return null; }
+            }}
+          />
         </>
       )}
 

@@ -134,6 +134,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <h4>Browse</h4>
                 <Link href="/tools">All tools (A–Z)</Link>
                 <Link href="/ask">Ask (describe a task)</Link>
+                <Link href="/workflows">Workflows</Link>
                 <Link href="/guides">Guides</Link>
                 <Link href="/glossary">Glossary</Link>
                 <Link href="/alternatives">Alternatives</Link>

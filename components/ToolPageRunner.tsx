@@ -5,6 +5,7 @@
 
 import { useState } from "react";
 import ToolRunner from "@/components/tools/registry";
+import WorkflowBar from "@/components/WorkflowBar";
 import { takeHandoff, type Handoff } from "@/lib/handoff";
 import { getTool } from "@/lib/tools";
 
@@ -23,6 +24,7 @@ export default function ToolPageRunner({
 
   return (
     <>
+      <WorkflowBar slug={slug} />
       {first && (
         <p className="chain-note">
           Loaded <strong>{first.name}</strong>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { PDFDocument } from "pdf-lib";
+import SendToTool from "@/components/SendToTool";
 
 interface Item { id: string; name: string; file: File; url: string; }
 
@@ -58,26 +59,30 @@ export default function JpgToPdf({ initialFiles }: { initialFiles?: File[] }) {
     });
   }
 
+  async function buildPdfBlob(): Promise<Blob> {
+    const pdf = await PDFDocument.create();
+    for (const item of items) {
+      const buf = new Uint8Array(await item.file.arrayBuffer());
+      const isJpg = /\.jpe?g$/i.test(item.name) || item.file.type === "image/jpeg";
+      const isPng = /\.png$/i.test(item.name) || item.file.type === "image/png";
+      const embedded = isJpg
+        ? await pdf.embedJpg(buf)
+        : isPng
+        ? await pdf.embedPng(buf)
+        : await pdf.embedPng(await toPngBytes(item.file));
+      const page = pdf.addPage([embedded.width, embedded.height]);
+      page.drawImage(embedded, { x: 0, y: 0, width: embedded.width, height: embedded.height });
+    }
+    const bytes = await pdf.save();
+    return new Blob([bytes.slice().buffer], { type: "application/pdf" });
+  }
+
   async function create() {
     if (!items.length) return;
     setBusy(true);
     setError(null);
     try {
-      const pdf = await PDFDocument.create();
-      for (const item of items) {
-        const buf = new Uint8Array(await item.file.arrayBuffer());
-        const isJpg = /\.jpe?g$/i.test(item.name) || item.file.type === "image/jpeg";
-        const isPng = /\.png$/i.test(item.name) || item.file.type === "image/png";
-        const embedded = isJpg
-          ? await pdf.embedJpg(buf)
-          : isPng
-          ? await pdf.embedPng(buf)
-          : await pdf.embedPng(await toPngBytes(item.file));
-        const page = pdf.addPage([embedded.width, embedded.height]);
-        page.drawImage(embedded, { x: 0, y: 0, width: embedded.width, height: embedded.height });
-      }
-      const bytes = await pdf.save();
-      const blob = new Blob([bytes.slice().buffer], { type: "application/pdf" });
+      const blob = await buildPdfBlob();
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
       a.download = "images.pdf";
@@ -116,6 +121,17 @@ export default function JpgToPdf({ initialFiles }: { initialFiles?: File[] }) {
       <button className="btn" onClick={create} disabled={!items.length || busy}>
         {busy ? "Creating…" : "⬇ Create PDF"}
       </button>
+
+      {items.length > 0 && (
+        <SendToTool
+          kind="pdf"
+          exclude="jpg-to-pdf"
+          getFile={async () => {
+            try { return new File([await buildPdfBlob()], "images.pdf", { type: "application/pdf" }); }
+            catch { return null; }
+          }}
+        />
+      )}
 
       {error && <p style={{ color: "#ff6b6b", marginTop: 12 }}>{error}</p>}
       <p className="privacy-note">🔒 Images are converted in your browser — never uploaded.</p>
