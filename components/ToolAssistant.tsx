@@ -190,6 +190,12 @@ export default function ToolAssistant() {
                 <strong>{activeMatch.tool.name}</strong>
                 <Link href={`/tools/${active.slug}`} className="more" style={{ marginLeft: "auto" }}>Open full page →</Link>
               </div>
+              {active.files.length > 0 && (
+                <p className="chain-note">
+                  Using <strong>{active.files[0].name}</strong>
+                  {active.files.length > 1 && ` and ${active.files.length - 1} more`} — pick another file below to replace it.
+                </p>
+              )}
               <ToolRunner slug={active.slug} initialFiles={active.files} />
             </div>
           )}
