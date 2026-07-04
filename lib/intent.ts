@@ -23,6 +23,8 @@ export const FILE_AUTOLOAD = new Set<string>([
   // Batch 10 — media + PDF gaps
   "compress-video", "mute-video", "audio-converter", "trim-audio", "delete-pdf-pages",
   "sign-pdf",
+  // Batch 11 — generators + image (wave 2)
+  "svg-to-png", "screenshot-beautifier", "collage-maker",
 ]);
 
 // Extra natural-language phrases that should map strongly to a slug.
@@ -78,6 +80,9 @@ const ALIASES: Record<string, string[]> = {
   "trim-audio": ["trim audio", "cut audio", "audio cutter", "trim mp3", "cut mp3", "shorten audio", "make a ringtone"],
   "delete-pdf-pages": ["delete pdf pages", "remove pages from pdf", "delete page from pdf", "remove pdf page", "take out pdf pages"],
   "sign-pdf": ["sign pdf", "add signature to pdf", "fill and sign pdf", "esign pdf", "e-sign document", "sign document online", "put signature on pdf"],
+  "svg-to-png": ["svg to png", "convert svg to png", "svg to image", "rasterize svg", "export svg as png"],
+  "screenshot-beautifier": ["beautify screenshot", "screenshot beautifier", "pretty screenshot", "add background to screenshot", "polish screenshot", "screenshot frame"],
+  "collage-maker": ["collage maker", "photo collage", "make a collage", "combine photos", "picture collage", "photo grid"],
   "voice-recorder": ["voice recorder", "record voice", "record audio", "audio recorder", "record my voice", "microphone recorder", "sound recorder"],
   "screen-recorder": ["screen recorder", "record screen", "record my screen", "screen capture", "capture screen video", "screen record"],
   "passport-photo-maker": ["passport photo", "passport size photo", "visa photo", "id photo", "passport picture"],
@@ -157,14 +162,14 @@ export function fileKind(file: { type?: string; name?: string } | null | undefin
 }
 
 /** Tools that can accept more than one file at once (used for multi-drop). */
-export const MULTI_FILE_TOOLS = new Set<string>(["merge-pdf", "jpg-to-pdf"]);
+export const MULTI_FILE_TOOLS = new Set<string>(["merge-pdf", "jpg-to-pdf", "collage-maker"]);
 
 // Curated, usefulness-ordered candidate slugs per file kind. Filtered to
 // FILE_AUTOLOAD members below so we only ever offer tools that actually
 // auto-load the file on arrival.
 const ACTIONS_BY_KIND: Record<FileKind, string[]> = {
   pdf: ["compress-pdf", "merge-pdf", "split-pdf", "rotate-pdf", "organize-pdf", "watermark-pdf", "pdf-page-numbers", "pdf-to-text", "pdf-to-images"],
-  image: ["compress-image", "resize-image", "background-remover", "image-to-text", "image-metadata-remover", "image-metadata-viewer", "ai-image-checker", "jpg-to-pdf"],
+  image: ["compress-image", "resize-image", "screenshot-beautifier", "collage-maker", "background-remover", "image-to-text", "image-metadata-remover", "image-metadata-viewer", "ai-image-checker", "jpg-to-pdf"],
   video: ["mp4-to-mp3", "video-to-gif", "trim-video"],
   audio: [],
   text: [],

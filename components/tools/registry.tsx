@@ -145,6 +145,11 @@ const DeletePdfPages = dynamic(() => import("./DeletePdfPages"), { loading });
 const VoiceRecorder = dynamic(() => import("./VoiceRecorder"), { loading });
 const ScreenRecorder = dynamic(() => import("./ScreenRecorder"), { loading });
 const SignPdf = dynamic(() => import("./SignPdf"), { loading });
+
+// Batch 11 — generators + image (wave 2)
+const SvgToPng = dynamic(() => import("./SvgToPng"), { loading });
+const ScreenshotBeautifier = dynamic(() => import("./ScreenshotBeautifier"), { loading });
+const CollageMaker = dynamic(() => import("./CollageMaker"), { loading });
 const SignatureGenerator = dynamic(() => import("./SignatureGenerator"), { loading });
 
 // Image-format landing pages reuse the ImageConverter engine with a preset
@@ -270,6 +275,9 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
   "voice-recorder": VoiceRecorder,
   "screen-recorder": ScreenRecorder,
   "sign-pdf": SignPdf,
+  "svg-to-png": SvgToPng,
+  "screenshot-beautifier": ScreenshotBeautifier,
+  "collage-maker": CollageMaker,
 };
 
 export default function ToolRunner({

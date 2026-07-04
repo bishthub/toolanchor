@@ -1586,6 +1586,50 @@ export const TOOLS: Tool[] = [
     ],
     related: ["signature-generator", "delete-pdf-pages", "watermark-pdf"],
   },
+
+  // ── Batch 11: generators + image (wave 2) ──────────────────────────────
+  {
+    slug: "svg-to-png", name: "SVG to PNG", category: "image", status: "live",
+    description: "Convert SVG to PNG for free, right in your browser. Choose the output scale (up to 8×) for a crisp, high-resolution image — no upload, no sign-up.",
+    keywords: ["svg to png", "convert svg to png", "svg to image", "rasterize svg", "svg png converter", "export svg as png"],
+    answer: "To convert an SVG to PNG, load the file and pick an output scale (2× or higher for a sharp result), then download the PNG. The SVG is rendered to a canvas entirely in your browser, so it’s never uploaded.",
+    intro: "SVG to PNG rasterises a vector SVG into a PNG image at the resolution you choose — handy when a site or app needs a bitmap instead of a vector. Pick a scale up to 8× for crisp output. It runs in your browser using the Canvas API, so your file is never uploaded.",
+    steps: ["Choose an SVG file.", "Pick an output scale (higher = larger, sharper PNG).", "Click “Download PNG”."],
+    faqs: [
+      { q: "Why is my PNG blurry?", a: "SVGs are vector, so increase the scale (e.g. 3× or 4×) to render more pixels for a sharp PNG at the size you need." },
+      { q: "My SVG has no set size — what happens?", a: "If the SVG has no intrinsic width/height, a default 512×512 base is used before scaling. Add a width/height or viewBox to the SVG for exact control." },
+      { q: "Is my file uploaded?", a: "No — the SVG is rendered to PNG entirely in your browser." },
+    ],
+    related: ["jpg-to-png", "favicon-generator", "compress-image"],
+  },
+  {
+    slug: "screenshot-beautifier", name: "Screenshot Beautifier", category: "image", status: "live", trending: true,
+    description: "Make screenshots look polished — add padding, a clean background, rounded corners and a soft shadow. Free, in your browser, no watermark, no upload.",
+    keywords: ["screenshot beautifier", "beautify screenshot", "pretty screenshots", "add background to screenshot", "screenshot frame", "polish screenshot"],
+    answer: "To beautify a screenshot, load your image and adjust the padding, background, corner radius and shadow — a live preview updates as you go — then download the polished PNG. Everything is composed in your browser and never uploaded.",
+    intro: "Screenshot Beautifier turns a plain screenshot into a share-ready image with padding, a tasteful background, rounded corners and a soft shadow — perfect for docs, slides and social posts. It composes everything on a canvas in your browser, with no watermark and no upload.",
+    steps: ["Choose a screenshot (or copy one and paste it anywhere on the site).", "Adjust background, padding, corner radius and shadow.", "Download the polished PNG."],
+    faqs: [
+      { q: "Is there a watermark?", a: "No. The exported PNG is clean, with nothing added beyond the styling you choose." },
+      { q: "Can I paste a screenshot instead of uploading?", a: "Yes — copy a screenshot to your clipboard and paste it anywhere on the site; you’ll be offered this tool among the image actions." },
+      { q: "Is my image uploaded?", a: "No — it’s composed in your browser with the Canvas API." },
+    ],
+    related: ["crop-image", "resize-image", "compress-image"],
+  },
+  {
+    slug: "collage-maker", name: "Photo Collage Maker", category: "image", status: "live",
+    description: "Make a photo collage from 2–6 images for free, in your browser. Choose a grid layout, gap and corners, then download the PNG — no upload, no watermark.",
+    keywords: ["collage maker", "photo collage", "picture collage", "combine photos", "photo grid maker", "make a collage"],
+    answer: "To make a collage, select 2–6 photos and the tool arranges them in a clean grid; adjust the gap, corner radius and background, then download the PNG. Your photos are combined in your browser and never uploaded.",
+    intro: "Photo Collage Maker combines 2–6 photos into a tidy grid, with controls for the gap between photos, corner rounding and background colour. The layout is chosen automatically for the number of photos. It all runs in your browser using the Canvas API — no upload, no watermark.",
+    steps: ["Choose 2–6 images.", "Adjust the gap, corner radius and background.", "Download the collage as a PNG."],
+    faqs: [
+      { q: "How many photos can I use?", a: "Between 2 and 6. The grid layout is picked automatically to suit the count." },
+      { q: "Will my photos be cropped?", a: "Each photo is cover-fitted into its cell (centre-cropped) so the grid stays even. Crop them first if you want a specific framing." },
+      { q: "Are my photos uploaded?", a: "No — the collage is built entirely in your browser." },
+    ],
+    related: ["crop-image", "resize-image", "jpg-to-pdf"],
+  },
 ];
 
 // ── Derived helpers used across the site ──────────────────────────────────
