@@ -310,7 +310,19 @@ Same wiring checklist as Phase 5. Skip resume-builder and chart-maker for now
 
 ---
 
-## Phase 7 — Workflows: guided chains ☐ (after Phase 1)
+## Phase 7 — Workflows: guided chains ☑ (done)
+
+> Shipped: `lib/workflows.ts` (6 workflows) + `lib/workflow.ts` (sessionStorage state,
+> survives reload) + handoff carries workflow context. `SendToTool` is workflow-aware
+> (primary "Next: X" CTA that produces output + advances; "Finish" on last step);
+> `WorkflowBar` in ToolPageRunner shows step n/N + dots + Exit. Added SendToTool handoff
+> to JpgToPdf, ImageConverter (now `slug`-aware so heic-to-jpg detects correctly),
+> BackgroundRemover, TrimVideo. `/workflows` + `/workflows/[slug]` static pages (HowTo +
+> FAQ JSON-LD, client Start button); wired into sitemap, llms.txt, command palette,
+> header + footer nav. Note: workflow "Next" CTA navigates directly (independent of
+> SendToTool TARGETS), so cross-kind hops like resize→jpg-to-pdf work.
+> **Needs browser QA:** the end-to-end multi-step flow (esp. job-application-pdf) and
+> reload-resume — can't be verified headlessly.
 
 **Goal:** promote one-hop handoff into named multi-step pipelines, each of which is
 also a programmatic SEO page. V1 is a **guided chain**, not a new execution engine:
