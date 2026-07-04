@@ -1543,6 +1543,35 @@ export const TOOLS: Tool[] = [
     ],
     related: ["organize-pdf", "split-pdf", "merge-pdf"],
   },
+  {
+    slug: "voice-recorder", name: "Voice Recorder", category: "media", status: "live",
+    description: "Record your voice or any audio online for free, right in your browser. Pause, play back, and download as WebM or MP3 — no upload, no sign-up.",
+    keywords: ["voice recorder", "audio recorder", "record voice online", "online mic recorder", "record audio", "sound recorder"],
+    answer: "To record your voice online, click Start recording and allow microphone access — the tool captures audio directly in your browser with a live level meter. Stop when done, play it back, and download it as WebM or convert to MP3. Nothing is uploaded; the recording stays on your device.",
+    intro: "Voice Recorder captures audio from your microphone right in the browser, with a live level meter and pause/resume. When you’re done you can play it back and download it as a WebM file or convert it to MP3. Nothing is uploaded — the recording never leaves your device.",
+    steps: ["Click “Start recording” and allow microphone access.", "Speak — pause and resume as needed.", "Stop, play it back, and download as WebM or MP3."],
+    faqs: [
+      { q: "Where is my recording saved?", a: "Only in your browser, in memory, until you download it. It is never uploaded to any server." },
+      { q: "What format do I get?", a: "WebM (Opus audio) by default, which every modern browser records. You can convert it to MP3 in one click, which runs locally via ffmpeg.wasm." },
+      { q: "Why can’t it access my microphone?", a: "Your browser must be granted mic permission, and the page must be served over HTTPS. Also make sure no other app is using the mic." },
+    ],
+    related: ["trim-audio", "audio-converter", "mp4-to-mp3"],
+  },
+  {
+    slug: "screen-recorder", name: "Screen Recorder", category: "media", status: "live", trending: true,
+    description: "Record your screen online for free, right in your browser — with optional microphone narration. Download as WebM. No upload, no watermark, no sign-up.",
+    keywords: ["screen recorder", "record screen online", "screen capture", "record my screen", "free screen recorder", "browser screen recorder"],
+    answer: "To record your screen, click record and choose a screen, window or tab to share; optionally include your microphone for narration. The capture runs entirely in your browser and downloads as a WebM video. Nothing is uploaded and there’s no watermark. Screen recording needs a desktop browser — it isn’t available on most phones.",
+    intro: "Screen Recorder captures your screen, a window or a browser tab directly in your browser, with an option to record your microphone for narration. The result downloads as a WebM video with no watermark and no upload. Note that screen capture requires a desktop browser (Chrome, Edge or Firefox) — it isn’t supported on most mobile devices.",
+    steps: ["Optionally tick “record my microphone”.", "Click record and choose the screen, window or tab to capture.", "Click Stop (or the browser’s “Stop sharing”), then download the WebM."],
+    faqs: [
+      { q: "Is there a watermark or time limit?", a: "No watermark and no imposed time limit — you’re bounded only by your device’s memory, since the whole recording is held in the browser until you download it." },
+      { q: "Can I record system audio?", a: "When you share a tab or screen, Chrome and Edge let you include its audio (tick the option in the share dialog). You can also add your microphone for narration." },
+      { q: "Does it work on mobile?", a: "Generally no — the screen-capture API isn’t available on most mobile browsers. Use a desktop browser." },
+      { q: "How do I get an MP4?", a: "Download the WebM, then run it through the Compress Video tool, which can output MP4." },
+    ],
+    related: ["compress-video", "video-to-gif", "trim-video"],
+  },
 ];
 
 // ── Derived helpers used across the site ──────────────────────────────────

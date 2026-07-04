@@ -614,6 +614,25 @@ code, .mono { font-family: var(--font-mono), ui-monospace, monospace; }
 }
 .local-badge-note strong { color: var(--text); }
 
+/* ── Recorder panel (voice / screen) ─────────────────────────────────── */
+.recorder-panel {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface-2); padding: 22px; text-align: center;
+}
+.recorder-time {
+  font-family: var(--font-mono), monospace; font-size: 2.2rem; font-weight: 600;
+  color: var(--text); letter-spacing: .04em;
+}
+.recorder-meter {
+  height: 8px; border-radius: 999px; background: var(--border);
+  overflow: hidden; margin: 14px auto; max-width: 320px;
+}
+.recorder-meter-fill {
+  height: 100%; background: var(--accent); border-radius: 999px;
+  transition: width .06s linear;
+}
+.recorder-controls { display: flex; gap: 10px; justify-content: center; margin-top: 8px; }
+
 /* ── PDF page grid (delete pages) ────────────────────────────────────── */
 .page-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(58px, 1fr));

@@ -76,6 +76,8 @@ const ALIASES: Record<string, string[]> = {
   "audio-converter": ["convert audio", "audio converter", "m4a to mp3", "wav to mp3", "convert to wav", "ogg converter", "change audio format"],
   "trim-audio": ["trim audio", "cut audio", "audio cutter", "trim mp3", "cut mp3", "shorten audio", "make a ringtone"],
   "delete-pdf-pages": ["delete pdf pages", "remove pages from pdf", "delete page from pdf", "remove pdf page", "take out pdf pages"],
+  "voice-recorder": ["voice recorder", "record voice", "record audio", "audio recorder", "record my voice", "microphone recorder", "sound recorder"],
+  "screen-recorder": ["screen recorder", "record screen", "record my screen", "screen capture", "capture screen video", "screen record"],
   "passport-photo-maker": ["passport photo", "passport size photo", "visa photo", "id photo", "passport picture"],
   "signature-generator": ["signature", "make a signature", "draw signature", "create signature", "e-signature", "sign document"],
 };
