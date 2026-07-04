@@ -229,19 +229,27 @@ shift; claim is accurate for every tool (verified against `app/api/` usage).
 
 ---
 
-## Phase 5 — New tools, wave 1: media + PDF gaps ◐ (in progress)
+## Phase 5 — New tools, wave 1: media + PDF gaps ◐ (8/10 shipped)
 
-> Batch 1 shipped (reuse-heavy, no new deps): **compress-video**, **mute-video**,
-> **audio-converter**, **trim-audio** (all ffmpeg.wasm, patterned on TrimVideo/Mp4ToMp3),
-> and **delete-pdf-pages** (pdf-lib, tap-to-delete page grid). All wired: tools.ts entries,
-> registry, FILE_AUTOLOAD, ALIASES, SendToTool gained a `media` kind (+ delete-pdf-pages
-> in pdf targets) and the 4 media tools render chaining. compress-video + delete-pdf-pages
-> marked trending. Verified in sitemap; tool count 104→109.
+> **Shipped (8), all building + in sitemap, tool count 104→112:**
+> - Media (ffmpeg.wasm, patterned on TrimVideo/Mp4ToMp3): **compress-video** (H.264
+>   presets + 720p), **mute-video** (lossless `-an -c:v copy`), **audio-converter**
+>   (mp3/wav/ogg/m4a + bitrate), **trim-audio** (lossless stream copy).
+> - Recorders (browser APIs, no dep): **voice-recorder** (getUserMedia + MediaRecorder,
+>   level meter, MP3 export), **screen-recorder** (getDisplayMedia + optional mic).
+>   Both feature-detect and show a fallback on unsupported/mobile.
+> - PDF (pdf-lib / pdfjs, no dep): **delete-pdf-pages** (tap-to-delete grid),
+>   **sign-pdf** (draw/upload signature, click-to-place, fraction→points burn-in).
+> - Wiring: tools.ts, registry, FILE_AUTOLOAD, ALIASES; SendToTool gained a `media`
+>   kind (+ delete-pdf-pages in pdf targets); the 4 media tools render chaining.
+>   trending: compress-video, delete-pdf-pages, screen-recorder, sign-pdf.
 >
-> **Still TODO in Phase 5:** `voice-recorder`, `screen-recorder` (MediaRecorder /
-> getDisplayMedia — new APIs, feature-detect + hide on unsupported/mobile);
-> `protect-pdf` + `unlock-pdf` (need a qpdf-wasm dep — **vet bundle size first**);
-> `sign-pdf` (biggest build — pdfjs render + place signature/text, burn in with pdf-lib).
+> **DEFERRED (2) — `protect-pdf` + `unlock-pdf`:** these need qpdf-wasm (pdf-lib can't
+> encrypt). Dependency vetted: `@neslinesli93/qpdf-wasm` v0.3.0 ≈ 1.4 MB unpacked
+> (acceptable — lazy-load like ffmpeg). NOT shipped because it's an Emscripten module
+> with a runtime (FS/callMain/locateFile) I can't verify headlessly, and getting
+> encryption subtly wrong is high-impact. Next step: write `lib/qpdf.ts` (CDN blob-URL
+> loader mirroring lib/ffmpeg.ts), build the two tools, and **browser-QA before trusting**.
 
 Highest-search-volume gaps that reuse the ffmpeg/pdf-lib investment. For **each**
 tool follow the "every new tool needs" checklist in §1. Suggested build order:
