@@ -1471,6 +1471,78 @@ export const TOOLS: Tool[] = [
     ],
     related: ["watermark-pdf", "passport-photo-maker", "crop-image"], updated: "2026-07-01",
   },
+
+  // ── Batch 10: media + PDF gaps ─────────────────────────────────────────
+  {
+    slug: "compress-video", name: "Compress Video", category: "media", status: "live", trending: true,
+    description: "Compress MP4 and other videos to a smaller file size for free, right in your browser. Quality presets and optional 720p downscale — no upload, no watermark.",
+    keywords: ["compress video", "reduce video size", "video compressor", "make video smaller", "shrink mp4", "compress mp4"],
+    answer: "To compress a video, choose a quality preset (and optionally scale it down to 720p) and the tool re-encodes it to H.264 MP4 at a smaller size. It runs entirely in your browser via ffmpeg.wasm, so your video is never uploaded. In-browser encoding is single-threaded, so large files can be slow — shorter clips work best.",
+    intro: "Compress Video shrinks the file size of MP4, MOV, WebM and other videos by re-encoding them to efficient H.264, with a quality preset and an optional 720p downscale for bigger savings. It runs locally in your browser using ffmpeg.wasm — your video is never uploaded and there’s no watermark.",
+    steps: ["Choose a video file.", "Pick a quality preset and, optionally, scale down to 720p.", "Click Compress, wait for it to encode, then download the smaller MP4."],
+    faqs: [
+      { q: "How much smaller will my video get?", a: "It depends on the source, but re-encoding an unoptimised phone or screen-recording video at the Balanced preset often cuts size by 40–70%. Scaling to 720p saves more." },
+      { q: "Why is it slow for big files?", a: "In-browser video encoding is single-threaded, so a large or long video can take a while and may hit browser memory limits. A shorter clip or a lower resolution is faster." },
+      { q: "Is my video uploaded?", a: "No — compression happens entirely in your browser. The only download is the one-time video engine (~32 MB), which is cached afterwards." },
+    ],
+    related: ["trim-video", "video-to-gif", "mp4-to-mp3"],
+  },
+  {
+    slug: "mute-video", name: "Remove Audio from Video", category: "media", status: "live",
+    description: "Remove the audio track from a video (mute it) for free, in your browser. Keeps the original video quality — no upload, no re-encoding.",
+    keywords: ["mute video", "remove audio from video", "silence video", "delete sound from video", "strip audio from mp4"],
+    answer: "To remove audio from a video, load the file and the tool drops the audio track while copying the video stream untouched — so there’s no quality loss and it’s near-instant. Everything runs in your browser via ffmpeg.wasm; your video is never uploaded.",
+    intro: "Remove Audio from Video strips the sound out of a clip while leaving the video exactly as it was. Because the video stream is copied rather than re-encoded, it’s fast and lossless. It runs locally in your browser — nothing is uploaded.",
+    steps: ["Choose a video file.", "Click “Remove audio”.", "Download the silent video."],
+    faqs: [
+      { q: "Will the video quality change?", a: "No. Only the audio track is removed; the video is copied bit-for-bit, so quality is identical to the original." },
+      { q: "Which formats work?", a: "MP4, MOV and WebM work best. The output keeps the same format as your input." },
+      { q: "Is my video uploaded?", a: "No — it’s processed entirely in your browser." },
+    ],
+    related: ["trim-video", "compress-video", "mp4-to-mp3"],
+  },
+  {
+    slug: "audio-converter", name: "Audio Converter (MP3 / WAV / OGG / M4A)", category: "media", status: "live",
+    description: "Convert audio between MP3, WAV, OGG and M4A for free, in your browser. Choose the bitrate — no upload, no sign-up.",
+    keywords: ["audio converter", "convert audio", "mp3 converter", "wav to mp3", "m4a to mp3", "ogg converter", "convert to wav"],
+    answer: "To convert audio, choose your target format (MP3, WAV, OGG or M4A) and, for lossy formats, a bitrate — the tool transcodes the file with ffmpeg.wasm right in your browser. Your audio is never uploaded. You can also extract audio from a video file the same way.",
+    intro: "Audio Converter changes an audio file’s format between MP3, WAV, OGG and M4A, with a choice of bitrate for the lossy formats. You can also feed it a video to pull the audio out. It runs locally in your browser using ffmpeg.wasm — nothing is uploaded.",
+    steps: ["Choose an audio (or video) file.", "Pick the output format and, if asked, a bitrate.", "Click Convert and download the result."],
+    faqs: [
+      { q: "Which conversions are supported?", a: "Any direction between MP3, WAV, OGG and M4A, plus extracting audio from common video files." },
+      { q: "What bitrate should I choose?", a: "192 kbps is a good default for music. Use 320 kbps for the best quality, or 128 kbps for the smallest files. WAV is lossless and has no bitrate setting." },
+      { q: "Is my audio uploaded?", a: "No — conversion happens entirely in your browser." },
+    ],
+    related: ["mp4-to-mp3", "trim-audio", "compress-video"],
+  },
+  {
+    slug: "trim-audio", name: "Trim Audio", category: "media", status: "live",
+    description: "Cut an audio clip to a start and end time for free, in your browser. Lossless stream copy — no upload, no re-encoding.",
+    keywords: ["trim audio", "cut audio", "audio cutter", "trim mp3", "cut mp3 online", "shorten audio", "make ringtone"],
+    answer: "To trim audio, load the file, set a start and end time, and the tool copies just that section out — losslessly and near-instantly, since it doesn’t re-encode. It runs in your browser via ffmpeg.wasm; your audio is never uploaded.",
+    intro: "Trim Audio cuts an MP3, WAV, OGG or M4A file down to the section you want, using a start and end time. It copies the stream rather than re-encoding, so it’s fast and there’s no quality loss — great for making ringtones or clipping a recording. Runs locally in your browser.",
+    steps: ["Choose an audio file.", "Set the start and end time (in seconds).", "Click “Trim & export” and download the clip."],
+    faqs: [
+      { q: "Will trimming reduce quality?", a: "No. The selected section is copied without re-encoding, so it’s identical to the source." },
+      { q: "Can I make a ringtone with this?", a: "Yes — trim to the section you want and download it. For iPhone you’ll typically want an M4A input." },
+      { q: "Is my audio uploaded?", a: "No — trimming happens entirely in your browser." },
+    ],
+    related: ["audio-converter", "mp4-to-mp3", "trim-video"],
+  },
+  {
+    slug: "delete-pdf-pages", name: "Delete PDF Pages", category: "pdf", status: "live", trending: true,
+    description: "Remove pages from a PDF for free, right in your browser. Tap the pages to delete and download the rest — no upload, no sign-up.",
+    keywords: ["delete pdf pages", "remove pages from pdf", "delete page from pdf", "remove pdf page", "pdf page remover"],
+    answer: "To delete pages from a PDF, load the file, tap the page numbers you want to remove, and download the rebuilt PDF with those pages gone. Everything runs in your browser using pdf-lib — your document is never uploaded.",
+    intro: "Delete PDF Pages removes the pages you don’t want from a PDF and rebuilds it from the ones you keep. Just tap the pages to drop and download the result. It runs entirely in your browser, so your document never leaves your device.",
+    steps: ["Choose a PDF file.", "Tap the pages you want to delete.", "Click download to save the PDF without them."],
+    faqs: [
+      { q: "Can I remove several pages at once?", a: "Yes — tap every page you want to delete, then download once. At least one page must remain." },
+      { q: "Does this change the other pages?", a: "No. The pages you keep are copied across unchanged; only the ones you selected are removed." },
+      { q: "Is my PDF uploaded?", a: "No — the PDF is edited entirely in your browser and never sent to a server." },
+    ],
+    related: ["organize-pdf", "split-pdf", "merge-pdf"],
+  },
 ];
 
 // ── Derived helpers used across the site ──────────────────────────────────

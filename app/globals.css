@@ -614,6 +614,23 @@ code, .mono { font-family: var(--font-mono), ui-monospace, monospace; }
 }
 .local-badge-note strong { color: var(--text); }
 
+/* ── PDF page grid (delete pages) ────────────────────────────────────── */
+.page-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(58px, 1fr));
+  gap: 8px; margin-top: 4px;
+}
+.page-cell {
+  position: relative; aspect-ratio: 3 / 4; display: grid; place-items: center;
+  border: 1px solid var(--border); border-radius: 8px; background: var(--surface-2);
+  color: var(--muted); font-size: .82rem; font-weight: 550; cursor: pointer;
+  transition: border-color .12s, background .12s, color .12s;
+}
+.page-cell:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
+.page-cell.is-deleting {
+  border-color: #ff6b6b; background: color-mix(in srgb, #ff6b6b 12%, transparent); color: #ff6b6b;
+}
+.page-cell .page-x { position: absolute; top: 4px; right: 6px; font-size: .72rem; }
+
 /* ── Batch file list ─────────────────────────────────────────────────── */
 .batch { margin-top: 16px; }
 .batch-bar {

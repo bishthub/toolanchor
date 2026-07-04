@@ -20,6 +20,8 @@ export const FILE_AUTOLOAD = new Set<string>([
   "mp4-to-mp3", "video-to-gif", "trim-video", "passport-photo-maker",
   // Multi-image → PDF (wired for the universal drop zone).
   "jpg-to-pdf",
+  // Batch 10 — media + PDF gaps
+  "compress-video", "mute-video", "audio-converter", "trim-audio", "delete-pdf-pages",
 ]);
 
 // Extra natural-language phrases that should map strongly to a slug.
@@ -69,6 +71,11 @@ const ALIASES: Record<string, string[]> = {
   "mp4-to-mp3": ["mp4 to mp3", "video to mp3", "extract audio", "video to audio", "get audio from video", "convert video to mp3"],
   "video-to-gif": ["video to gif", "mp4 to gif", "make a gif", "gif from video", "convert video to gif"],
   "trim-video": ["trim video", "cut video", "shorten video", "video cutter", "crop video length"],
+  "compress-video": ["compress video", "reduce video size", "make video smaller", "shrink video", "video too big", "compress mp4", "video compressor"],
+  "mute-video": ["mute video", "remove audio from video", "silence video", "delete sound from video", "strip audio", "no sound video"],
+  "audio-converter": ["convert audio", "audio converter", "m4a to mp3", "wav to mp3", "convert to wav", "ogg converter", "change audio format"],
+  "trim-audio": ["trim audio", "cut audio", "audio cutter", "trim mp3", "cut mp3", "shorten audio", "make a ringtone"],
+  "delete-pdf-pages": ["delete pdf pages", "remove pages from pdf", "delete page from pdf", "remove pdf page", "take out pdf pages"],
   "passport-photo-maker": ["passport photo", "passport size photo", "visa photo", "id photo", "passport picture"],
   "signature-generator": ["signature", "make a signature", "draw signature", "create signature", "e-signature", "sign document"],
 };

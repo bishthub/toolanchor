@@ -135,6 +135,13 @@ const Mp4ToMp3 = dynamic(() => import("./Mp4ToMp3"), { loading });
 const VideoToGif = dynamic(() => import("./VideoToGif"), { loading });
 const TrimVideo = dynamic(() => import("./TrimVideo"), { loading });
 const PassportPhotoMaker = dynamic(() => import("./PassportPhotoMaker"), { loading });
+
+// Batch 10 — media + PDF gaps
+const CompressVideo = dynamic(() => import("./CompressVideo"), { loading });
+const MuteVideo = dynamic(() => import("./MuteVideo"), { loading });
+const AudioConverter = dynamic(() => import("./AudioConverter"), { loading });
+const TrimAudio = dynamic(() => import("./TrimAudio"), { loading });
+const DeletePdfPages = dynamic(() => import("./DeletePdfPages"), { loading });
 const SignatureGenerator = dynamic(() => import("./SignatureGenerator"), { loading });
 
 // Image-format landing pages reuse the ImageConverter engine with a preset
@@ -252,6 +259,11 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
   "trim-video": TrimVideo,
   "passport-photo-maker": PassportPhotoMaker,
   "signature-generator": SignatureGenerator,
+  "compress-video": CompressVideo,
+  "mute-video": MuteVideo,
+  "audio-converter": AudioConverter,
+  "trim-audio": TrimAudio,
+  "delete-pdf-pages": DeletePdfPages,
 };
 
 export default function ToolRunner({

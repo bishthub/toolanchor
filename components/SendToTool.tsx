@@ -13,7 +13,7 @@ import { FILE_AUTOLOAD } from "@/lib/intent";
 import { setHandoff } from "@/lib/handoff";
 import CategoryIcon from "@/components/CategoryIcon";
 
-const TARGETS: Record<"image" | "pdf", string[]> = {
+const TARGETS: Record<"image" | "pdf" | "media", string[]> = {
   image: [
     "compress-image",
     "resize-image",
@@ -28,6 +28,16 @@ const TARGETS: Record<"image" | "pdf", string[]> = {
     "rotate-pdf",
     "pdf-to-text",
     "pdf-to-images",
+    "delete-pdf-pages",
+  ],
+  media: [
+    "compress-video",
+    "trim-video",
+    "mute-video",
+    "video-to-gif",
+    "mp4-to-mp3",
+    "audio-converter",
+    "trim-audio",
   ],
 };
 
@@ -36,7 +46,7 @@ export default function SendToTool({
   exclude,
   getFile,
 }: {
-  kind: "image" | "pdf";
+  kind: "image" | "pdf" | "media";
   /** Current tool's slug — filtered out of the target list. */
   exclude: string;
   /** Produces the output file when a target is clicked. */

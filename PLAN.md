@@ -229,7 +229,19 @@ shift; claim is accurate for every tool (verified against `app/api/` usage).
 
 ---
 
-## Phase 5 — New tools, wave 1: media + PDF gaps ☐
+## Phase 5 — New tools, wave 1: media + PDF gaps ◐ (in progress)
+
+> Batch 1 shipped (reuse-heavy, no new deps): **compress-video**, **mute-video**,
+> **audio-converter**, **trim-audio** (all ffmpeg.wasm, patterned on TrimVideo/Mp4ToMp3),
+> and **delete-pdf-pages** (pdf-lib, tap-to-delete page grid). All wired: tools.ts entries,
+> registry, FILE_AUTOLOAD, ALIASES, SendToTool gained a `media` kind (+ delete-pdf-pages
+> in pdf targets) and the 4 media tools render chaining. compress-video + delete-pdf-pages
+> marked trending. Verified in sitemap; tool count 104→109.
+>
+> **Still TODO in Phase 5:** `voice-recorder`, `screen-recorder` (MediaRecorder /
+> getDisplayMedia — new APIs, feature-detect + hide on unsupported/mobile);
+> `protect-pdf` + `unlock-pdf` (need a qpdf-wasm dep — **vet bundle size first**);
+> `sign-pdf` (biggest build — pdfjs render + place signature/text, burn in with pdf-lib).
 
 Highest-search-volume gaps that reuse the ffmpeg/pdf-lib investment. For **each**
 tool follow the "every new tool needs" checklist in §1. Suggested build order:
