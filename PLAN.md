@@ -158,7 +158,16 @@ single-file flow is unchanged (no extra clicks for the common case).
 
 ---
 
-## Phase 3 — Target-size compression presets ☐
+## Phase 3 — Target-size compression presets ☑ (done)
+
+> Shipped: 9 target presets in `lib/presets.ts` (compress-image to-20/50/100/200kb,
+> compress-pdf to-50/100/200/500kb/1mb) via `params: { kb }`, India exam/job-portal
+> copy. CompressImage reads `kb` and binary-searches JPEG quality, stepping dimensions
+> down when needed (`compressToTarget`); CompressPdf steps quality/resolution down
+> until it fits (`compressPdfToTarget`). Both honestly report the smallest achievable
+> size when the target is impossible, hide manual sliders in target mode, and support
+> target in batch. ALIASES cover "compress X to Nkb"/"under N kb". Pages generate
+> statically, appear in sitemap + parent-tool preset chips; `?kb=` query override works.
 
 **Goal:** "compress pdf to 100kb", "compress image to 20kb" are massive
 exam-form/job-portal queries (already targeting India with GST/SIP/FD calculators).

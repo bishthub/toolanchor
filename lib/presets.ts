@@ -119,6 +119,66 @@ const COMPRESS_PRESETS: ToolPreset[] = [
   },
 ];
 
+/* ── Target-size presets (compress to ≤ N KB) ────────────────────────── */
+// Huge query volume around exam/job-portal upload limits — "compress image to
+// 20kb", "compress pdf to 100kb". The tools read the `kb` param and search for
+// the best quality that lands under it.
+
+interface TargetDef {
+  slug: string;
+  kb: number;
+  label: string;   // "100 KB"
+  context: string; // where this limit shows up, for copy
+}
+
+const IMG_TARGETS: TargetDef[] = [
+  { slug: "to-20kb",  kb: 20,  label: "20 KB",  context: "strict photo and signature fields on government exam and visa forms (SSC, UPSC, and similar)" },
+  { slug: "to-50kb",  kb: 50,  label: "50 KB",  context: "photo upload fields on most online application and registration forms" },
+  { slug: "to-100kb", kb: 100, label: "100 KB", context: "job-portal profile photos and document upload limits" },
+  { slug: "to-200kb", kb: 200, label: "200 KB", context: "general web uploads and forums that cap images at 200 KB" },
+];
+
+const IMG_TARGET_PRESETS: ToolPreset[] = IMG_TARGETS.map((t) => ({
+  slug: t.slug,
+  tool: "compress-image",
+  name: `Compress Image to ${t.label}`,
+  metaTitle: `Compress Image to ${t.label} — Free, No Upload`,
+  description: `Compress a JPG or PNG photo to under ${t.label} for ${t.context}. Free and private — the image is resized and re-compressed in your browser, never uploaded.`,
+  answer: `To compress an image to ${t.label}, this tool automatically searches for the highest JPEG quality that lands under ${t.label}, stepping the dimensions down if needed. Drop your photo and it targets ${t.label} for you. If a file genuinely can't reach ${t.label} while staying legible, it delivers the smallest possible version and tells you the exact size. Everything runs in your browser.`,
+  params: { kb: String(t.kb) },
+  chip: `≤ ${t.label}`,
+  faqs: [
+    { q: `How do I compress an image to ${t.label}?`, a: `Load your image on this page — it automatically finds the best quality that keeps the file under ${t.label}. You'll see the final size before you download.` },
+    { q: `What if my photo can't reach ${t.label}?`, a: `The tool lowers quality and, if needed, the dimensions to get as close as possible. If ${t.label} is impossible without destroying the image, it shows you the smallest size it could achieve instead of pretending it worked.` },
+    { q: "Is my image uploaded?", a: "No. Compression happens entirely in your browser — the file never leaves your device." },
+  ],
+}));
+
+const PDF_TARGETS: TargetDef[] = [
+  { slug: "to-50kb",  kb: 50,   label: "50 KB",  context: "the tightest form upload limits" },
+  { slug: "to-100kb", kb: 100,  label: "100 KB", context: "government form and exam application uploads, which are often capped at 100 KB" },
+  { slug: "to-200kb", kb: 200,  label: "200 KB", context: "common document upload limits on job and admission portals" },
+  { slug: "to-500kb", kb: 500,  label: "500 KB", context: "portals that allow up to 500 KB per document" },
+  { slug: "to-1mb",   kb: 1024, label: "1 MB",   context: "email attachments and general uploads with a 1 MB cap" },
+];
+
+const PDF_TARGET_PRESETS: ToolPreset[] = PDF_TARGETS.map((t) => ({
+  slug: t.slug,
+  tool: "compress-pdf",
+  name: `Compress PDF to ${t.label}`,
+  metaTitle: `Compress PDF to ${t.label} — Free, No Upload`,
+  description: `Shrink a PDF to under ${t.label} for ${t.context}. Free and private — pages are re-rendered at progressively lower quality in your browser until the file fits, never uploaded.`,
+  answer: `To compress a PDF to ${t.label}, this tool re-renders the pages at progressively lower quality and resolution until the file drops under ${t.label}. Drop your PDF and it targets ${t.label} automatically. If ${t.label} isn't reachable, it delivers the smallest version it can and tells you the exact size rather than faking success. Processing happens locally in your browser.`,
+  params: { kb: String(t.kb) },
+  chip: `≤ ${t.label}`,
+  faqs: [
+    { q: `How do I compress a PDF to ${t.label}?`, a: `Load your PDF here and it steps the image quality and resolution down until the file is under ${t.label}, then lets you download it. You'll see the final size first.` },
+    { q: "Will the text stay selectable?", a: "No — to hit a strict size target, pages are re-rendered as images, so text becomes part of the image. Keep the original if you need selectable text." },
+    { q: `What if the PDF can't reach ${t.label}?`, a: `Very long or dense PDFs may not fit ${t.label} while staying readable. In that case the tool shows the smallest size it achieved instead of claiming success.` },
+    { q: "Is my PDF uploaded?", a: "No — compression runs entirely in your browser." },
+  ],
+}));
+
 /* ── Case-converter mode presets ─────────────────────────────────────── */
 
 interface CaseDef {
@@ -152,7 +212,13 @@ const CASE_PRESETS: ToolPreset[] = CASES.map((c) => ({
   ],
 }));
 
-export const PRESETS: ToolPreset[] = [...RESIZE_PRESETS, ...COMPRESS_PRESETS, ...CASE_PRESETS];
+export const PRESETS: ToolPreset[] = [
+  ...RESIZE_PRESETS,
+  ...COMPRESS_PRESETS,
+  ...IMG_TARGET_PRESETS,
+  ...PDF_TARGET_PRESETS,
+  ...CASE_PRESETS,
+];
 
 export function presetsForTool(toolSlug: string): ToolPreset[] {
   return PRESETS.filter((p) => p.tool === toolSlug);

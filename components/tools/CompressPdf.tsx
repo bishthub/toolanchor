@@ -49,6 +49,27 @@ async function compressPdf(
   return new Blob([bytes.slice().buffer], { type: "application/pdf" });
 }
 
+/** Step quality/resolution down until the PDF fits under `targetBytes`. Returns
+ *  the smallest achievable blob (hitTarget=false) when the target is impossible. */
+async function compressPdfToTarget(
+  file: File,
+  targetBytes: number,
+  onStep?: (step: number, total: number) => void
+): Promise<{ blob: Blob; hitTarget: boolean }> {
+  const steps: [number, number][] = [
+    [0.7, 1.5], [0.6, 1.3], [0.5, 1.2], [0.4, 1.0], [0.35, 0.9], [0.3, 0.8], [0.25, 0.7], [0.2, 0.6],
+  ];
+  let smallest: Blob | null = null;
+  for (let i = 0; i < steps.length; i++) {
+    onStep?.(i + 1, steps.length);
+    const [q, r] = steps[i];
+    const blob = await compressPdf(file, q, r);
+    if (blob.size <= targetBytes) return { blob, hitTarget: true };
+    if (!smallest || blob.size < smallest.size) smallest = blob;
+  }
+  return { blob: smallest!, hitTarget: false };
+}
+
 export default function CompressPdf({
   initialFiles,
   preset,
@@ -62,8 +83,10 @@ export default function CompressPdf({
   const [batchFiles, setBatchFiles] = useState<File[] | null>(null);
   const [runToken, setRunToken] = useState(0);
 
-  // Preset / deep-link settings (e.g. ?q=0.5&r=1.2) — applied once on mount.
-  const presetValues = usePreset(preset, ["q", "r"]);
+  // Preset / deep-link settings (e.g. ?q=0.5&r=1.2) or a size target (?kb=100).
+  const presetValues = usePreset(preset, ["q", "r", "kb"]);
+  const targetKb = presetNumber(presetValues, "kb", 1, 100000);
+  const targetMode = targetKb !== undefined;
   useEffect(() => {
     const q = presetNumber(presetValues, "q", 0.2, 0.9);
     const r = presetNumber(presetValues, "r", 1, 2.5);
@@ -73,7 +96,7 @@ export default function CompressPdf({
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<{ url: string; size: number } | null>(null);
+  const [result, setResult] = useState<{ url: string; size: number; hitTarget?: boolean } | null>(null);
   const [origSize, setOrigSize] = useState(0);
 
   function selectFiles(files: File[]) {
@@ -105,10 +128,17 @@ export default function CompressPdf({
     setError(null);
     setResult(null);
     try {
-      const blob = await compressPdf(file, quality, scale, (p, total) =>
-        setProgress(`Compressing page ${p} of ${total}…`)
-      );
-      setResult({ url: URL.createObjectURL(blob), size: blob.size });
+      if (targetMode && targetKb !== undefined) {
+        const { blob, hitTarget } = await compressPdfToTarget(file, targetKb * 1024, (step, total) =>
+          setProgress(`Trying setting ${step} of ${total} to reach ${targetKb} KB…`)
+        );
+        setResult({ url: URL.createObjectURL(blob), size: blob.size, hitTarget });
+      } else {
+        const blob = await compressPdf(file, quality, scale, (p, total) =>
+          setProgress(`Compressing page ${p} of ${total}…`)
+        );
+        setResult({ url: URL.createObjectURL(blob), size: blob.size });
+      }
       setProgress("");
     } catch (err) {
       console.error(err);
@@ -126,13 +156,18 @@ export default function CompressPdf({
     a.click();
   }
 
-  // Batch: compress each PDF sequentially with the current settings.
+  // Batch: compress each PDF sequentially — to the size target if set.
   const processBatch = useCallback(
     async (f: File): Promise<BatchOutput> => {
+      const name = `${f.name.replace(/\.pdf$/i, "")}-compressed.pdf`;
+      if (targetMode && targetKb !== undefined) {
+        const { blob } = await compressPdfToTarget(f, targetKb * 1024);
+        return { blob, name };
+      }
       const blob = await compressPdf(f, quality, scale);
-      return { blob, name: `${f.name.replace(/\.pdf$/i, "")}-compressed.pdf` };
+      return { blob, name };
     },
-    [quality, scale]
+    [quality, scale, targetMode, targetKb]
   );
 
   const saved = result && origSize ? Math.round((1 - result.size / origSize) * 100) : 0;
@@ -146,6 +181,12 @@ export default function CompressPdf({
 
   return (
     <div>
+      {targetMode && (
+        <p className="preset-note">
+          Target active: PDFs are compressed to <strong>≤ {targetKb} KB</strong> automatically.
+        </p>
+      )}
+
       <div className="field">
         <label>Choose PDF file{batchFiles ? "s" : "(s)"}</label>
         <input type="file" accept="application/pdf" multiple onChange={onFile} className="input" disabled={busy} />
@@ -154,17 +195,23 @@ export default function CompressPdf({
       {batchFiles ? (
         <>
           <p style={{ color: "var(--muted)", fontSize: ".85rem", marginBottom: 4 }}>
-            {batchFiles.length} PDFs — compressed one at a time to keep memory low.
+            {batchFiles.length} PDFs — compressed one at a time to keep memory low
+            {targetMode ? `, each targeting ≤ ${targetKb} KB` : ""}.
           </p>
-          {settings(false)}
-          <button type="button" className="btn secondary" style={{ marginBottom: 4 }} onClick={() => setRunToken((t) => t + 1)}>
-            Re-compress all
-          </button>
+          {!targetMode && (
+            <>
+              {settings(false)}
+              <button type="button" className="btn secondary" style={{ marginBottom: 4 }} onClick={() => setRunToken((t) => t + 1)}>
+                Re-compress all
+              </button>
+            </>
+          )}
           <BatchFileList
             files={batchFiles}
             process={processBatch}
             runToken={runToken}
             zipName="compressed-pdfs"
+            showSavings={!targetMode}
             onClear={() => setBatchFiles(null)}
           />
         </>
@@ -172,9 +219,11 @@ export default function CompressPdf({
         <>
           {file && <p style={{ color: "var(--muted)", fontSize: ".85rem" }}>Selected: {file.name} ({fmt(origSize)})</p>}
 
-          {settings(busy)}
+          {!targetMode && settings(busy)}
 
-          <button className="btn" onClick={compress} disabled={!file || busy}>{busy ? "Compressing…" : "Compress PDF"}</button>
+          <button className="btn" onClick={compress} disabled={!file || busy}>
+            {busy ? "Compressing…" : targetMode ? `Compress to ≤ ${targetKb} KB` : "Compress PDF"}
+          </button>
           {busy && <p style={{ color: "var(--muted)", marginTop: 10 }}>{progress}</p>}
           {error && <p style={{ color: "#ff6b6b", marginTop: 10 }}>{error}</p>}
 
@@ -185,7 +234,17 @@ export default function CompressPdf({
                 <div className="stat"><div className="n">{fmt(result.size)}</div><div className="l">Compressed</div></div>
                 <div className="stat"><div className="n">{saved > 0 ? saved : 0}%</div><div className="l">Saved</div></div>
               </div>
-              {saved <= 0 && <p style={{ color: "var(--muted)", fontSize: ".82rem", marginTop: 8 }}>This PDF was already well-optimised — try a lower quality/resolution for more savings.</p>}
+              {targetMode && result.hitTarget === false && (
+                <p style={{ color: "var(--muted)", fontSize: ".82rem", marginTop: 8 }}>
+                  This PDF can’t reach {targetKb} KB while staying readable. The smallest achievable size is <strong>{fmt(result.size)}</strong>.
+                </p>
+              )}
+              {targetMode && result.hitTarget && (
+                <p style={{ color: "var(--muted)", fontSize: ".82rem", marginTop: 8 }}>
+                  Done — compressed to {fmt(result.size)}, under your {targetKb} KB target.
+                </p>
+              )}
+              {!targetMode && saved <= 0 && <p style={{ color: "var(--muted)", fontSize: ".82rem", marginTop: 8 }}>This PDF was already well-optimised — try a lower quality/resolution for more savings.</p>}
               <button className="btn" style={{ marginTop: 12 }} onClick={download}>⬇ Download compressed PDF</button>
 
               <SendToTool

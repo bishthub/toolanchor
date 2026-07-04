@@ -25,14 +25,14 @@ export const FILE_AUTOLOAD = new Set<string>([
 // Extra natural-language phrases that should map strongly to a slug.
 // (These supplement each tool's own `keywords`.)
 const ALIASES: Record<string, string[]> = {
-  "compress-pdf": ["compress pdf", "reduce pdf size", "shrink pdf", "make pdf smaller", "pdf too big", "lower pdf size", "compress multiple pdfs", "bulk compress pdf", "batch compress pdf"],
+  "compress-pdf": ["compress pdf", "reduce pdf size", "shrink pdf", "make pdf smaller", "pdf too big", "lower pdf size", "compress multiple pdfs", "bulk compress pdf", "batch compress pdf", "compress pdf to 100kb", "compress pdf to 200kb", "compress pdf to 50kb", "pdf under 100 kb", "reduce pdf to 100kb", "pdf size below 200kb", "compress pdf to 1mb", "compress pdf to 500kb"],
   "merge-pdf": ["merge pdf", "combine pdf", "join pdf", "put pdfs together", "merge documents", "combine documents"],
   "split-pdf": ["split pdf", "extract pages", "separate pdf", "get pages from pdf", "take pages out"],
   "rotate-pdf": ["rotate pdf", "turn pdf", "pdf is sideways", "fix pdf orientation", "pdf upside down"],
   "jpg-to-pdf": ["jpg to pdf", "image to pdf", "photos to pdf", "pictures to pdf", "make a pdf from images", "png to pdf"],
   "pdf-to-images": ["pdf to image", "pdf to jpg", "pdf to png", "convert pdf to image", "pdf pages as images"],
   "pdf-to-text": ["pdf to text", "extract text from pdf", "copy text from pdf", "get text out of pdf", "read pdf text"],
-  "compress-image": ["compress image", "compress photo", "reduce image size", "shrink image", "make image smaller", "photo too big", "compress multiple images", "bulk compress images", "compress many photos at once"],
+  "compress-image": ["compress image", "compress photo", "reduce image size", "shrink image", "make image smaller", "photo too big", "compress multiple images", "bulk compress images", "compress many photos at once", "compress image to 20kb", "compress image to 50kb", "compress image to 100kb", "reduce photo to 50kb", "image under 100 kb", "compress jpg to 20kb", "resize photo to 50 kb"],
   "resize-image": ["resize image", "resize photo", "change image size", "make image bigger", "scale image", "image dimensions", "bulk resize", "resize multiple images", "batch resize photos"],
   "crop-image": ["crop image", "crop photo", "cut image", "trim image"],
   "jpg-to-png": ["convert image", "jpg to png", "png to jpg", "webp to jpg", "change image format", "heic to jpg"],
