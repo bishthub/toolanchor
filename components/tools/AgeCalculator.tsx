@@ -1,7 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DatePicker from "@/components/DatePicker";
+import { readShared } from "@/lib/share";
+import ShareResult from "@/components/ShareResult";
 
 function diff(fromISO: string, toISO: string) {
   const from = new Date(fromISO);
@@ -37,6 +39,12 @@ export default function AgeCalculator() {
   const [dob, setDob] = useState("");
   const [at, setAt] = useState(todayISO());
 
+  useEffect(() => {
+    const s = readShared(["dob", "at"]);
+    if (s.dob) setDob(s.dob);
+    if (s.at) setAt(s.at);
+  }, []);
+
   const result = useMemo(() => (dob ? diff(dob, at) : null), [dob, at]);
 
   return (
@@ -67,6 +75,8 @@ export default function AgeCalculator() {
           </div>
         </>
       )}
+
+      {result && <ShareResult values={{ dob, at }} />}
 
       <p className="privacy-note">🔒 The calculation runs entirely in your browser.</p>
     </div>

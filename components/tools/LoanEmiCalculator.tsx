@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { readShared } from "@/lib/share";
+import ShareResult from "@/components/ShareResult";
 
 const money = (n: number) =>
   Number.isFinite(n) ? n.toLocaleString(undefined, { maximumFractionDigits: 2 }) : "—";
@@ -9,6 +11,13 @@ export default function LoanEmiCalculator() {
   const [principal, setPrincipal] = useState("");
   const [rate, setRate] = useState(""); // annual %
   const [years, setYears] = useState("");
+
+  useEffect(() => {
+    const s = readShared(["p", "r", "y"]);
+    if (s.p) setPrincipal(s.p);
+    if (s.r) setRate(s.r);
+    if (s.y) setYears(s.y);
+  }, []);
 
   const p = parseFloat(principal);
   const annual = parseFloat(rate);
@@ -47,6 +56,8 @@ export default function LoanEmiCalculator() {
           <div className="stat"><div className="n">{money(total)}</div><div className="l">Total payment</div></div>
         </div>
       )}
+
+      {ready && <ShareResult values={{ p: principal, r: rate, y: years }} />}
 
       <p className="privacy-note">🔒 Calculated instantly in your browser.</p>
     </div>

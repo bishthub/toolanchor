@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { readShared } from "@/lib/share";
+import ShareResult from "@/components/ShareResult";
 
 const money = (n: number) =>
   Number.isFinite(n) ? n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "—";
@@ -9,6 +11,13 @@ export default function GstCalculator() {
   const [amount, setAmount] = useState("");
   const [rate, setRate] = useState("18");
   const [mode, setMode] = useState<"add" | "remove">("add");
+
+  useEffect(() => {
+    const s = readShared(["amt", "r", "mode"]);
+    if (s.amt) setAmount(s.amt);
+    if (s.r) setRate(s.r);
+    if (s.mode === "add" || s.mode === "remove") setMode(s.mode);
+  }, []);
 
   const a = parseFloat(amount);
   const r = parseFloat(rate) / 100;
@@ -47,6 +56,7 @@ export default function GstCalculator() {
           <div className="stat"><div className="n">{money(gross)}</div><div className="l">Gross</div></div>
         </div>
       )}
+      {ready && <ShareResult values={{ amt: amount, r: rate, mode }} />}
       <p className="privacy-note">🔒 Calculated instantly in your browser.</p>
     </div>
   );

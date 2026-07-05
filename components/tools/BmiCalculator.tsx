@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { readShared } from "@/lib/share";
+import ShareResult from "@/components/ShareResult";
 
 type Units = "metric" | "imperial";
 
@@ -15,6 +17,13 @@ export default function BmiCalculator() {
   const [units, setUnits] = useState<Units>("metric");
   const [height, setHeight] = useState(""); // cm or in
   const [weight, setWeight] = useState(""); // kg or lb
+
+  useEffect(() => {
+    const s = readShared(["u", "h", "w"]);
+    if (s.u === "metric" || s.u === "imperial") setUnits(s.u);
+    if (s.h) setHeight(s.h);
+    if (s.w) setWeight(s.w);
+  }, []);
 
   const h = parseFloat(height);
   const w = parseFloat(weight);
@@ -50,6 +59,8 @@ export default function BmiCalculator() {
           <div className="stat"><div className="n" style={{ fontSize: "1.1rem" }}>{category(bmi)}</div><div className="l">Category</div></div>
         </div>
       )}
+
+      {bmi !== null && Number.isFinite(bmi) && <ShareResult values={{ u: units, h: height, w: weight }} />}
 
       <p className="privacy-note">🔒 Calculated instantly in your browser.</p>
     </div>

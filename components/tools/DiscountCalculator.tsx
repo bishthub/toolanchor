@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { readShared } from "@/lib/share";
+import ShareResult from "@/components/ShareResult";
 
 const money = (n: number) =>
   Number.isFinite(n) ? n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "—";
@@ -8,6 +10,12 @@ const money = (n: number) =>
 export default function DiscountCalculator() {
   const [price, setPrice] = useState("");
   const [discount, setDiscount] = useState("");
+
+  useEffect(() => {
+    const s = readShared(["price", "disc"]);
+    if (s.price) setPrice(s.price);
+    if (s.disc) setDiscount(s.disc);
+  }, []);
 
   const p = parseFloat(price);
   const d = parseFloat(discount);
@@ -34,6 +42,8 @@ export default function DiscountCalculator() {
           <div className="stat"><div className="n">{money(saved)}</div><div className="l">You save</div></div>
         </div>
       )}
+
+      {ready && <ShareResult values={{ price, disc: discount }} />}
 
       <p className="privacy-note">🔒 Calculated instantly in your browser.</p>
     </div>

@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { readShared } from "@/lib/share";
+import ShareResult from "@/components/ShareResult";
 
 const money = (n: number) =>
   Number.isFinite(n) ? n.toLocaleString(undefined, { maximumFractionDigits: 0 }) : "—";
@@ -9,6 +11,13 @@ export default function SipCalculator() {
   const [monthly, setMonthly] = useState("");
   const [rate, setRate] = useState("");
   const [years, setYears] = useState("");
+
+  useEffect(() => {
+    const s = readShared(["amt", "r", "y"]);
+    if (s.amt) setMonthly(s.amt);
+    if (s.r) setRate(s.r);
+    if (s.y) setYears(s.y);
+  }, []);
 
   const p = parseFloat(monthly);
   const annual = parseFloat(rate) / 100;
@@ -50,6 +59,8 @@ export default function SipCalculator() {
           <div className="stat"><div className="n">{money(future)}</div><div className="l">Total value</div></div>
         </div>
       )}
+
+      {ready && <ShareResult values={{ amt: monthly, r: rate, y: years }} />}
 
       <p className="privacy-note">🔒 Calculated instantly in your browser. Estimates only — returns are not guaranteed.</p>
     </div>

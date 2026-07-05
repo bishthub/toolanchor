@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { readShared } from "@/lib/share";
+import ShareResult from "@/components/ShareResult";
 
 type Mode = "of" | "isWhat" | "change";
 
@@ -11,6 +13,13 @@ export default function PercentageCalculator() {
   const [mode, setMode] = useState<Mode>("of");
   const [a, setA] = useState("");
   const [b, setB] = useState("");
+
+  useEffect(() => {
+    const s = readShared(["mode", "a", "b"]);
+    if (s.mode === "of" || s.mode === "isWhat" || s.mode === "change") setMode(s.mode);
+    if (s.a) setA(s.a);
+    if (s.b) setB(s.b);
+  }, []);
 
   const x = parseFloat(a);
   const y = parseFloat(b);
@@ -58,6 +67,8 @@ export default function PercentageCalculator() {
         <div className="n">{result}</div>
         <div className="l">Result</div>
       </div>
+
+      {ready && <ShareResult values={{ mode, a, b }} />}
 
       <p className="privacy-note">🔒 Calculated instantly in your browser.</p>
     </div>

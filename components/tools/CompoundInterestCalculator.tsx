@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { readShared } from "@/lib/share";
+import ShareResult from "@/components/ShareResult";
 
 const FREQ: Record<string, number> = {
   Annually: 1, "Semi-annually": 2, Quarterly: 4, Monthly: 12, Daily: 365,
@@ -14,6 +16,14 @@ export default function CompoundInterestCalculator() {
   const [rate, setRate] = useState("");
   const [years, setYears] = useState("");
   const [freq, setFreq] = useState("Monthly");
+
+  useEffect(() => {
+    const s = readShared(["p", "r", "y", "f"]);
+    if (s.p) setPrincipal(s.p);
+    if (s.r) setRate(s.r);
+    if (s.y) setYears(s.y);
+    if (s.f && s.f in FREQ) setFreq(s.f);
+  }, []);
 
   const p = parseFloat(principal);
   const r = parseFloat(rate) / 100;
@@ -53,6 +63,8 @@ export default function CompoundInterestCalculator() {
           <div className="stat"><div className="n">{money(interest)}</div><div className="l">Interest earned</div></div>
         </div>
       )}
+
+      {ready && <ShareResult values={{ p: principal, r: rate, y: years, f: freq }} />}
 
       <p className="privacy-note">🔒 Calculated instantly in your browser.</p>
     </div>

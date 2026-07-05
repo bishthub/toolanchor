@@ -6,6 +6,7 @@ import { presetsForTool } from "@/lib/presets";
 import { SITE_NAME, SITE_URL, FOUNDING_YEAR, ORG_REF, WEBSITE_ID, formatUpdated } from "@/lib/site";
 import ToolPageRunner from "@/components/ToolPageRunner";
 import LocalBadge from "@/components/LocalBadge";
+import DoNext from "@/components/DoNext";
 import ToolCard from "@/components/ToolCard";
 import CategoryIcon from "@/components/CategoryIcon";
 import ToolUsageTracker from "@/components/ToolUsageTracker";
@@ -186,6 +187,8 @@ export default async function ToolPage({
           <ToolPageRunner slug={tool.slug} />
         </div>
       </div>
+
+      <DoNext slug={tool.slug} fallback={[...(tool.related ?? []), ...related.map((t) => t.slug)]} />
 
       {/* How to use — body content for SEO */}
       <section className="content-block">

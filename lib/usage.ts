@@ -33,8 +33,45 @@ export function getRecents(): string[] {
 }
 
 export function addRecent(slug: string) {
-  const next = [slug, ...read(RECENTS_KEY).filter((s) => s !== slug)].slice(0, RECENTS_MAX);
+  const cur = read(RECENTS_KEY);
+  // Record the tool→tool move (previous visited → this one) before updating.
+  if (cur[0] && cur[0] !== slug) recordTransition(cur[0], slug);
+  const next = [slug, ...cur.filter((s) => s !== slug)].slice(0, RECENTS_MAX);
   write(RECENTS_KEY, next);
+}
+
+// ─── Tool→tool transitions (local "people do this next" signal) ──────────
+const TRANS_KEY = "ta:transitions";
+const TRANS_MAX = 80; // cap distinct from>to pairs
+
+export function recordTransition(from: string, to: string) {
+  if (!from || !to || from === to) return;
+  try {
+    const map: Record<string, number> = JSON.parse(localStorage.getItem(TRANS_KEY) || "{}");
+    map[`${from}>${to}`] = (map[`${from}>${to}`] || 0) + 1;
+    const keys = Object.keys(map);
+    if (keys.length > TRANS_MAX) {
+      keys.sort((a, b) => map[a] - map[b]);
+      for (const k of keys.slice(0, keys.length - TRANS_MAX)) delete map[k];
+    }
+    localStorage.setItem(TRANS_KEY, JSON.stringify(map));
+  } catch {
+    /* ignore */
+  }
+}
+
+/** Most-common tools visited right after `from`, highest first. */
+export function getTopNext(from: string, n = 4): string[] {
+  try {
+    const map: Record<string, number> = JSON.parse(localStorage.getItem(TRANS_KEY) || "{}");
+    return Object.entries(map)
+      .filter(([k]) => k.startsWith(`${from}>`))
+      .sort((a, b) => b[1] - a[1])
+      .map(([k]) => k.slice(from.length + 1))
+      .slice(0, n);
+  } catch {
+    return [];
+  }
 }
 
 export function getPins(): string[] {
