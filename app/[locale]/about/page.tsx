@@ -29,8 +29,9 @@ export default function AboutPage() {
         <span className="eyebrow">About</span>
         <h1>About {SITE_NAME}</h1>
         <p className="lede">
-          {SITE_NAME} is a free collection of {LIVE_TOOLS.length}+ everyday online tools that run
-          entirely in your browser — no uploads, no sign-up, no limits.
+          {SITE_NAME} (also written “Tool Anchor”) is a free collection of {LIVE_TOOLS.length}+
+          everyday online tools that run entirely in your browser — no uploads, no
+          sign-up, no limits.
         </p>
       </div>
 

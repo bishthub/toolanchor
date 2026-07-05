@@ -21,6 +21,15 @@ export function generateStaticParams() {
   return LIVE_TOOLS.map((t) => ({ slug: t.slug }));
 }
 
+// SERP titles carry the modifiers people actually type ("merge pdf online free",
+// "free word counter") — the bare tool name wastes the ~60-char budget. File
+// tools lead with the no-upload privacy angle; the rest with "free online".
+const FILE_CATEGORIES = new Set(["pdf", "image", "media"]);
+const TITLE_TAIL: Record<string, { file: string; other: string }> = {
+  en: { file: "Free Online, No Upload", other: "Free Online Tool" },
+  es: { file: "Gratis y Sin Subir Archivos", other: "Herramienta Online Gratis" },
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -30,8 +39,9 @@ export async function generateMetadata({
   const tool = getLocalizedTool(slug, locale);
   if (!tool) return {};
   const url = localeUrl(`/tools/${tool.slug}`, locale);
+  const tail = TITLE_TAIL[locale] ?? TITLE_TAIL.en;
   return {
-    title: tool.name,
+    title: `${tool.name} — ${FILE_CATEGORIES.has(tool.category) ? tail.file : tail.other}`,
     description: tool.description,
     keywords: tool.keywords,
     alternates: alternatesFor(`/tools/${tool.slug}`, locale),

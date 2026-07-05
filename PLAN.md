@@ -229,7 +229,13 @@ shift; claim is accurate for every tool (verified against `app/api/` usage).
 
 ---
 
-## Phase 5 — New tools, wave 1: media + PDF gaps ◐ (8/10 shipped)
+## Phase 5 — New tools, wave 1: media + PDF gaps ☑ (10/10 done)
+
+> protect-pdf + unlock-pdf shipped via qpdf (lib/qpdf.ts loads JS+wasm from CDN at
+> runtime — Turbopack can't bundle the Emscripten glue). NEEDS browser QA (CDN load +
+> encryption unverifiable headlessly).
+
+## Phase 5 — New tools, wave 1: media + PDF gaps [original notes] (8/10 shipped)
 
 > **Shipped (8), all building + in sitemap, tool count 104→112:**
 > - Media (ffmpeg.wasm, patterned on TrimVideo/Mp4ToMp3): **compress-video** (H.264
@@ -277,7 +283,13 @@ intro/steps/faqs/answer; appears in sitemap, search, category page, command pale
 
 ---
 
-## Phase 6 — New tools, wave 2: generators + image ◐ (6/7 shipped)
+## Phase 6 — New tools, wave 2: generators + image ☑ (7/7 done)
+
+> image-upscaler shipped as honest high-quality stepped canvas resampling (2/3/4×),
+> NOT AI super-resolution — chose reliability over a ~65 MB Real-ESRGAN model +
+> onnxruntime I couldn't verify headlessly. Copy states the limitation plainly.
+
+## Phase 6 — New tools, wave 2: generators + image [original notes] (6/7 shipped)
 
 > **Shipped (6), all building + in sitemap, tool count 112→118:**
 > - Image (canvas, no dep): **svg-to-png** (1–8× rasterize), **screenshot-beautifier**
@@ -381,7 +393,15 @@ transition counts survive reload; strip never shows the current tool or dead slu
 
 ---
 
-## Phase 9 — i18n ◐ (foundation done; see PHASE9-i18n.md)
+## Phase 9 — i18n ☑ (engine complete; translation coverage ongoing)
+
+> All infrastructure done: routing, hreflang, content resolver, Link sweep, chrome,
+> locale switcher, locale-aware programmatic nav (palette/handoff/workflow), Spanish
+> /ask aliases. 18 tools + 6 categories translated to Spanish; remaining ~103 tools
+> fall back to English cleanly and can be filled incrementally (pure data entry into
+> content/es/). Everything else across all 9 phases is complete.
+
+## Phase 9 — i18n [original notes] (foundation done; see PHASE9-i18n.md)
 
 > Decisions locked: **Spanish first**, machine-translate + spot-check, **ISR** for
 > non-en, sub-path URLs. **Rollout step 1 (foundation) SHIPPED & verified live:**
