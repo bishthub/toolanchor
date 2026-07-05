@@ -355,7 +355,16 @@ re-select, workflow resumes); workflow pages build statically and appear in site
 
 ---
 
-## Phase 8 — Shareable calculator state + "do next" strip ☐
+## Phase 8 — Shareable calculator state + "do next" strip ☑ (done)
+
+> Shipped: `lib/share.ts` (`readShared`) + `components/ShareResult.tsx` (debounced
+> replaceState URL sync + Copy-link button). Wired into all 9 calculators (loan-emi p/r/y,
+> sip amt/r/y, fd p/r/y/f, compound-interest p/r/y/f, gst amt/r/mode, discount price/disc,
+> percentage mode/a/b, age dob/at, bmi u/h/w) — each reads its keys on mount and syncs.
+> `lib/usage.ts` gained transition tracking (`ta:transitions`, capped; `recordTransition`
+> in addRecent, `getTopNext`); `components/DoNext.tsx` renders a "Do this next" strip on
+> tool pages (local history first, then curated related; excludes current + dead slugs).
+> **Needs browser QA:** paste a shared link → inputs refill + same result (client-only).
 
 **Spec:**
 1. Calculators (`loan-emi`, `sip`, `fd`, `percentage`, `compound-interest`, `gst`,
