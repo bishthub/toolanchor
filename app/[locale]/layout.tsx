@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Schibsted_Grotesk, Geist, JetBrains_Mono } from "next/font/google";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
+import { routing } from "@/i18n/routing";
 import { CATEGORIES, LIVE_TOOLS } from "@/lib/tools";
 import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, WEBSITE_ID, ORG_REF, organizationNode } from "@/lib/site";
 import SiteHeader from "@/components/SiteHeader";
@@ -10,7 +14,7 @@ import UniversalDrop from "@/components/UniversalDrop";
 import PwaRegister from "@/components/PwaRegister";
 import JsonLd from "@/components/JsonLd";
 import Analytics from "@/components/Analytics";
-import "./globals.css";
+import "../globals.css";
 
 // Self-hosted via next/font → no layout shift, no external request (great CWV/SEO).
 const display = Schibsted_Grotesk({
@@ -69,7 +73,22 @@ export const viewport = {
 // Set theme before paint to avoid a flash of the wrong palette.
 const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.dataset.theme=t;}}catch(e){}})();`;
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+// Prerender English at build; other locales render on-demand (ISR).
+export function generateStaticParams() {
+  return [{ locale: routing.defaultLocale }];
+}
+
+export default async function RootLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
+
   // Site-wide structured data: enables the sitelinks search box + entity graph.
   // The WebSite and Organization share stable @ids so every page's page-level
   // schema can reference the same entity (publisher/isPartOf) instead of
@@ -95,7 +114,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html
-      lang="en"
+      lang={locale}
       className={`${display.variable} ${sans.variable} ${mono.variable}`}
       suppressHydrationWarning
     >
@@ -105,6 +124,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />
       </head>
       <body>
+        <NextIntlClientProvider>
         <JsonLd data={siteJsonLd} />
         <Analytics />
         <a href="#main" className="skip-link">Skip to content</a>
@@ -167,6 +187,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="footer-mega" aria-hidden="true">{SITE_NAME}</div>
           </div>
         </footer>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

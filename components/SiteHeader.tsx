@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { CATEGORIES } from "@/lib/tools";
 import { SITE_NAME } from "@/lib/site";
 import { HeaderPaletteButton } from "@/components/CommandPalette";
@@ -13,6 +14,7 @@ export default function SiteHeader() {
   const [theme, setTheme] = useState<"light" | "dark" | null>(null);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+  const t = useTranslations("nav");
 
   // Resolve the effective theme on mount (stored choice → else system).
   useEffect(() => {
@@ -62,10 +64,10 @@ export default function SiteHeader() {
         </button>
 
         <nav className="nav" data-open={open} aria-label="Primary">
-          <Link href="/ask">Ask</Link>
-          <Link href="/workflows">Workflows</Link>
-          <Link href="/guides">Guides</Link>
-          <Link href="/tools" className="cta">All tools A–Z</Link>
+          <Link href="/ask">{t("ask")}</Link>
+          <Link href="/workflows">{t("workflows")}</Link>
+          <Link href="/guides">{t("guides")}</Link>
+          <Link href="/tools" className="cta">{t("allTools")}</Link>
           {CATEGORIES.map((c) => (
             <Link key={c.id} href={`/category/${c.id}`} className="mobile-only">
               <span style={{ display: "inline-flex", alignItems: "center", gap: 9 }}>

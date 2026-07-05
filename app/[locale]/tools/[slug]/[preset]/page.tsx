@@ -15,7 +15,9 @@ import JsonLd from "@/components/JsonLd";
 export function generateStaticParams() {
   return PRESETS.map((p) => ({ slug: p.tool, preset: p.slug }));
 }
-export const dynamicParams = false;
+// Allow non-English locales to render on-demand (ISR); unknown tool/preset
+// slugs still 404 via notFound() below.
+export const dynamicParams = true;
 
 export async function generateMetadata({
   params,
