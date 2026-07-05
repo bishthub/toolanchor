@@ -32,5 +32,36 @@
     "popularPresets": "Popular presets:",
     "runsInBrowser": "Runs in your browser",
     "localOptInAi": "Local + opt-in AI"
+  },
+  "toolsIndex": {
+    "metaTitle": "All Tools A–Z",
+    "metaDescription": "The complete A–Z directory of every free online tool on {site} — PDF, image, text, developer and calculator tools, all private and in-browser.",
+    "eyebrow": "The full toolbox",
+    "title": "All tools — A to Z",
+    "lede": "Every tool on {site} in one place — {count} and counting. Jump to a letter, scroll the lot, or filter instantly below.",
+    "filter": "Filter all tools…",
+    "matching": "{count, plural, one {# tool} other {# tools}} matching “{q}”",
+    "noMatch": "No tools match. Try “pdf”, “image”, or “json”."
+  },
+  "home": {
+    "eyebrow": "Free · Private · In-browser",
+    "titleTail": "Right in your <em>browser.</em>",
+    "srHeading": "Compress PDFs, resize images, trim videos, format JSON —",
+    "sub": "{count} fast, free, privacy-first tools for PDFs, images, video, text, code and everyday math. Your files never leave your device — and you can prove it: open your browser's Network tab and watch nothing upload.",
+    "searchHint": "Search {count} tools — merge PDF, resize image, word count…",
+    "dropHint": "…or drop a file anywhere and we'll show what you can do with it.",
+    "trustLiveTools": "live tools",
+    "trustUploads": "uploads",
+    "trustFree": "free",
+    "trustSignup": "sign-up",
+    "trendingHead": "New & <em>trending</em>",
+    "trendingTag": "just added",
+    "popularHead": "Popular tools",
+    "viewAll": "View all {count} →",
+    "assistantHead": "Don't know the tool's name? <em>Just describe it.</em>",
+    "assistantBlurb": "Type what you're trying to do — or drop a file — and we'll open the right tool instantly.",
+    "browseHead": "Browse by <em>category</em>",
+    "allN": "All {count} →",
+    "browseAll": "Browse all {count} tools A–Z →"
   }
 }

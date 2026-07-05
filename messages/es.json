@@ -32,5 +32,36 @@
     "popularPresets": "Ajustes populares:",
     "runsInBrowser": "Funciona en tu navegador",
     "localOptInAi": "Local + IA opcional"
+  },
+  "toolsIndex": {
+    "metaTitle": "Todas las herramientas A–Z",
+    "metaDescription": "El directorio completo A–Z de todas las herramientas online gratuitas de {site}: PDF, imagen, texto, desarrollo y calculadoras, todas privadas y en el navegador.",
+    "eyebrow": "La caja de herramientas completa",
+    "title": "Todas las herramientas — A a Z",
+    "lede": "Todas las herramientas de {site} en un solo lugar: {count} y creciendo. Salta a una letra, desplázate por todas o filtra al instante abajo.",
+    "filter": "Filtrar todas las herramientas…",
+    "matching": "{count, plural, one {# herramienta} other {# herramientas}} que coinciden con «{q}»",
+    "noMatch": "Ninguna herramienta coincide. Prueba «pdf», «imagen» o «json»."
+  },
+  "home": {
+    "eyebrow": "Gratis · Privado · En el navegador",
+    "titleTail": "Directo en tu <em>navegador.</em>",
+    "srHeading": "Comprime PDF, redimensiona imágenes, recorta vídeos, formatea JSON —",
+    "sub": "{count} herramientas rápidas, gratuitas y centradas en la privacidad para PDF, imágenes, vídeo, texto, código y cálculos del día a día. Tus archivos nunca salen de tu dispositivo, y puedes comprobarlo: abre la pestaña Red de tu navegador y verás que no se sube nada.",
+    "searchHint": "Busca entre {count} herramientas: unir PDF, redimensionar imagen, contar palabras…",
+    "dropHint": "…o suelta un archivo en cualquier lugar y te mostramos qué puedes hacer con él.",
+    "trustLiveTools": "herramientas activas",
+    "trustUploads": "archivos subidos",
+    "trustFree": "gratis",
+    "trustSignup": "registro",
+    "trendingHead": "Novedades y <em>tendencia</em>",
+    "trendingTag": "recién añadidas",
+    "popularHead": "Herramientas populares",
+    "viewAll": "Ver las {count} →",
+    "assistantHead": "¿No sabes el nombre de la herramienta? <em>Solo descríbela.</em>",
+    "assistantBlurb": "Escribe lo que quieres hacer —o suelta un archivo— y abriremos la herramienta adecuada al instante.",
+    "browseHead": "Explora por <em>categoría</em>",
+    "allN": "Ver las {count} →",
+    "browseAll": "Ver las {count} herramientas A–Z →"
   }
 }

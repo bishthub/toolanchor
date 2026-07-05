@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { Schibsted_Grotesk, Geist, JetBrains_Mono } from "next/font/google";
@@ -123,16 +122,16 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* Set theme before paint (anti-FOUC). next/script beforeInteractive
-            injects into the initial HTML so it runs during parse, without the
-            React "inline script won't execute on client" warning. */}
-        <Script id="theme-init" strategy="beforeInteractive">
-          {THEME_SCRIPT}
-        </Script>
+        {/* Set theme before paint (anti-FOUC). Runs synchronously from the
+            server HTML during parse. The React "inline script" note is a
+            dev-only warning — it is stripped from production builds. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         {/* Discoverability pointer to the llms.txt manifest for AI crawlers. */}
         <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />
       </head>
-      <body>
+      {/* suppressHydrationWarning: browser extensions (e.g. ColorZilla adds
+          cz-shortcut-listen) mutate <body> before hydration — harmless. */}
+      <body suppressHydrationWarning>
         <NextIntlClientProvider>
         <JsonLd data={siteJsonLd} />
         <Analytics />

@@ -1,10 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import ToolCard from "@/components/ToolCard";
-import { TOOLS, toolsAtoZ } from "@/lib/tools";
+import type { Tool } from "@/lib/tools";
 
-export default function ToolsExplorer() {
+// Tools are passed in already localized by the server page, so the A–Z grouping,
+// filtering and card labels all reflect the active locale.
+export default function ToolsExplorer({ tools }: { tools: Tool[] }) {
+  const t = useTranslations("toolsIndex");
   const [q, setQ] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -19,17 +23,26 @@ export default function ToolsExplorer() {
   }, []);
 
   const term = q.trim().toLowerCase();
-  const groups = useMemo(() => toolsAtoZ(), []);
+
+  const groups = useMemo(() => {
+    const g: Record<string, Tool[]> = {};
+    for (const tool of [...tools].sort((a, b) => a.name.localeCompare(b.name))) {
+      const first = tool.name[0]?.toUpperCase() ?? "#";
+      const key = /[A-Z]/.test(first) ? first : "#";
+      (g[key] ??= []).push(tool);
+    }
+    return g;
+  }, [tools]);
   const letters = useMemo(() => Object.keys(groups).sort(), [groups]);
 
   const matches = useMemo(() => {
     if (!term) return [];
-    return TOOLS.filter(
-      (t) =>
-        t.name.toLowerCase().includes(term) ||
-        t.keywords.some((k) => k.includes(term))
+    return tools.filter(
+      (tool) =>
+        tool.name.toLowerCase().includes(term) ||
+        tool.keywords.some((k) => k.toLowerCase().includes(term))
     );
-  }, [term]);
+  }, [term, tools]);
 
   return (
     <>
@@ -42,10 +55,10 @@ export default function ToolsExplorer() {
           <input
             ref={inputRef}
             type="search"
-            placeholder="Filter all tools…"
+            placeholder={t("filter")}
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            aria-label="Filter tools"
+            aria-label={t("filter")}
           />
         </div>
       </div>
@@ -53,16 +66,16 @@ export default function ToolsExplorer() {
       {term ? (
         <section style={{ marginTop: 8 }}>
           <p className="section-blurb" aria-live="polite" style={{ marginBottom: 18 }}>
-            {matches.length} {matches.length === 1 ? "tool" : "tools"} matching “{q}”
+            {t("matching", { count: matches.length, q })}
           </p>
           {matches.length > 0 ? (
             <div className="grid">
-              {matches.map((t) => (
-                <ToolCard key={t.slug} tool={t} />
+              {matches.map((tool) => (
+                <ToolCard key={tool.slug} tool={tool} />
               ))}
             </div>
           ) : (
-            <p className="search-empty">No tools match. Try “pdf”, “image”, or “json”.</p>
+            <p className="search-empty">{t("noMatch")}</p>
           )}
         </section>
       ) : (
@@ -77,8 +90,8 @@ export default function ToolsExplorer() {
             <section key={letter} id={`letter-${letter}`} className="az-group">
               <div className="letter">{letter}</div>
               <div className="grid">
-                {groups[letter].map((t) => (
-                  <ToolCard key={t.slug} tool={t} />
+                {groups[letter].map((tool) => (
+                  <ToolCard key={tool.slug} tool={tool} />
                 ))}
               </div>
             </section>
