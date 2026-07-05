@@ -7,6 +7,7 @@
 // ─────────────────────────────────────────────────────────────────────────
 
 import { useRef, useState } from "react";
+import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { bestMatches, FILE_AUTOLOAD, type Match } from "@/lib/intent";
 import { getCategory } from "@/lib/tools";
@@ -90,11 +91,12 @@ export default function ToolAssistant() {
   const [turn, setTurn] = useState<Turn | null>(null);
   const [active, setActive] = useState<{ slug: string; files: File[] } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const locale = useLocale();
 
   function submit(text?: string) {
     const query = (text ?? input).trim();
     if (!query && !files.length) return;
-    const matches = bestMatches(query || files[0]?.name || "", files[0] ?? null);
+    const matches = bestMatches(query || files[0]?.name || "", files[0] ?? null, 4, locale);
     setTurn({ query: query || `(attached ${files.length} file${files.length > 1 ? "s" : ""})`, fileNames: files.map((f) => f.name), matches });
     if (matches.length) openTool(matches[0].tool.slug);
     setInput("");

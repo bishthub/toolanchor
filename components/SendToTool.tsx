@@ -7,7 +7,7 @@
 // ─────────────────────────────────────────────────────────────────────────
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { getTool, type Tool } from "@/lib/tools";
 import { FILE_AUTOLOAD } from "@/lib/intent";
 import { setHandoff } from "@/lib/handoff";

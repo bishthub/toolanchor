@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { CATEGORIES } from "@/lib/tools";
 import { SITE_NAME } from "@/lib/site";
 import { HeaderPaletteButton } from "@/components/CommandPalette";
+import LocaleSwitcher from "@/components/LocaleSwitcher";
 import CategoryIcon from "@/components/CategoryIcon";
 
 export default function SiteHeader() {
@@ -78,6 +79,7 @@ export default function SiteHeader() {
               </span>
             </Link>
           ))}
+          <LocaleSwitcher />
           <button
             type="button"
             className="theme-toggle"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { startWorkflow } from "@/lib/workflow";
 import type { Workflow } from "@/lib/workflows";
 

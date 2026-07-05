@@ -7,7 +7,7 @@
 // ─────────────────────────────────────────────────────────────────────────
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { CATEGORIES, POPULAR_TOOLS, TOOLS, getTool, type CategoryId, type Tool } from "@/lib/tools";
 import { WORKFLOWS } from "@/lib/workflows";
 import { getPins, getRecents } from "@/lib/usage";

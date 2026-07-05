@@ -590,6 +590,18 @@ code, .mono { font-family: var(--font-mono), ui-monospace, monospace; }
   border-radius: 5px; padding: 1px 5px; vertical-align: middle;
 }
 
+/* ── Locale switcher ─────────────────────────────────────────────────── */
+.locale-switcher {
+  display: inline-flex; gap: 2px; border: 1px solid var(--border);
+  border-radius: 8px; padding: 2px; align-items: center;
+}
+.locale-opt {
+  font-size: .74rem; font-weight: 600; letter-spacing: .03em;
+  padding: 3px 8px; border-radius: 6px; color: var(--muted); text-decoration: none;
+}
+.locale-opt:hover { color: var(--text); }
+.locale-opt.on { background: var(--surface-2); color: var(--text); }
+
 /* ── "Do this next" strip ────────────────────────────────────────────── */
 .do-next-row { display: flex; flex-wrap: wrap; gap: 10px; }
 .do-next-chip {

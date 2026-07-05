@@ -110,15 +110,51 @@ function categoryForFile(file?: { type?: string; name?: string } | null): string
   return null;
 }
 
+// Spanish alias layer for /ask (matched in addition to English when locale=es).
+const ALIASES_ES: Record<string, string[]> = {
+  "compress-pdf": ["comprimir pdf", "reducir tamaño pdf", "achicar pdf", "pdf más pequeño", "hacer pdf pequeño", "comprimir pdf a 100kb"],
+  "merge-pdf": ["unir pdf", "combinar pdf", "juntar pdf", "fusionar pdf", "unir documentos"],
+  "split-pdf": ["dividir pdf", "separar pdf", "extraer páginas", "sacar páginas del pdf"],
+  "rotate-pdf": ["rotar pdf", "girar pdf", "voltear pdf"],
+  "jpg-to-pdf": ["jpg a pdf", "imagen a pdf", "fotos a pdf", "convertir imagen a pdf"],
+  "pdf-to-images": ["pdf a imagen", "pdf a jpg", "convertir pdf a imagen"],
+  "pdf-to-text": ["pdf a texto", "extraer texto de pdf", "copiar texto de pdf"],
+  "delete-pdf-pages": ["eliminar páginas del pdf", "borrar páginas pdf", "quitar páginas del pdf"],
+  "sign-pdf": ["firmar pdf", "añadir firma al pdf", "firma electrónica pdf"],
+  "compress-image": ["comprimir imagen", "comprimir foto", "reducir tamaño de imagen", "comprimir varias imágenes", "comprimir imagen a 20kb"],
+  "resize-image": ["redimensionar imagen", "cambiar tamaño de imagen", "escalar imagen", "redimensionar foto"],
+  "crop-image": ["recortar imagen", "recortar foto", "cortar imagen"],
+  "jpg-to-png": ["convertir imagen", "jpg a png", "png a jpg", "cambiar formato de imagen"],
+  "image-to-text": ["extraer texto de imagen", "ocr", "texto desde imagen", "leer texto de foto"],
+  "background-remover": ["quitar fondo", "eliminar fondo", "fondo transparente", "borrar fondo"],
+  "heic-to-jpg": ["heic a jpg", "convertir heic", "foto de iphone a jpg"],
+  "compress-video": ["comprimir video", "comprimir vídeo", "reducir tamaño de video", "hacer video más pequeño"],
+  "mute-video": ["quitar audio del video", "silenciar video", "eliminar sonido del video"],
+  "audio-converter": ["convertir audio", "convertir a mp3", "m4a a mp3", "wav a mp3"],
+  "trim-audio": ["cortar audio", "recortar audio", "cortar mp3", "hacer un tono de llamada"],
+  "trim-video": ["cortar video", "recortar video", "acortar video"],
+  "word-counter": ["contar palabras", "conteo de palabras", "cuántas palabras", "contar caracteres"],
+  "case-converter": ["cambiar mayúsculas", "convertir a mayúsculas", "convertir a minúsculas"],
+  "qr-code-generator": ["código qr", "generar qr", "crear código qr"],
+  "password-generator": ["generar contraseña", "contraseña segura", "contraseña aleatoria"],
+  "json-formatter": ["formatear json", "validar json", "embellecer json"],
+  "invoice-generator": ["generar factura", "crear factura", "hacer una factura", "factura pdf"],
+};
+
+function aliasesFor(slug: string, locale: string): string[] {
+  const en = ALIASES[slug] ?? [];
+  return locale === "es" ? [...en, ...(ALIASES_ES[slug] ?? [])] : en;
+}
+
 /** Rank tools for a typed query + optional attached file. Highest score first. */
-export function matchTools(query: string, file?: { type?: string; name?: string } | null): Match[] {
+export function matchTools(query: string, file?: { type?: string; name?: string } | null, locale = "en"): Match[] {
   const q = query.toLowerCase().trim();
   const qTokens = new Set(tokenize(query));
   const fileCat = categoryForFile(file);
 
   const scored: Match[] = TOOLS.filter((t) => t.status === "live").map((tool) => {
     let score = 0;
-    const aliases = ALIASES[tool.slug] ?? [];
+    const aliases = aliasesFor(tool.slug, locale);
 
     // 1) Strong: full alias phrase present in the query.
     for (const phrase of aliases) {
@@ -143,8 +179,8 @@ export function matchTools(query: string, file?: { type?: string; name?: string 
   return scored.filter((m) => m.score > 0).sort((a, b) => b.score - a.score);
 }
 
-export function bestMatches(query: string, file?: { type?: string; name?: string } | null, n = 4): Match[] {
-  return matchTools(query, file).slice(0, n);
+export function bestMatches(query: string, file?: { type?: string; name?: string } | null, n = 4, locale = "en"): Match[] {
+  return matchTools(query, file, locale).slice(0, n);
 }
 
 // ─── Universal drop zone: file → matching tools ──────────────────────────

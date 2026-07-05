@@ -13,7 +13,7 @@
 // ─────────────────────────────────────────────────────────────────────────
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { setHandoff } from "@/lib/handoff";
 import { fileKind, toolsForFile, MULTI_FILE_TOOLS } from "@/lib/intent";
 import CategoryIcon from "@/components/CategoryIcon";
