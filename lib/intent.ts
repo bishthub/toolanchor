@@ -25,8 +25,8 @@ export const FILE_AUTOLOAD = new Set<string>([
   "sign-pdf",
   // Batch 11 — generators + image (wave 2)
   "svg-to-png", "screenshot-beautifier", "collage-maker",
-  // Batch 12 — PDF security
-  "protect-pdf", "unlock-pdf",
+  // Batch 12 — PDF security + image upscaler
+  "protect-pdf", "unlock-pdf", "image-upscaler",
 ]);
 
 // Extra natural-language phrases that should map strongly to a slug.
@@ -84,6 +84,7 @@ const ALIASES: Record<string, string[]> = {
   "sign-pdf": ["sign pdf", "add signature to pdf", "fill and sign pdf", "esign pdf", "e-sign document", "sign document online", "put signature on pdf"],
   "protect-pdf": ["protect pdf", "password protect pdf", "encrypt pdf", "add password to pdf", "lock pdf", "put a password on pdf"],
   "unlock-pdf": ["unlock pdf", "remove pdf password", "remove password from pdf", "decrypt pdf", "take password off pdf"],
+  "image-upscaler": ["upscale image", "enlarge image", "make image bigger", "increase image resolution", "upscale photo"],
   "svg-to-png": ["svg to png", "convert svg to png", "svg to image", "rasterize svg", "export svg as png"],
   "screenshot-beautifier": ["beautify screenshot", "screenshot beautifier", "pretty screenshot", "add background to screenshot", "polish screenshot", "screenshot frame"],
   "collage-maker": ["collage maker", "photo collage", "make a collage", "combine photos", "picture collage", "photo grid"],
@@ -145,6 +146,7 @@ const ALIASES_ES: Record<string, string[]> = {
   "password-generator": ["generar contraseña", "contraseña segura", "contraseña aleatoria"],
   "json-formatter": ["formatear json", "validar json", "embellecer json"],
   "invoice-generator": ["generar factura", "crear factura", "hacer una factura", "factura pdf"],
+  "image-upscaler": ["ampliar imagen", "agrandar imagen", "aumentar resolución", "hacer imagen más grande", "escalar imagen a mayor"],
 };
 
 function aliasesFor(slug: string, locale: string): string[] {

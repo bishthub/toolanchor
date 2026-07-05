@@ -153,6 +153,7 @@ const CollageMaker = dynamic(() => import("./CollageMaker"), { loading });
 const CodeToImage = dynamic(() => import("./CodeToImage"), { loading });
 const ProtectPdf = dynamic(() => import("./ProtectPdf"), { loading });
 const UnlockPdf = dynamic(() => import("./UnlockPdf"), { loading });
+const ImageUpscaler = dynamic(() => import("./ImageUpscaler"), { loading });
 const EmailSignatureGenerator = dynamic(() => import("./EmailSignatureGenerator"), { loading });
 const InvoiceGenerator = dynamic(() => import("./InvoiceGenerator"), { loading });
 const SignatureGenerator = dynamic(() => import("./SignatureGenerator"), { loading });
@@ -288,6 +289,7 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
   "invoice-generator": InvoiceGenerator,
   "protect-pdf": ProtectPdf,
   "unlock-pdf": UnlockPdf,
+  "image-upscaler": ImageUpscaler,
 };
 
 export default function ToolRunner({

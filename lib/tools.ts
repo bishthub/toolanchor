@@ -1702,6 +1702,20 @@ export const TOOLS: Tool[] = [
     ],
     related: ["protect-pdf", "compress-pdf", "sign-pdf"],
   },
+  {
+    slug: "image-upscaler", name: "Image Upscaler", category: "image", status: "live",
+    description: "Enlarge an image 2×, 3× or 4× with high-quality resampling, free and in your browser. Download a bigger PNG — no upload, no watermark.",
+    keywords: ["image upscaler", "enlarge image", "upscale image", "increase image resolution", "make image bigger", "resize image up"],
+    answer: "To upscale an image, choose a file and a scale (2×, 3× or 4×); the tool enlarges it in steps with high-quality smoothing and gives you a larger PNG. It runs in your browser — the image is never uploaded. It smooths as it enlarges but doesn't invent new detail the way AI super-resolution does.",
+    intro: "Image Upscaler enlarges a photo or graphic by 2×, 3× or 4× using stepped, high-quality resampling for a smoother result than a single big jump. It's handy when you need a bigger version of an image for print or display. Everything runs in your browser — nothing is uploaded, and there's no watermark. Note that resampling enlarges and smooths; it doesn't reconstruct detail that isn't there.",
+    steps: ["Choose an image.", "Pick a scale (2×, 3× or 4×).", "Click Upscale and download the enlarged PNG."],
+    faqs: [
+      { q: "Is this AI super-resolution?", a: "No. It uses high-quality browser resampling, which enlarges and smooths the image. It won't hallucinate fine detail like AI models, but it's instant, private and needs no huge model download." },
+      { q: "Why is there a size limit?", a: "Very large canvases can exhaust browser memory, so output is capped at 8000px per side. Choose a smaller scale for big source images." },
+      { q: "Is my image uploaded?", a: "No — upscaling happens entirely in your browser." },
+    ],
+    related: ["resize-image", "compress-image", "crop-image"],
+  },
 ];
 
 // ── Derived helpers used across the site ──────────────────────────────────
