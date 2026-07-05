@@ -1,6 +1,11 @@
 // Central site config. Change SITE_URL to your real domain before deploying —
 // it drives canonical URLs, Open Graph tags, the sitemap and JSON-LD.
 export const SITE_NAME = "ToolAnchor";
+// Spelling variants people actually type into Google. Fed to WebSite/Organization
+// `alternateName` so Google's site-name system links "Tool Anchor" (two words)
+// and the bare domain to this site instead of the anchor-hardware companies
+// that currently own that SERP.
+export const SITE_ALTERNATE_NAMES = ["Tool Anchor", "toolanchor", "toolanchor.com"];
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://toolanchor.com";
 export const SITE_DESCRIPTION =
@@ -16,8 +21,10 @@ export const SITE_EMAIL =
 // "Last updated" line and `dateModified` in structured data — a strong
 // freshness signal for both search and AI answer engines. Bump on each review.
 export const LAST_REVIEWED = "2026-07-01";
-// The year the project launched — used as datePublished / foundingDate.
-export const FOUNDING_YEAR = "2025";
+// When the project launched — used as datePublished / foundingDate. Must not
+// predate the site actually existing (Google treats impossible dates as noise).
+export const FOUNDING_YEAR = "2026";
+export const LAUNCH_DATE = "2026-07-01";
 
 // ── Entity graph (E-E-A-T / GEO) ─────────────────────────────────────────────
 // Stable @id nodes so pages can reference the same Website/Organization entity
@@ -41,6 +48,7 @@ export function organizationNode(withContext = false) {
     "@type": "Organization",
     "@id": ORG_ID,
     name: SITE_NAME,
+    alternateName: SITE_ALTERNATE_NAMES,
     url: SITE_URL,
     logo: { "@type": "ImageObject", url: `${SITE_URL}/icon.svg` },
     email: SITE_EMAIL,

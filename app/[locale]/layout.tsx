@@ -7,7 +7,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { localizeCategory } from "@/lib/i18n-content";
 import { CATEGORIES, LIVE_TOOLS } from "@/lib/tools";
-import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, WEBSITE_ID, ORG_REF, organizationNode } from "@/lib/site";
+import { SITE_NAME, SITE_ALTERNATE_NAMES, SITE_URL, SITE_DESCRIPTION, WEBSITE_ID, ORG_REF, organizationNode } from "@/lib/site";
 import SiteHeader from "@/components/SiteHeader";
 import CommandPalette from "@/components/CommandPalette";
 import FileDragGlow from "@/components/FileDragGlow";
@@ -101,6 +101,7 @@ export default async function RootLayout({
       "@type": "WebSite",
       "@id": WEBSITE_ID,
       name: SITE_NAME,
+      alternateName: SITE_ALTERNATE_NAMES,
       url: SITE_URL,
       description: SITE_DESCRIPTION,
       inLanguage: "en",

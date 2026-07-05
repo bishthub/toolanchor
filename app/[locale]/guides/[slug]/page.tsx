@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { GUIDES, getGuide, guideUpdated } from "@/lib/guides";
 import { getTool } from "@/lib/tools";
-import { SITE_NAME, SITE_URL, FOUNDING_YEAR, ORG_REF, formatUpdated } from "@/lib/site";
+import { SITE_NAME, SITE_URL, LAUNCH_DATE, ORG_REF, formatUpdated } from "@/lib/site";
 import ToolCard from "@/components/ToolCard";
 import JsonLd from "@/components/JsonLd";
 
@@ -40,7 +40,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
       "@context": "https://schema.org", "@type": "Article",
       headline: g.title, description: g.description, url,
       inLanguage: "en",
-      datePublished: `${FOUNDING_YEAR}-01-01`,
+      datePublished: LAUNCH_DATE,
       dateModified: updated,
       author: ORG_REF,
       publisher: ORG_REF,

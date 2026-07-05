@@ -5,7 +5,7 @@ import { getTool, LIVE_TOOLS, relatedTools, toolAnswer, toolUpdated } from "@/li
 import { getLocalizedTool, getLocalizedCategory, localizeTool } from "@/lib/i18n-content";
 import { alternatesFor, localeUrl } from "@/lib/hreflang";
 import { presetsForTool } from "@/lib/presets";
-import { SITE_NAME, SITE_URL, FOUNDING_YEAR, ORG_REF, WEBSITE_ID, formatUpdated } from "@/lib/site";
+import { SITE_NAME, SITE_URL, LAUNCH_DATE, ORG_REF, WEBSITE_ID, formatUpdated } from "@/lib/site";
 import { getTranslations } from "next-intl/server";
 import ToolPageRunner from "@/components/ToolPageRunner";
 import LocalBadge from "@/components/LocalBadge";
@@ -82,7 +82,7 @@ export default async function ToolPage({
       inLanguage: "en",
       isAccessibleForFree: true,
       featureList: tool.keywords,
-      datePublished: `${FOUNDING_YEAR}-01-01`,
+      datePublished: LAUNCH_DATE,
       dateModified: updated,
       publisher: ORG_REF,
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
