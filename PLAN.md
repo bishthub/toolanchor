@@ -381,7 +381,21 @@ transition counts survive reload; strip never shows the current tool or dead slu
 
 ---
 
-## Phase 9 — i18n ☐ (do last — multiplies everything above)
+## Phase 9 — i18n ◐ (foundation done; see PHASE9-i18n.md)
+
+> Decisions locked: **Spanish first**, machine-translate + spot-check, **ISR** for
+> non-en, sub-path URLs. **Rollout step 1 (foundation) SHIPPED & verified live:**
+> next-intl v4, `app/[locale]/` routing (en at bare URLs + static; es on-demand/ISR),
+> middleware, `i18n/*`, `messages/{en,es}.json`, layout `<html lang>` + provider,
+> SiteHeader nav translated. en behaves identically; es renders with Spanish chrome +
+> English content fallback but is NOT yet linked/launched.
+>
+> **Remaining (do before linking es publicly):** (2) extract the rest of the chrome
+> strings to the catalog; (3) content resolver + `content/<locale>/` prose (machine-
+> translate tools/presets/workflows, en fallback); (4) hreflang + canonical alternates
+> in every page's metadata + sitemap; (5) sweep internal `<Link>`s to the locale-aware
+> `i18n/navigation` Link (plain links drop the locale on es pages); (6) locale switcher
+> UI; (7) per-locale intent ALIASES. Full detail + risks in PHASE9-i18n.md.
 
 **Goal:** tool queries are heavily non-English (iLovePDF's moat is ~25 locales).
 Even 4 locales roughly multiplies the indexable surface. This is an XL refactor —
