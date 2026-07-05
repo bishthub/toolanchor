@@ -4,6 +4,55 @@ import type { Tool } from "@/lib/tools";
 // any tool not listed here falls back to English via the resolver. Only
 // translatable fields are overridden — slug/category/status/flags stay structural.
 export const ES_TOOLS: Record<string, Partial<Tool>> = {
+  "color-converter": {
+    name: "Convertidor de color (HEX / RGB / HSL)",
+    description: "Convierte colores entre HEX, RGB y HSL, con selector de color y vista previa en vivo. Convertidor de color gratis e instantáneo en tu navegador.",
+    keywords: ["convertidor de color", "hex a rgb", "rgb a hex", "convertidor hsl", "selector de color"],
+    intro: "Convertidor de color transforma un color entre los formatos HEX, RGB y HSL, con un selector y una muestra en vivo para que copies el valor que necesites.",
+    steps: ["Elige un color o escribe un valor HEX.", "Lee los valores equivalentes en RGB y HSL.", "Copia el formato que necesites."],
+    faqs: [
+      { q: "¿Qué formatos convierte?", a: "HEX, RGB y HSL, sincronizados a medida que cambias cualquiera de ellos." },
+      { q: "¿Puedo usar el selector de color?", a: "Sí: usa el selector de muestra o escribe un código HEX directamente." },
+      { q: "¿Es gratis?", a: "Sí, gratis y por completo en tu navegador." },
+    ],
+  },
+  "image-metadata-remover": {
+    name: "Eliminar metadatos de imagen",
+    description: "Elimina los EXIF y todos los metadatos ocultos (incluida la ubicación GPS) de una imagen por privacidad. Gratis, en tu navegador, sin subir: descarga una copia limpia.",
+    keywords: ["eliminar metadatos de imagen", "quitar exif", "borrar metadatos", "quitar gps de foto", "limpiar datos exif", "quitar ubicación de foto"],
+    intro: "Eliminar metadatos de imagen borra los EXIF y todos los metadatos incrustados —incluida la ubicación GPS— de tu foto recodificándola de forma limpia, para que puedas compartirla sin revelar dónde ni cuándo se tomó. Selecciona varias fotos para limpiarlas todas a la vez y descargarlas en un .zip. Todo ocurre en tu navegador.",
+    steps: ["Elige una o varias imágenes.", "Te mostramos qué metadatos contiene y los eliminamos al recodificarla.", "Descarga la copia limpia, o «Descargar todo» en un .zip para un lote."],
+    faqs: [
+      { q: "¿Qué se elimina?", a: "Todos los EXIF/metadatos —datos de la cámara, marcas de tiempo, ubicación GPS y miniaturas incrustadas— al recodificar la imagen desde cero." },
+      { q: "¿Puedo limpiar muchas fotos a la vez?", a: "Sí. Selecciona varias imágenes y cada una se recodifica sin metadatos, con descargas individuales o un único .zip." },
+      { q: "¿Cambiará la calidad de la imagen?", a: "Se recodifica una vez; elige PNG para salida sin pérdida o JPEG para un archivo más pequeño. Las dimensiones se mantienen." },
+      { q: "¿Se sube mi foto?", a: "No: la limpieza ocurre localmente; tus imágenes nunca salen de tu dispositivo." },
+    ],
+  },
+  "number-base-converter": {
+    name: "Convertidor de bases numéricas",
+    description: "Convierte números entre binario, octal, decimal y hexadecimal al instante. Convertidor de bases y de hex a decimal gratis en tu navegador.",
+    keywords: ["convertidor de bases", "hex a decimal", "binario a decimal", "decimal a hex", "convertidor de base numérica"],
+    intro: "Convertidor de bases numéricas traduce un valor entre binario, octal, decimal y hexadecimal a la vez: escribe en cualquier base y ve las cuatro al instante.",
+    steps: ["Introduce un valor.", "Selecciona en qué base lo escribiste.", "Lee el valor en binario, octal, decimal y hexadecimal."],
+    faqs: [
+      { q: "¿Qué bases admite?", a: "Binario (base 2), octal (base 8), decimal (base 10) y hexadecimal (base 16)." },
+      { q: "¿Convierte de hex a decimal?", a: "Sí: introduce un valor hexadecimal y el equivalente decimal (y binario/octal) aparece al instante." },
+      { q: "¿Es gratis y privado?", a: "Sí, la conversión se ejecuta localmente en tu navegador." },
+    ],
+  },
+  "unix-timestamp-converter": {
+    name: "Convertidor de marca de tiempo Unix",
+    description: "Convierte marcas de tiempo Unix (epoch) a fechas legibles y viceversa, en hora local y UTC. Gratis, instantáneo y en tu navegador.",
+    keywords: ["convertidor de marca de tiempo unix", "convertidor epoch", "timestamp a fecha", "fecha a timestamp", "tiempo epoch"],
+    intro: "Convertidor de marca de tiempo Unix transforma marcas de tiempo epoch en fechas legibles (local y UTC) y convierte una fecha de vuelta en una marca de tiempo Unix.",
+    steps: ["Introduce una marca de tiempo Unix, o elige una fecha.", "Lee el valor convertido.", "Copia el que necesites."],
+    faqs: [
+      { q: "¿Admite segundos y milisegundos?", a: "Sí: detecta automáticamente marcas de 10 dígitos (segundos) y de 13 dígitos (milisegundos)." },
+      { q: "¿Muestra UTC?", a: "Sí, se muestran tanto tu hora local como UTC." },
+      { q: "¿Es privado?", a: "Sí, la conversión ocurre por completo en tu navegador." },
+    ],
+  },
   "compress-pdf": {
     name: "Comprimir PDF",
     description:
