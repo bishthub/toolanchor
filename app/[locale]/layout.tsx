@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { Schibsted_Grotesk, Geist, JetBrains_Mono } from "next/font/google";
@@ -122,7 +123,12 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        {/* Set theme before paint (anti-FOUC). next/script beforeInteractive
+            injects into the initial HTML so it runs during parse, without the
+            React "inline script won't execute on client" warning. */}
+        <Script id="theme-init" strategy="beforeInteractive">
+          {THEME_SCRIPT}
+        </Script>
         {/* Discoverability pointer to the llms.txt manifest for AI crawlers. */}
         <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />
       </head>
