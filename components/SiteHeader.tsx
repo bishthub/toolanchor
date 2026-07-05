@@ -44,50 +44,70 @@ export default function SiteHeader() {
     document.documentElement.dataset.theme = next;
   }
 
+  const themeButton = (
+    <button
+      type="button"
+      className="theme-toggle"
+      onClick={toggleTheme}
+      aria-label="Toggle light and dark theme"
+    >
+      {mounted && theme === "dark" ? <IconSun /> : <IconMoon />}
+    </button>
+  );
+
   return (
     <header className="site-header">
       <div className="container header-inner">
+        {/* Left: brand + primary nav */}
         <Link href="/" className="logo" aria-label={`${SITE_NAME} home`}>
           <span className="logo-mark" aria-hidden="true">◆</span>
           {SITE_NAME.slice(0, 4)}<span className="logo-accent">{SITE_NAME.slice(4)}</span>
         </Link>
 
-        <HeaderPaletteButton />
+        <nav className="nav-primary" aria-label="Primary">
+          <Link href="/ask">{t("ask")}</Link>
+          <Link href="/workflows">{t("workflows")}</Link>
+          <Link href="/guides">{t("guides")}</Link>
+        </nav>
 
-        <button
-          type="button"
-          className="nav-toggle"
-          aria-label="Toggle navigation menu"
-          aria-expanded={open}
-          onClick={() => setOpen((o) => !o)}
-        >
-          {open ? <IconClose /> : <IconMenu />}
-        </button>
+        {/* Right: search + actions */}
+        <div className="header-actions">
+          <HeaderPaletteButton />
+          <Link href="/tools" className="cta">{t("allTools")}</Link>
+          <span className="header-divider" aria-hidden="true" />
+          <LocaleSwitcher />
+          {themeButton}
+          <button
+            type="button"
+            className="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded={open}
+            onClick={() => setOpen((o) => !o)}
+          >
+            {open ? <IconClose /> : <IconMenu />}
+          </button>
+        </div>
 
-        <nav className="nav" data-open={open} aria-label="Primary">
+        {/* Mobile drawer */}
+        <nav className="nav-drawer" data-open={open} aria-label="Mobile navigation">
           <Link href="/ask">{t("ask")}</Link>
           <Link href="/workflows">{t("workflows")}</Link>
           <Link href="/guides">{t("guides")}</Link>
           <Link href="/tools" className="cta">{t("allTools")}</Link>
-          {CATEGORIES.map((c) => (
-            <Link key={c.id} href={`/category/${c.id}`} className="mobile-only">
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 9 }}>
+          <div className="nav-drawer-cats">
+            {CATEGORIES.map((c) => (
+              <Link key={c.id} href={`/category/${c.id}`}>
                 <span style={{ color: `var(--cat-${c.id})`, display: "inline-flex" }}>
                   <CategoryIcon id={c.id} size={15} />
                 </span>
                 {c.name}
-              </span>
-            </Link>
-          ))}
-          <LocaleSwitcher />
-          <button
-            type="button"
-            className="theme-toggle"
-            onClick={toggleTheme}
-            aria-label="Toggle light and dark theme"
-          >
-            {mounted && theme === "dark" ? <IconSun /> : <IconMoon />}
-          </button>
+              </Link>
+            ))}
+          </div>
+          <div className="nav-drawer-foot">
+            <span className="nav-drawer-foot-label">Language</span>
+            <LocaleSwitcher />
+          </div>
         </nav>
       </div>
     </header>
