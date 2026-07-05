@@ -6,7 +6,7 @@
 // ─────────────────────────────────────────────────────────────────────────
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import CategoryIcon from "@/components/CategoryIcon";
 import { getTool, type Tool } from "@/lib/tools";
 import { getPins, getRecents, togglePin, USAGE_EVENT } from "@/lib/usage";

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { GUIDES, getGuide, guideUpdated } from "@/lib/guides";
 import { getTool } from "@/lib/tools";
 import { SITE_NAME, SITE_URL, FOUNDING_YEAR, ORG_REF, formatUpdated } from "@/lib/site";

@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import ToolCard from "@/components/ToolCard";
 import CategoryIcon from "@/components/CategoryIcon";
 import JsonLd from "@/components/JsonLd";
 import { SITE_NAME, SITE_URL, WEBSITE_ID, LAST_REVIEWED, formatUpdated } from "@/lib/site";
 import {
   CATEGORIES,
-  getCategory,
   getTool,
   toolsByCategory,
   type CategoryId,
 } from "@/lib/tools";
+import { getLocalizedCategory, localizeTool } from "@/lib/i18n-content";
+import { alternatesFor, localeUrl } from "@/lib/hreflang";
 
 export function generateStaticParams() {
   return CATEGORIES.map((c) => ({ slug: c.id }));
@@ -20,30 +21,30 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const cat = getCategory(slug as CategoryId);
+  const { locale, slug } = await params;
+  const cat = getLocalizedCategory(slug as CategoryId, locale);
   if (!cat) return {};
   return {
     title: `${cat.name} — Free & Private`,
     description: cat.blurb,
-    alternates: { canonical: `/category/${cat.id}` },
+    alternates: alternatesFor(`/category/${cat.id}`, locale),
   };
 }
 
 export default async function CategoryPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { slug } = await params;
-  const cat = getCategory(slug as CategoryId);
+  const { locale, slug } = await params;
+  const cat = getLocalizedCategory(slug as CategoryId, locale);
   if (!cat) notFound();
 
-  const tools = toolsByCategory(cat.id);
+  const tools = toolsByCategory(cat.id).map((t) => localizeTool(t, locale));
   const live = tools.filter((t) => t.status === "live");
-  const url = `${SITE_URL}/category/${cat.id}`;
+  const url = localeUrl(`/category/${cat.id}`, locale);
   const chooser = (cat.chooser ?? [])
     .map((c) => ({ ...c, tool: getTool(c.toolSlug) }))
     .filter((c) => c.tool && c.tool.status === "live");

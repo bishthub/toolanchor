@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { SITE_NAME, SITE_URL, SITE_EMAIL } from "@/lib/site";
 import JsonLd from "@/components/JsonLd";
 

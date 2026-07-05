@@ -1,4 +1,5 @@
-import Link from "next/link";
+import type { Metadata } from "next";
+import { Link } from "@/i18n/navigation";
 import ToolAssistant from "@/components/ToolAssistant";
 import ToolCard from "@/components/ToolCard";
 import CategoryIcon from "@/components/CategoryIcon";
@@ -8,6 +9,12 @@ import {
   CATEGORIES, LIVE_TOOLS, TRENDING_TOOLS, POPULAR_TOOLS,
   sampleTools, liveCountByCategory,
 } from "@/lib/tools";
+import { alternatesFor } from "@/lib/hreflang";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return { alternates: alternatesFor("/", locale) };
+}
 
 // The rotating verb in the hero — one phrase per category colour.
 const ROTATOR_WORDS = [

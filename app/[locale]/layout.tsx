@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Schibsted_Grotesk, Geist, JetBrains_Mono } from "next/font/google";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import { localizeCategory } from "@/lib/i18n-content";
 import { CATEGORIES, LIVE_TOOLS } from "@/lib/tools";
 import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, WEBSITE_ID, ORG_REF, organizationNode } from "@/lib/site";
 import SiteHeader from "@/components/SiteHeader";
@@ -88,6 +89,7 @@ export default async function RootLayout({
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
+  const tf = await getTranslations("footer");
 
   // Site-wide structured data: enables the sitelinks search box + entity graph.
   // The WebSite and Organization share stable @ids so every page's page-level
@@ -144,44 +146,41 @@ export default async function RootLayout({
                   <span className="logo-mark" aria-hidden="true">◆</span>
                   {SITE_NAME.slice(0, 4)}<span className="logo-accent">{SITE_NAME.slice(4)}</span>
                 </Link>
-                <p>
-                  Free online tools that run entirely in your browser. No uploads,
-                  no sign-up, no limits — {LIVE_TOOLS.length} tools and counting.
-                </p>
+                <p>{tf("tagline", { count: LIVE_TOOLS.length })}</p>
               </div>
 
               <div className="footer-col">
-                <h4>Browse</h4>
-                <Link href="/tools">All tools (A–Z)</Link>
-                <Link href="/ask">Ask (describe a task)</Link>
-                <Link href="/workflows">Workflows</Link>
-                <Link href="/guides">Guides</Link>
-                <Link href="/glossary">Glossary</Link>
-                <Link href="/alternatives">Alternatives</Link>
+                <h4>{tf("browse")}</h4>
+                <Link href="/tools">{tf("allToolsAZ")}</Link>
+                <Link href="/ask">{tf("askTask")}</Link>
+                <Link href="/workflows">{tf("workflows")}</Link>
+                <Link href="/guides">{tf("guides")}</Link>
+                <Link href="/glossary">{tf("glossary")}</Link>
+                <Link href="/alternatives">{tf("alternatives")}</Link>
               </div>
 
               <div className="footer-col">
-                <h4>Categories</h4>
+                <h4>{tf("categories")}</h4>
                 {CATEGORIES.map((c) => (
-                  <Link key={c.id} href={`/category/${c.id}`}>{c.name}</Link>
+                  <Link key={c.id} href={`/category/${c.id}`}>{localizeCategory(c, locale).name}</Link>
                 ))}
               </div>
 
               <div className="footer-col">
-                <h4>Company</h4>
-                <Link href="/about">About</Link>
-                <Link href="/contact">Contact</Link>
-                <Link href="/privacy">Privacy</Link>
-                <Link href="/terms">Terms</Link>
+                <h4>{tf("company")}</h4>
+                <Link href="/about">{tf("about")}</Link>
+                <Link href="/contact">{tf("contact")}</Link>
+                <Link href="/privacy">{tf("privacy")}</Link>
+                <Link href="/terms">{tf("terms")}</Link>
               </div>
             </div>
 
             <div className="footer-bottom">
               <span className="pill">
-                <span className="dot" /> 100% in-browser · nothing is uploaded
+                <span className="dot" /> {tf("inBrowser")}
               </span>
               <PwaRegister />
-              <span>© {SITE_NAME}. Free forever.</span>
+              <span>{tf("freeForever", { site: SITE_NAME })}</span>
             </div>
 
             <div className="footer-mega" aria-hidden="true">{SITE_NAME}</div>

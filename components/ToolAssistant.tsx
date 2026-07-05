@@ -7,7 +7,7 @@
 // ─────────────────────────────────────────────────────────────────────────
 
 import { useRef, useState } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { bestMatches, FILE_AUTOLOAD, type Match } from "@/lib/intent";
 import { getCategory } from "@/lib/tools";
 import ToolRunner from "@/components/tools/registry";

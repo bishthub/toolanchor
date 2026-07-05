@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { WORKFLOWS, getWorkflow } from "@/lib/workflows";
 import { getTool } from "@/lib/tools";
+import { alternatesFor, localeUrl } from "@/lib/hreflang";
 import { SITE_NAME, SITE_URL, WEBSITE_ID, ORG_REF } from "@/lib/site";
 import StartWorkflowButton from "@/components/StartWorkflowButton";
 import JsonLd from "@/components/JsonLd";
@@ -13,24 +14,24 @@ export function generateStaticParams() {
 // Allow non-English locales to render on-demand (ISR); unknown slugs still 404.
 export const dynamicParams = true;
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
+  const { locale, slug } = await params;
   const w = getWorkflow(slug);
   if (!w) return {};
   return {
     title: w.name,
     description: w.description,
-    alternates: { canonical: `/workflows/${w.slug}` },
-    openGraph: { title: `${w.name} — ${SITE_NAME}`, description: w.description, url: `${SITE_URL}/workflows/${w.slug}`, type: "website" },
+    alternates: alternatesFor(`/workflows/${w.slug}`, locale),
+    openGraph: { title: `${w.name} — ${SITE_NAME}`, description: w.description, url: localeUrl(`/workflows/${w.slug}`, locale), type: "website" },
   };
 }
 
-export default async function WorkflowPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+export default async function WorkflowPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
+  const { locale, slug } = await params;
   const w = getWorkflow(slug);
   if (!w) notFound();
 
-  const url = `${SITE_URL}/workflows/${w.slug}`;
+  const url = localeUrl(`/workflows/${w.slug}`, locale);
   const jsonLd: object[] = [
     {
       "@context": "https://schema.org",

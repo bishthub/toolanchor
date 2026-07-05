@@ -4,5 +4,33 @@
     "workflows": "Flujos",
     "guides": "Guías",
     "allTools": "Todas las herramientas A–Z"
+  },
+  "footer": {
+    "tagline": "Herramientas online gratuitas que funcionan por completo en tu navegador. Sin subir archivos, sin registro y sin límites: {count} herramientas y creciendo.",
+    "browse": "Explorar",
+    "allToolsAZ": "Todas las herramientas (A–Z)",
+    "askTask": "Consultar (describe tu tarea)",
+    "workflows": "Flujos",
+    "guides": "Guías",
+    "glossary": "Glosario",
+    "alternatives": "Alternativas",
+    "categories": "Categorías",
+    "company": "Empresa",
+    "about": "Acerca de",
+    "contact": "Contacto",
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "inBrowser": "100 % en el navegador · nada se sube",
+    "freeForever": "© {site}. Gratis para siempre."
+  },
+  "toolPage": {
+    "home": "Inicio",
+    "howToUse": "Cómo usar {name}",
+    "faq": "Preguntas frecuentes",
+    "related": "{category} relacionadas",
+    "lastUpdated": "Última actualización: {date}",
+    "popularPresets": "Ajustes populares:",
+    "runsInBrowser": "Funciona en tu navegador",
+    "localOptInAi": "Local + IA opcional"
   }
 }

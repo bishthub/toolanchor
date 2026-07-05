@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { getTool, getCategory } from "@/lib/tools";
 import { PRESETS, getPreset, presetsForTool } from "@/lib/presets";
+import { alternatesFor, localeUrl } from "@/lib/hreflang";
 import { SITE_NAME, SITE_URL, WEBSITE_ID, ORG_REF } from "@/lib/site";
 import ToolPageRunner from "@/components/ToolPageRunner";
 import LocalBadge from "@/components/LocalBadge";
@@ -22,16 +23,16 @@ export const dynamicParams = true;
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string; preset: string }>;
+  params: Promise<{ locale: string; slug: string; preset: string }>;
 }): Promise<Metadata> {
-  const { slug, preset } = await params;
+  const { locale, slug, preset } = await params;
   const p = getPreset(slug, preset);
   if (!p) return {};
-  const url = `${SITE_URL}/tools/${p.tool}/${p.slug}`;
+  const url = localeUrl(`/tools/${p.tool}/${p.slug}`, locale);
   return {
     title: p.metaTitle,
     description: p.description,
-    alternates: { canonical: `/tools/${p.tool}/${p.slug}` },
+    alternates: alternatesFor(`/tools/${p.tool}/${p.slug}`, locale),
     openGraph: {
       title: `${p.name} — ${SITE_NAME}`,
       description: p.description,
@@ -49,15 +50,15 @@ export async function generateMetadata({
 export default async function PresetPage({
   params,
 }: {
-  params: Promise<{ slug: string; preset: string }>;
+  params: Promise<{ locale: string; slug: string; preset: string }>;
 }) {
-  const { slug, preset: presetSlug } = await params;
+  const { locale, slug, preset: presetSlug } = await params;
   const p = getPreset(slug, presetSlug);
   const tool = getTool(slug);
   if (!p || !tool || tool.status !== "live") notFound();
 
   const cat = getCategory(tool.category);
-  const url = `${SITE_URL}/tools/${p.tool}/${p.slug}`;
+  const url = localeUrl(`/tools/${p.tool}/${p.slug}`, locale);
   const siblings = presetsForTool(p.tool).filter((s) => s.slug !== p.slug);
 
   const jsonLd: object[] = [

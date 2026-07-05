@@ -5,49 +5,46 @@ import { GUIDES, guideUpdated } from "@/lib/guides";
 import { ALTERNATIVES } from "@/lib/alternatives";
 import { GLOSSARY } from "@/lib/glossary";
 import { WORKFLOWS } from "@/lib/workflows";
-import { SITE_URL, LAST_REVIEWED } from "@/lib/site";
+import { LAST_REVIEWED } from "@/lib/site";
+import { localeUrl, sitemapAlternates } from "@/lib/hreflang";
+
+type Entry = {
+  path: string; // locale-less path, e.g. "/tools/compress-pdf" ("/" for home)
+  lastModified: Date | string;
+  changeFrequency: "weekly" | "monthly" | "yearly";
+  priority: number;
+};
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   const reviewed = LAST_REVIEWED;
 
-  const staticPages: MetadataRoute.Sitemap = [
-    { url: SITE_URL, lastModified: now, changeFrequency: "weekly", priority: 1 },
-    { url: `${SITE_URL}/tools`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${SITE_URL}/ask`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${SITE_URL}/guides`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${SITE_URL}/workflows`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${SITE_URL}/alternatives`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${SITE_URL}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.4 },
-    { url: `${SITE_URL}/contact`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${SITE_URL}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${SITE_URL}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+  const entries: Entry[] = [
+    { path: "/", lastModified: now, changeFrequency: "weekly", priority: 1 },
+    { path: "/tools", lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { path: "/ask", lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { path: "/guides", lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    { path: "/workflows", lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    { path: "/alternatives", lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    { path: "/about", lastModified: now, changeFrequency: "monthly", priority: 0.4 },
+    { path: "/contact", lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { path: "/privacy", lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { path: "/terms", lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { path: "/glossary", lastModified: reviewed, changeFrequency: "monthly", priority: 0.5 },
+    ...CATEGORIES.map((c): Entry => ({ path: `/category/${c.id}`, lastModified: reviewed, changeFrequency: "weekly", priority: 0.7 })),
+    ...LIVE_TOOLS.map((t): Entry => ({ path: `/tools/${t.slug}`, lastModified: toolUpdated(t), changeFrequency: "monthly", priority: 0.8 })),
+    ...PRESETS.map((p): Entry => ({ path: `/tools/${p.tool}/${p.slug}`, lastModified: reviewed, changeFrequency: "monthly", priority: 0.7 })),
+    ...GUIDES.map((g): Entry => ({ path: `/guides/${g.slug}`, lastModified: guideUpdated(g), changeFrequency: "monthly", priority: 0.6 })),
+    ...WORKFLOWS.map((w): Entry => ({ path: `/workflows/${w.slug}`, lastModified: reviewed, changeFrequency: "monthly", priority: 0.6 })),
+    ...ALTERNATIVES.map((a): Entry => ({ path: `/alternatives/${a.slug}`, lastModified: reviewed, changeFrequency: "monthly", priority: 0.6 })),
+    ...GLOSSARY.map((g): Entry => ({ path: `/glossary/${g.slug}`, lastModified: reviewed, changeFrequency: "monthly", priority: 0.5 })),
   ];
 
-  const categoryPages: MetadataRoute.Sitemap = CATEGORIES.map((c) => ({
-    url: `${SITE_URL}/category/${c.id}`, lastModified: reviewed, changeFrequency: "weekly", priority: 0.7,
+  return entries.map((e) => ({
+    url: localeUrl(e.path, "en"),
+    lastModified: e.lastModified,
+    changeFrequency: e.changeFrequency,
+    priority: e.priority,
+    alternates: { languages: sitemapAlternates(e.path) },
   }));
-  const toolPages: MetadataRoute.Sitemap = LIVE_TOOLS.map((t) => ({
-    url: `${SITE_URL}/tools/${t.slug}`, lastModified: toolUpdated(t), changeFrequency: "monthly", priority: 0.8,
-  }));
-  const presetPages: MetadataRoute.Sitemap = PRESETS.map((p) => ({
-    url: `${SITE_URL}/tools/${p.tool}/${p.slug}`, lastModified: reviewed, changeFrequency: "monthly", priority: 0.7,
-  }));
-  const guidePages: MetadataRoute.Sitemap = GUIDES.map((g) => ({
-    url: `${SITE_URL}/guides/${g.slug}`, lastModified: guideUpdated(g), changeFrequency: "monthly", priority: 0.6,
-  }));
-  const workflowPages: MetadataRoute.Sitemap = WORKFLOWS.map((w) => ({
-    url: `${SITE_URL}/workflows/${w.slug}`, lastModified: reviewed, changeFrequency: "monthly", priority: 0.6,
-  }));
-  const altPages: MetadataRoute.Sitemap = ALTERNATIVES.map((a) => ({
-    url: `${SITE_URL}/alternatives/${a.slug}`, lastModified: reviewed, changeFrequency: "monthly", priority: 0.6,
-  }));
-  const glossaryPages: MetadataRoute.Sitemap = [
-    { url: `${SITE_URL}/glossary`, lastModified: reviewed, changeFrequency: "monthly", priority: 0.5 },
-    ...GLOSSARY.map((g) => ({
-      url: `${SITE_URL}/glossary/${g.slug}`, lastModified: reviewed, changeFrequency: "monthly" as const, priority: 0.5,
-    })),
-  ];
-
-  return [...staticPages, ...categoryPages, ...toolPages, ...presetPages, ...guidePages, ...workflowPages, ...altPages, ...glossaryPages];
 }

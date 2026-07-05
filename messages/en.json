@@ -4,5 +4,33 @@
     "workflows": "Workflows",
     "guides": "Guides",
     "allTools": "All tools A–Z"
+  },
+  "footer": {
+    "tagline": "Free online tools that run entirely in your browser. No uploads, no sign-up, no limits — {count} tools and counting.",
+    "browse": "Browse",
+    "allToolsAZ": "All tools (A–Z)",
+    "askTask": "Ask (describe a task)",
+    "workflows": "Workflows",
+    "guides": "Guides",
+    "glossary": "Glossary",
+    "alternatives": "Alternatives",
+    "categories": "Categories",
+    "company": "Company",
+    "about": "About",
+    "contact": "Contact",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "inBrowser": "100% in-browser · nothing is uploaded",
+    "freeForever": "© {site}. Free forever."
+  },
+  "toolPage": {
+    "home": "Home",
+    "howToUse": "How to use {name}",
+    "faq": "Frequently asked questions",
+    "related": "Related {category}",
+    "lastUpdated": "Last updated: {date}",
+    "popularPresets": "Popular presets:",
+    "runsInBrowser": "Runs in your browser",
+    "localOptInAi": "Local + opt-in AI"
   }
 }

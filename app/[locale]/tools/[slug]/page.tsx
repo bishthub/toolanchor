@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
-import { getTool, getCategory, LIVE_TOOLS, relatedTools, toolAnswer, toolUpdated } from "@/lib/tools";
+import { Link } from "@/i18n/navigation";
+import { getTool, LIVE_TOOLS, relatedTools, toolAnswer, toolUpdated } from "@/lib/tools";
+import { getLocalizedTool, getLocalizedCategory, localizeTool } from "@/lib/i18n-content";
+import { alternatesFor, localeUrl } from "@/lib/hreflang";
 import { presetsForTool } from "@/lib/presets";
 import { SITE_NAME, SITE_URL, FOUNDING_YEAR, ORG_REF, WEBSITE_ID, formatUpdated } from "@/lib/site";
+import { getTranslations } from "next-intl/server";
 import ToolPageRunner from "@/components/ToolPageRunner";
 import LocalBadge from "@/components/LocalBadge";
 import DoNext from "@/components/DoNext";
@@ -21,17 +24,17 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const tool = getTool(slug);
+  const { locale, slug } = await params;
+  const tool = getLocalizedTool(slug, locale);
   if (!tool) return {};
-  const url = `${SITE_URL}/tools/${tool.slug}`;
+  const url = localeUrl(`/tools/${tool.slug}`, locale);
   return {
     title: tool.name,
     description: tool.description,
     keywords: tool.keywords,
-    alternates: { canonical: `/tools/${tool.slug}` },
+    alternates: alternatesFor(`/tools/${tool.slug}`, locale),
     openGraph: {
       title: `${tool.name} — ${SITE_NAME}`,
       description: tool.description,
@@ -49,18 +52,20 @@ export async function generateMetadata({
 export default async function ToolPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { slug } = await params;
-  const tool = getTool(slug);
-  if (!tool || tool.status !== "live") notFound();
+  const { locale, slug } = await params;
+  const base = getTool(slug);
+  if (!base || base.status !== "live") notFound();
+  const tool = localizeTool(base, locale);
 
-  const cat = getCategory(tool.category);
-  const related = relatedTools(tool);
+  const cat = getLocalizedCategory(tool.category, locale);
+  const related = relatedTools(base).map((t) => localizeTool(t, locale));
   const presets = presetsForTool(tool.slug);
-  const url = `${SITE_URL}/tools/${tool.slug}`;
+  const url = localeUrl(`/tools/${tool.slug}`, locale);
   const answer = toolAnswer(tool);
   const updated = toolUpdated(tool);
+  const t = await getTranslations("toolPage");
 
   // ── Structured data for rich results + AI search ──────────────────────
   const jsonLd: object[] = [
@@ -139,7 +144,7 @@ export default async function ToolPage({
       <ToolUsageTracker slug={tool.slug} />
 
       <nav className="breadcrumb" aria-label="Breadcrumb">
-        <Link href="/">Home</Link>
+        <Link href="/">{t("home")}</Link>
         {cat && (
           <>
             <span className="sep">/</span>
@@ -154,7 +159,7 @@ export default async function ToolPage({
         {cat && <span className="eyebrow">{cat.name}</span>}
         <h1>{tool.name}</h1>
         <p className="lede">{tool.intro}</p>
-        <p className="updated">Last updated: {formatUpdated(updated)}</p>
+        <p className="updated">{t("lastUpdated", { date: formatUpdated(updated) })}</p>
       </div>
 
       {/* Quick answer — the most extractable passage for AI answer engines. */}
@@ -165,7 +170,7 @@ export default async function ToolPage({
       {/* One-tap presets — deep links that open this tool pre-configured. */}
       {presets.length > 0 && (
         <div className="preset-chips" style={{ margin: "-12px 0 26px" }}>
-          <span className="preset-chips-label">Popular presets:</span>
+          <span className="preset-chips-label">{t("popularPresets")}</span>
           {presets.map((p) => (
             <Link key={p.slug} href={`/tools/${p.tool}/${p.slug}`} className="preset-chip">
               {p.chip}
@@ -181,18 +186,18 @@ export default async function ToolPage({
           </span>
           <span className="label">{tool.name}</span>
           <PinButton slug={tool.slug} />
-          <span className="privacy-chip">{tool.local !== false ? "Runs in your browser" : "Local + opt-in AI"}</span>
+          <span className="privacy-chip">{tool.local !== false ? t("runsInBrowser") : t("localOptInAi")}</span>
         </div>
         <div className="tool-shell-body">
           <ToolPageRunner slug={tool.slug} />
         </div>
       </div>
 
-      <DoNext slug={tool.slug} fallback={[...(tool.related ?? []), ...related.map((t) => t.slug)]} />
+      <DoNext slug={tool.slug} fallback={[...(tool.related ?? []), ...related.map((rt) => rt.slug)]} />
 
       {/* How to use — body content for SEO */}
       <section className="content-block">
-        <h2>How to use {tool.name}</h2>
+        <h2>{t("howToUse", { name: tool.name })}</h2>
         <ol className="steps">
           {tool.steps.map((s, i) => (
             <li key={i} id={`step-${i + 1}`}>{s}</li>
@@ -202,7 +207,7 @@ export default async function ToolPage({
 
       {/* FAQ — matches the FAQPage JSON-LD above */}
       <section className="content-block">
-        <h2>Frequently asked questions</h2>
+        <h2>{t("faq")}</h2>
         {tool.faqs.map((f, i) => (
           <details key={i} className="faq">
             <summary>{f.q}</summary>
@@ -214,10 +219,10 @@ export default async function ToolPage({
       {/* Related tools — internal linking */}
       {related.length > 0 && (
         <section className="content-block">
-          <h2>Related {cat?.name.toLowerCase()}</h2>
+          <h2>{t("related", { category: cat?.name.toLowerCase() ?? "" })}</h2>
           <div className="grid">
-            {related.map((t) => (
-              <ToolCard key={t.slug} tool={t} />
+            {related.map((rt) => (
+              <ToolCard key={rt.slug} tool={rt} />
             ))}
           </div>
         </section>

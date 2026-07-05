@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { ALTERNATIVES, getAlternative, alternativeUpdated } from "@/lib/alternatives";
 import { getTool } from "@/lib/tools";
 import { SITE_NAME, SITE_URL, WEBSITE_ID, formatUpdated } from "@/lib/site";

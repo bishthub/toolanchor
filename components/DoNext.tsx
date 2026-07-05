@@ -5,7 +5,7 @@
 // no network, no analytics. Renders nothing until it has suggestions.
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { getTopNext } from "@/lib/usage";
 import { getTool, type Tool } from "@/lib/tools";
 import CategoryIcon from "@/components/CategoryIcon";
