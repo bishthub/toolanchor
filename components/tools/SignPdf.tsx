@@ -146,7 +146,13 @@ export default function SignPdf({ initialFiles }: { initialFiles?: File[] }) {
       const y = ph - yTop - h; // pdf-lib origin is bottom-left
       page.drawImage(png, { x, y, width: w, height: h });
       const out = await doc.save();
-      setOutUrl(URL.createObjectURL(new Blob([out.slice().buffer], { type: "application/pdf" })));
+      const url = URL.createObjectURL(new Blob([out.slice().buffer], { type: "application/pdf" }));
+      setOutUrl(url);
+      // Sign and download in one action — the button says so.
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = file ? `${file.name.replace(/\.pdf$/i, "")}-signed.pdf` : "signed.pdf";
+      a.click();
     } catch (err) {
       console.error(err);
       setError("Could not sign this PDF. If it's password-protected, unlock it first.");
@@ -245,10 +251,13 @@ export default function SignPdf({ initialFiles }: { initialFiles?: File[] }) {
 
       {error && <p style={{ color: "#ff6b6b", marginTop: 12 }}>{error}</p>}
 
-      {outUrl && (
-        <div style={{ marginTop: 16 }}>
-          <a className="btn" href={outUrl} download={file ? `${file.name.replace(/\.pdf$/i, "")}-signed.pdf` : "signed.pdf"} style={{ display: "inline-flex" }}>⬇ Download signed PDF</a>
-        </div>
+      {outUrl && !busy && (
+        <p style={{ color: "var(--muted)", fontSize: ".85rem", marginTop: 10 }}>
+          ✓ Signed PDF downloaded.{" "}
+          <a href={outUrl} download={file ? `${file.name.replace(/\.pdf$/i, "")}-signed.pdf` : "signed.pdf"} style={{ color: "var(--accent)" }}>
+            Download again
+          </a>
+        </p>
       )}
 
       <p className="privacy-note">🔒 Your PDF and signature are processed entirely in your browser — nothing is uploaded.</p>
