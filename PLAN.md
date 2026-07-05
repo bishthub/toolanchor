@@ -390,12 +390,18 @@ transition counts survive reload; strip never shows the current tool or dead slu
 > SiteHeader nav translated. en behaves identically; es renders with Spanish chrome +
 > English content fallback but is NOT yet linked/launched.
 >
-> **Remaining (do before linking es publicly):** (2) extract the rest of the chrome
-> strings to the catalog; (3) content resolver + `content/<locale>/` prose (machine-
-> translate tools/presets/workflows, en fallback); (4) hreflang + canonical alternates
-> in every page's metadata + sitemap; (5) sweep internal `<Link>`s to the locale-aware
-> `i18n/navigation` Link (plain links drop the locale on es pages); (6) locale switcher
-> UI; (7) per-locale intent ALIASES. Full detail + risks in PHASE9-i18n.md.
+> **Steps 2–5 SHIPPED & verified live:** (4) hreflang/canonical via `lib/hreflang.ts`
+> on tool/preset/category/workflow/home + sitemap alternates; (3) content resolver
+> `lib/i18n-content.ts` (en fallback) + pilot ES: all 6 categories + 6 flagship tools
+> (compress-pdf, merge-pdf, jpg-to-pdf, compress-image, resize-image, background-remover);
+> (5) Link sweep — all 23 files use `@/i18n/navigation` Link (es keeps prefix, en bare);
+> (2) chrome — footer + tool-page scaffolding + nav translated (`messages/{en,es}.json`).
+>
+> **Remaining before public es launch:** translate the other ~112 tools + presets +
+> workflows/guides/glossary prose (data entry into `content/es/`); a locale switcher UI;
+> per-locale intent ALIASES; make programmatic `router.push` locale-aware (command
+> palette, handoff/SendToTool, StartWorkflowButton still push bare paths). Do NOT link
+> `/es` publicly until content coverage is acceptable. Full detail in PHASE9-i18n.md.
 
 **Goal:** tool queries are heavily non-English (iLovePDF's moat is ~25 locales).
 Even 4 locales roughly multiplies the indexable surface. This is an XL refactor —
