@@ -151,6 +151,8 @@ const SvgToPng = dynamic(() => import("./SvgToPng"), { loading });
 const ScreenshotBeautifier = dynamic(() => import("./ScreenshotBeautifier"), { loading });
 const CollageMaker = dynamic(() => import("./CollageMaker"), { loading });
 const CodeToImage = dynamic(() => import("./CodeToImage"), { loading });
+const ProtectPdf = dynamic(() => import("./ProtectPdf"), { loading });
+const UnlockPdf = dynamic(() => import("./UnlockPdf"), { loading });
 const EmailSignatureGenerator = dynamic(() => import("./EmailSignatureGenerator"), { loading });
 const InvoiceGenerator = dynamic(() => import("./InvoiceGenerator"), { loading });
 const SignatureGenerator = dynamic(() => import("./SignatureGenerator"), { loading });
@@ -284,6 +286,8 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
   "code-to-image": CodeToImage,
   "email-signature-generator": EmailSignatureGenerator,
   "invoice-generator": InvoiceGenerator,
+  "protect-pdf": ProtectPdf,
+  "unlock-pdf": UnlockPdf,
 };
 
 export default function ToolRunner({

@@ -25,6 +25,8 @@ export const FILE_AUTOLOAD = new Set<string>([
   "sign-pdf",
   // Batch 11 — generators + image (wave 2)
   "svg-to-png", "screenshot-beautifier", "collage-maker",
+  // Batch 12 — PDF security
+  "protect-pdf", "unlock-pdf",
 ]);
 
 // Extra natural-language phrases that should map strongly to a slug.
@@ -80,6 +82,8 @@ const ALIASES: Record<string, string[]> = {
   "trim-audio": ["trim audio", "cut audio", "audio cutter", "trim mp3", "cut mp3", "shorten audio", "make a ringtone"],
   "delete-pdf-pages": ["delete pdf pages", "delete pages", "remove pages", "remove pages from pdf", "delete page from pdf", "remove pdf page", "take out pdf pages", "delete pages in this pdf"],
   "sign-pdf": ["sign pdf", "add signature to pdf", "fill and sign pdf", "esign pdf", "e-sign document", "sign document online", "put signature on pdf"],
+  "protect-pdf": ["protect pdf", "password protect pdf", "encrypt pdf", "add password to pdf", "lock pdf", "put a password on pdf"],
+  "unlock-pdf": ["unlock pdf", "remove pdf password", "remove password from pdf", "decrypt pdf", "take password off pdf"],
   "svg-to-png": ["svg to png", "convert svg to png", "svg to image", "rasterize svg", "export svg as png"],
   "screenshot-beautifier": ["beautify screenshot", "screenshot beautifier", "pretty screenshot", "add background to screenshot", "polish screenshot", "screenshot frame"],
   "collage-maker": ["collage maker", "photo collage", "make a collage", "combine photos", "picture collage", "photo grid"],
@@ -121,6 +125,8 @@ const ALIASES_ES: Record<string, string[]> = {
   "pdf-to-text": ["pdf a texto", "extraer texto de pdf", "copiar texto de pdf"],
   "delete-pdf-pages": ["eliminar páginas del pdf", "borrar páginas pdf", "quitar páginas del pdf"],
   "sign-pdf": ["firmar pdf", "añadir firma al pdf", "firma electrónica pdf"],
+  "protect-pdf": ["proteger pdf", "poner contraseña a pdf", "cifrar pdf", "bloquear pdf", "pdf con contraseña"],
+  "unlock-pdf": ["desbloquear pdf", "quitar contraseña del pdf", "eliminar contraseña pdf", "descifrar pdf"],
   "compress-image": ["comprimir imagen", "comprimir foto", "reducir tamaño de imagen", "comprimir varias imágenes", "comprimir imagen a 20kb"],
   "resize-image": ["redimensionar imagen", "cambiar tamaño de imagen", "escalar imagen", "redimensionar foto"],
   "crop-image": ["recortar imagen", "recortar foto", "cortar imagen"],

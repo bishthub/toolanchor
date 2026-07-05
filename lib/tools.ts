@@ -1672,6 +1672,36 @@ export const TOOLS: Tool[] = [
     ],
     related: ["gst-calculator", "markup-calculator", "signature-generator"],
   },
+
+  // ── Batch 12: PDF security (qpdf) ──────────────────────────────────────
+  {
+    slug: "protect-pdf", name: "Protect PDF (Add Password)", category: "pdf", status: "live", trending: true,
+    description: "Password-protect a PDF with strong AES-256 encryption, free and in your browser. Nothing is uploaded — your PDF and password never leave your device.",
+    keywords: ["protect pdf", "password protect pdf", "encrypt pdf", "add password to pdf", "lock pdf", "secure pdf"],
+    answer: "To password-protect a PDF, choose the file, set a password, and download the encrypted copy. Encryption uses AES-256 and runs entirely in your browser via qpdf, so your PDF and password are never uploaded.",
+    intro: "Protect PDF adds a password to a PDF using strong AES-256 encryption, so it can only be opened by someone who knows the password. It runs entirely in your browser using qpdf compiled to WebAssembly — your document and password never leave your device.",
+    steps: ["Choose a PDF file.", "Enter and confirm a password.", "Click Protect and download the encrypted PDF."],
+    faqs: [
+      { q: "How strong is the encryption?", a: "It uses AES-256, the modern standard supported by current PDF readers." },
+      { q: "Can the password be recovered if I forget it?", a: "No. There's no backdoor — if you lose the password, the PDF can't be opened. Store it safely." },
+      { q: "Is my PDF uploaded?", a: "No. Encryption happens in your browser; the file and password never leave your device. The only download is the one-time engine (~1.3 MB)." },
+    ],
+    related: ["unlock-pdf", "sign-pdf", "compress-pdf"],
+  },
+  {
+    slug: "unlock-pdf", name: "Unlock PDF (Remove Password)", category: "pdf", status: "live", trending: true,
+    description: "Remove a known password from a PDF, free and in your browser. Enter the password and download an unlocked copy — nothing is uploaded.",
+    keywords: ["unlock pdf", "remove pdf password", "decrypt pdf", "remove password from pdf", "pdf password remover"],
+    answer: "To unlock a PDF you can already open, choose the file, enter its password, and download a copy with the password removed. It works only with the correct password — this is self-service unlocking, not cracking — and runs entirely in your browser via qpdf.",
+    intro: "Unlock PDF removes the password from a PDF you have the password for, so you don't have to type it every time you open the file. It only works when you provide the correct password (it is not a cracking tool). Everything runs in your browser using qpdf via WebAssembly — your PDF and password are never uploaded.",
+    steps: ["Choose your password-protected PDF.", "Enter its password.", "Click Unlock and download the password-free copy."],
+    faqs: [
+      { q: "Can this crack a PDF I don't have the password for?", a: "No. It requires the correct password — it removes protection for documents you're allowed to open, it doesn't break encryption." },
+      { q: "What if I get a wrong-password error?", a: "Double-check the password. If the PDF isn't actually encrypted, there's nothing to remove." },
+      { q: "Is my PDF uploaded?", a: "No. Unlocking happens entirely in your browser; the file and password never leave your device." },
+    ],
+    related: ["protect-pdf", "compress-pdf", "sign-pdf"],
+  },
 ];
 
 // ── Derived helpers used across the site ──────────────────────────────────
