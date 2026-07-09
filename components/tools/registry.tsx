@@ -8,6 +8,7 @@
 // ─────────────────────────────────────────────────────────────────────────
 
 import dynamic from "next/dynamic";
+import { sk } from "@/components/ToolShellSkeleton";
 
 // Props every tool component may receive. Tools that take a file can read
 // `initialFiles` to auto-load an attachment handed over by the Tool Assistant.
@@ -15,7 +16,7 @@ import dynamic from "next/dynamic";
 // tools that support presets merge it with URL query params via lib/preset.
 export interface ToolProps { initialFiles?: File[]; preset?: Record<string, string> }
 
-const loading = () => <p style={{ color: "var(--muted)" }}>Loading tool…</p>;
+const loading = sk("tool");
 
 const CompressPdf = dynamic(() => import("./CompressPdf"), { loading });
 const MergePdf = dynamic(() => import("./MergePdf"), { loading });
@@ -158,6 +159,38 @@ const EmailSignatureGenerator = dynamic(() => import("./EmailSignatureGenerator"
 const InvoiceGenerator = dynamic(() => import("./InvoiceGenerator"), { loading });
 const SignatureGenerator = dynamic(() => import("./SignatureGenerator"), { loading });
 
+// Batch 13 — SEO, crypto & AI tools
+const ParaphrasingTool = dynamic(() => import("./ParaphrasingTool"), { loading });
+const TextSummarizer = dynamic(() => import("./TextSummarizer"), { loading });
+const PromptGenerator = dynamic(() => import("./PromptGenerator"), { loading });
+const SerpPreview = dynamic(() => import("./SerpPreview"), { loading });
+const RobotsTxtGenerator = dynamic(() => import("./RobotsTxtGenerator"), { loading });
+const CryptoProfitCalculator = dynamic(() => import("./CryptoProfitCalculator"), { loading });
+const SatoshiConverter = dynamic(() => import("./SatoshiConverter"), { loading });
+const QrCodeReader = dynamic(() => import("./QrCodeReader"), { loading });
+
+// Batch 14 — Crypto, finance & utility tools
+const EthereumUnitConverter = dynamic(() => import("./EthereumUnitConverter"), { loading });
+const MortgageCalculator = dynamic(() => import("./MortgageCalculator"), { loading });
+const PasswordStrengthChecker = dynamic(() => import("./PasswordStrengthChecker"), { loading });
+const TimeZoneConverter = dynamic(() => import("./TimeZoneConverter"), { loading });
+const CharacterCounter = dynamic(() => import("./CharacterCounter"), { loading });
+const HtmlToMarkdown = dynamic(() => import("./HtmlToMarkdown"), { loading });
+const DaysUntilCalculator = dynamic(() => import("./DaysUntilCalculator"), { loading });
+const ListRandomizer = dynamic(() => import("./ListRandomizer"), { loading });
+const DecimalToFraction = dynamic(() => import("./DecimalToFraction"), { loading });
+const ImageSizeChecker = dynamic(() => import("./ImageSizeChecker"), { loading });
+
+// Batch 15 — AI & text analysis tools
+const SentimentAnalyzer = dynamic(() => import("./SentimentAnalyzer"), { loading });
+const ReadabilityChecker = dynamic(() => import("./ReadabilityChecker"), { loading });
+const KeywordExtractor = dynamic(() => import("./KeywordExtractor"), { loading });
+const HashtagGenerator = dynamic(() => import("./HashtagGenerator"), { loading });
+const EmojiTranslator = dynamic(() => import("./EmojiTranslator"), { loading });
+const ImagePromptBuilder = dynamic(() => import("./ImagePromptBuilder"), { loading });
+const ToneDetector = dynamic(() => import("./ToneDetector"), { loading });
+const HeadlineAnalyzer = dynamic(() => import("./HeadlineAnalyzer"), { loading });
+
 // Image-format landing pages reuse the ImageConverter engine with a preset
 // target format (users can still switch). HEIC needs the on-demand decoder.
 function HeicToJpg(p: ToolProps) { return <ImageConverter {...p} heic defaultFormat="jpeg" slug="heic-to-jpg" />; }
@@ -290,6 +323,35 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
   "protect-pdf": ProtectPdf,
   "unlock-pdf": UnlockPdf,
   "image-upscaler": ImageUpscaler,
+  // Batch 13 — SEO, crypto & AI tools
+  "paraphrasing-tool": ParaphrasingTool,
+  "text-summarizer": TextSummarizer,
+  "prompt-generator": PromptGenerator,
+  "serp-preview": SerpPreview,
+  "robots-txt-generator": RobotsTxtGenerator,
+  "crypto-profit-calculator": CryptoProfitCalculator,
+  "satoshi-converter": SatoshiConverter,
+  "qr-code-reader": QrCodeReader,
+	// Batch 14 — Crypto, finance & utility tools
+	"ethereum-unit-converter": EthereumUnitConverter,
+	"mortgage-calculator": MortgageCalculator,
+	"password-strength-checker": PasswordStrengthChecker,
+	"time-zone-converter": TimeZoneConverter,
+	"character-counter": CharacterCounter,
+	"html-to-markdown": HtmlToMarkdown,
+	"days-until-calculator": DaysUntilCalculator,
+	"list-randomizer": ListRandomizer,
+	"decimal-to-fraction": DecimalToFraction,
+	"image-size-checker": ImageSizeChecker,
+	// Batch 15 — AI & text analysis tools
+	"sentiment-analyzer": SentimentAnalyzer,
+	"readability-checker": ReadabilityChecker,
+	"keyword-extractor": KeywordExtractor,
+	"hashtag-generator": HashtagGenerator,
+	"emoji-translator": EmojiTranslator,
+	"image-prompt-builder": ImagePromptBuilder,
+	"tone-detector": ToneDetector,
+	"headline-analyzer": HeadlineAnalyzer,
 };
 
 export default function ToolRunner({

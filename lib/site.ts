@@ -33,12 +33,14 @@ export const LAUNCH_DATE = "2026-07-01";
 export const ORG_ID = `${SITE_URL}/#organization`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
 
-// Off-site profiles that represent this brand. Populate as you create them
-// (X, GitHub, Product Hunt, AlternativeTo, etc.); each strengthens the entity.
+// Off-site profiles that represent this brand. Each URL strengthens the entity
+// graph for Google's Knowledge Graph and signals authenticity to AI answer engines.
+// Add profiles as you create them (X, GitHub, Product Hunt, etc.).
 export const SITE_SAME_AS: string[] = [
+  "https://github.com/bishthub/toolanchor",
   // "https://x.com/toolanchor",
-  // "https://github.com/toolanchor",
   // "https://www.producthunt.com/products/toolanchor",
+  // "https://www.alternativeto.net/software/toolanchor",
 ];
 
 /** The canonical Organization node. Pass withContext for a standalone block. */

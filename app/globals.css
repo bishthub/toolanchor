@@ -147,6 +147,8 @@ body {
   text-rendering: optimizeLegibility;
   min-height: 100vh;
   overflow-x: hidden;
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--accent) 20%, transparent);
+  transition: background .3s, color .3s;
 }
 
 h1, h2, h3, h4 {
@@ -814,6 +816,9 @@ code, .mono { font-family: var(--font-mono), ui-monospace, monospace; }
   grid-template-columns: repeat(auto-fill, minmax(252px, 1fr));
   margin: 22px 0 8px;
 }
+@media (max-width: 480px) {
+  .grid { grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); gap: 10px; }
+}
 .card {
   position: relative; display: flex; flex-direction: column;
   background: var(--surface); border: 1px solid var(--border);
@@ -1233,6 +1238,7 @@ input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px;
 
 @media (max-width: 600px) {
   .hero { padding: 56px 0 30px; }
+  .hero h1 { font-size: 2.2rem; }
   .tool-shell-body { padding: 20px; }
   .section-head { margin-top: 48px; }
   .footer-mega { white-space: normal; }

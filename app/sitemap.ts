@@ -5,6 +5,7 @@ import { GUIDES, guideUpdated } from "@/lib/guides";
 import { ALTERNATIVES } from "@/lib/alternatives";
 import { GLOSSARY } from "@/lib/glossary";
 import { WORKFLOWS } from "@/lib/workflows";
+import { COMPARISONS, comparisonUpdated } from "@/lib/comparisons";
 import { LAST_REVIEWED } from "@/lib/site";
 import { localeUrl, sitemapAlternates } from "@/lib/hreflang";
 
@@ -24,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/tools", lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { path: "/ask", lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { path: "/guides", lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    { path: "/compare", lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { path: "/workflows", lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { path: "/alternatives", lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { path: "/about", lastModified: now, changeFrequency: "monthly", priority: 0.4 },
@@ -37,6 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...GUIDES.map((g): Entry => ({ path: `/guides/${g.slug}`, lastModified: guideUpdated(g), changeFrequency: "monthly", priority: 0.6 })),
     ...WORKFLOWS.map((w): Entry => ({ path: `/workflows/${w.slug}`, lastModified: reviewed, changeFrequency: "monthly", priority: 0.6 })),
     ...ALTERNATIVES.map((a): Entry => ({ path: `/alternatives/${a.slug}`, lastModified: reviewed, changeFrequency: "monthly", priority: 0.6 })),
+    ...COMPARISONS.map((c): Entry => ({ path: `/compare/${c.slug}`, lastModified: comparisonUpdated(c), changeFrequency: "monthly", priority: 0.7 })),
     ...GLOSSARY.map((g): Entry => ({ path: `/glossary/${g.slug}`, lastModified: reviewed, changeFrequency: "monthly", priority: 0.5 })),
   ];
 

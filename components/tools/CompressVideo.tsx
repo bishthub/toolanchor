@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getFfmpeg, toFileData } from "@/lib/ffmpeg";
 import SendToTool from "@/components/SendToTool";
+import WasmProgress from "@/components/WasmProgress";
 
 function fmt(n: number): string {
   if (n < 1024) return `${n} B`;
@@ -24,6 +25,7 @@ export default function CompressVideo({ initialFiles }: { initialFiles?: File[] 
   const [to720, setTo720] = useState(true);
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState("");
+  const [progressPct, setProgressPct] = useState<number | undefined>(undefined);
   const [result, setResult] = useState<{ url: string; size: number } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const outName = useRef("compressed.mp4");
@@ -41,10 +43,14 @@ export default function CompressVideo({ initialFiles }: { initialFiles?: File[] 
 
   async function run() {
     if (!file) return;
-    setBusy(true); setError(null); setResult(null); setStatus("Loading…");
+    setBusy(true); setError(null); setResult(null); setStatus("Loading…"); setProgressPct(undefined);
     let ff: Awaited<ReturnType<typeof getFfmpeg>> | null = null;
-    const onProgress = ({ progress }: { progress: number }) =>
-      setStatus(`Compressing… ${Math.min(100, Math.round(progress * 100))}% (this can take a while)`);
+    const onProgress = ({ progress }: { progress: number }) => {
+      const pct = Math.min(100, Math.round(progress * 100));
+      setProgressPct(pct);
+      if (pct < 100) setStatus(`Compressing… ${pct}%`);
+      else setStatus("Finalising…");
+    };
     try {
       ff = await getFfmpeg(setStatus);
       ff.on("progress", onProgress);
@@ -108,7 +114,7 @@ export default function CompressVideo({ initialFiles }: { initialFiles?: File[] 
         {busy ? "Working…" : "🎬 Compress video"}
       </button>
 
-      {busy && <p style={{ color: "var(--muted)", marginTop: 12 }}>{status || "Working…"}</p>}
+      {busy && <WasmProgress status={status || "Working…"} pct={progressPct} />}
       {error && <p style={{ color: "#ff6b6b", marginTop: 12 }}>{error}</p>}
 
       {result && (

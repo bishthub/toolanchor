@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { runQpdf } from "@/lib/qpdf";
+import WasmProgress from "@/components/WasmProgress";
 
 export default function ProtectPdf({ initialFiles }: { initialFiles?: File[] }) {
   const [file, setFile] = useState<File | null>(null);
@@ -62,7 +63,7 @@ export default function ProtectPdf({ initialFiles }: { initialFiles?: File[] }) 
         {busy ? "Working…" : "🔒 Protect PDF"}
       </button>
 
-      {busy && <p style={{ color: "var(--muted)", marginTop: 12 }}>{status || "Working…"}</p>}
+      {busy && <WasmProgress status={status || "Working…"} />}
       {error && <p style={{ color: "#ff6b6b", marginTop: 12 }}>{error}</p>}
 
       {url && (

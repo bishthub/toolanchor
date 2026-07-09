@@ -2,12 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import { getFfmpeg, toFileData } from "@/lib/ffmpeg";
+import WasmProgress from "@/components/WasmProgress";
 
 export default function Mp4ToMp3({ initialFiles }: { initialFiles?: File[] }) {
   const [file, setFile] = useState<File | null>(null);
   const [bitrate, setBitrate] = useState("192");
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState("");
+  const [progressPct, setProgressPct] = useState<number | undefined>(undefined);
   const [url, setUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const outName = useRef("audio.mp3");
@@ -19,10 +21,13 @@ export default function Mp4ToMp3({ initialFiles }: { initialFiles?: File[] }) {
 
   async function run() {
     if (!file) return;
-    setBusy(true); setError(null); setUrl(null); setStatus("Loading…");
+    setBusy(true); setError(null); setUrl(null); setStatus("Loading…"); setProgressPct(undefined);
     let ff: Awaited<ReturnType<typeof getFfmpeg>> | null = null;
-    const onProgress = ({ progress }: { progress: number }) =>
-      setStatus(`Extracting audio… ${Math.min(100, Math.round(progress * 100))}%`);
+    const onProgress = ({ progress }: { progress: number }) => {
+      const pct = Math.min(100, Math.round(progress * 100));
+      setProgressPct(pct);
+      setStatus(`Extracting audio… ${pct}%`);
+    };
     try {
       ff = await getFfmpeg(setStatus);
       ff.on("progress", onProgress);
@@ -64,7 +69,7 @@ export default function Mp4ToMp3({ initialFiles }: { initialFiles?: File[] }) {
         {busy ? "Working…" : "🎵 Extract MP3"}
       </button>
 
-      {busy && <p style={{ color: "var(--muted)", marginTop: 12 }}>{status || "Working…"}</p>}
+      {busy && <WasmProgress status={status || "Working…"} pct={progressPct} />}
       {error && <p style={{ color: "#ff6b6b", marginTop: 12 }}>{error}</p>}
 
       {url && (

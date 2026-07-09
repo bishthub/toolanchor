@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import SendToTool from "@/components/SendToTool";
+import WasmProgress from "@/components/WasmProgress";
 
 export default function BackgroundRemover({ initialFiles }: { initialFiles?: File[] }) {
   const [original, setOriginal] = useState<string | null>(null);
   const [result, setResult] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState("");
+  const [progressPct, setProgressPct] = useState<number | undefined>(undefined);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -32,6 +34,7 @@ export default function BackgroundRemover({ initialFiles }: { initialFiles?: Fil
       const blob = await removeBackground(file, {
         progress: (key: string, current: number, total: number) => {
           const pct = total ? Math.round((current / total) * 100) : 0;
+          setProgressPct(pct);
           setProgress(`${key.includes("fetch") ? "Downloading model" : "Processing"}… ${pct}%`);
         },
       });
@@ -60,7 +63,7 @@ export default function BackgroundRemover({ initialFiles }: { initialFiles?: Fil
         <input type="file" accept="image/*" onChange={onFile} className="input" disabled={busy} />
       </div>
 
-      {busy && <p style={{ color: "var(--muted)" }}>{progress || "Working…"}</p>}
+      {busy && <WasmProgress status={progress || "Working…"} pct={progressPct} />}
       {error && <p style={{ color: "#ff6b6b" }}>{error}</p>}
 
       <div className="row" style={{ gap: 16 }}>

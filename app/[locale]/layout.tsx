@@ -163,6 +163,7 @@ export default async function RootLayout({
                 <Link href="/guides">{tf("guides")}</Link>
                 <Link href="/glossary">{tf("glossary")}</Link>
                 <Link href="/alternatives">{tf("alternatives")}</Link>
+                <Link href="/compare">Comparisons</Link>
               </div>
 
               <div className="footer-col">

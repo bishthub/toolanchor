@@ -6,5 +6,99 @@
   # Next.js 16 + React 19 need a modern Node; match local build.
   NODE_VERSION = "22"
 
-# Netlify auto-installs the Next.js Runtime, which handles SSR and the
+# Netlify auto-installs the Next.js Runtime, which handles SSR, ISR and the
 # /api/ai-detect route as serverless functions. No manual plugin config needed.
+
+# ── Security headers ─────────────────────────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(self), microphone=(self), display-capture=(self), clipboard-read=(self), clipboard-write=(self)"
+    X-XSS-Protection = "0"   # modern browsers ignore this; kept for strictness
+
+# ── Immutable asset caching (fingerprinted by Next.js) ───────────────────
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# ── Font / WASM files (versioned, rarely change) ─────────────────────────
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Access-Control-Allow-Origin = "*"
+
+[[headers]]
+  for = "*.wasm"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/wasm"
+    Access-Control-Allow-Origin = "*"
+
+# ── Redirects ────────────────────────────────────────────────────────────────
+# Common misspellings and legacy paths
+[[redirects]]
+  from = "/pdf-tools"
+  to = "/tools?category=pdf"
+  status = 301
+
+[[redirects]]
+  from = "/image-tools"
+  to = "/tools?category=image"
+  status = 301
+
+[[redirects]]
+  from = "/dev-tools"
+  to = "/tools?category=developer"
+  status = 301
+
+[[redirects]]
+  from = "/text-tools"
+  to = "/tools?category=text"
+  status = 301
+
+[[redirects]]
+  from = "/calculator"
+  to = "/tools?category=calculator"
+  status = 301
+
+[[redirects]]
+  from = "/merge-pdf"
+  to = "/tools/merge-pdf"
+  status = 301
+
+[[redirects]]
+  from = "/compress-pdf"
+  to = "/tools/compress-pdf"
+  status = 301
+
+[[redirects]]
+  from = "/resize-image"
+  to = "/tools/resize-image"
+  status = 301
+
+[[redirects]]
+  from = "/compress-image"
+  to = "/tools/compress-image"
+  status = 301
+
+# Netlify deploys strip the .html extension from Next.js output pages.
+# These redirects handle any legacy or accidentally-linked .html URLs.
+[[redirects]]
+  from = "/*.html"
+  to = "/:splat"
+  status = 301

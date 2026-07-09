@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import WasmProgress from "@/components/WasmProgress";
 
 export default function ImageToText({ initialFiles }: { initialFiles?: File[] }) {
   const [preview, setPreview] = useState<string | null>(null);
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState("");
+  const [progressPct, setProgressPct] = useState<number | undefined>(undefined);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
@@ -31,8 +33,14 @@ export default function ImageToText({ initialFiles }: { initialFiles?: File[] })
       const { createWorker } = await import("tesseract.js");
       const worker = await createWorker("eng", 1, {
         logger: (m: { status: string; progress: number }) => {
-          if (m.status === "recognizing text") setProgress(`Recognising… ${Math.round(m.progress * 100)}%`);
-          else setProgress(m.status);
+          const pct = Math.round(m.progress * 100);
+          if (m.status === "recognizing text") {
+            setProgressPct(pct);
+            setProgress(`Recognising… ${pct}%`);
+          } else {
+            setProgressPct(undefined);
+            setProgress(m.status);
+          }
         },
       });
       const { data } = await worker.recognize(file);
@@ -59,7 +67,7 @@ export default function ImageToText({ initialFiles }: { initialFiles?: File[] })
       {/* eslint-disable-next-line @next/next/no-img-element */}
       {preview && <img src={preview} alt="source" className="preview-img" style={{ maxHeight: 220 }} />}
 
-      {busy && <p style={{ color: "var(--muted)", marginTop: 10 }}>{progress || "Working…"}</p>}
+      {busy && <WasmProgress status={progress || "Working…"} pct={progressPct} />}
       {error && <p style={{ color: "#ff6b6b" }}>{error}</p>}
 
       {text && (

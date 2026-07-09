@@ -2,6 +2,7 @@ import { CATEGORIES, LIVE_TOOLS, toolsByCategory } from "@/lib/tools";
 import { GUIDES } from "@/lib/guides";
 import { WORKFLOWS } from "@/lib/workflows";
 import { ALTERNATIVES } from "@/lib/alternatives";
+import { COMPARISONS } from "@/lib/comparisons";
 import { GLOSSARY } from "@/lib/glossary";
 import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, LAST_REVIEWED } from "@/lib/site";
 
@@ -41,6 +42,10 @@ export function GET() {
 
   lines.push("## Free alternatives");
   for (const a of ALTERNATIVES) lines.push(`- [${a.title}](${SITE_URL}/alternatives/${a.slug}): ${a.description}`);
+  lines.push("");
+
+  lines.push("## Comparisons");
+  for (const c of COMPARISONS) lines.push(`- [${c.name}](${SITE_URL}/compare/${c.slug}): ${c.description}`);
   lines.push("");
 
   lines.push("## Glossary (definitions)");

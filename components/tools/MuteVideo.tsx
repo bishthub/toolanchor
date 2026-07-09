@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { getFfmpeg, toFileData } from "@/lib/ffmpeg";
+import WasmProgress from "@/components/WasmProgress";
 import SendToTool from "@/components/SendToTool";
 
 export default function MuteVideo({ initialFiles }: { initialFiles?: File[] }) {
@@ -9,6 +10,7 @@ export default function MuteVideo({ initialFiles }: { initialFiles?: File[] }) {
   const [srcUrl, setSrcUrl] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState("");
+  const [progressPct, setProgressPct] = useState<number | undefined>(undefined);
   const [url, setUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const outName = useRef("muted.mp4");
@@ -26,10 +28,13 @@ export default function MuteVideo({ initialFiles }: { initialFiles?: File[] }) {
 
   async function run() {
     if (!file) return;
-    setBusy(true); setError(null); setUrl(null); setStatus("Loading…");
+    setBusy(true); setError(null); setUrl(null); setStatus("Loading…"); setProgressPct(undefined);
     let ff: Awaited<ReturnType<typeof getFfmpeg>> | null = null;
-    const onProgress = ({ progress }: { progress: number }) =>
-      setStatus(`Removing audio… ${Math.min(100, Math.round(progress * 100))}%`);
+    const onProgress = ({ progress }: { progress: number }) => {
+      const pct = Math.min(100, Math.round(progress * 100));
+      setProgressPct(pct);
+      setStatus(`Removing audio… ${pct}%`);
+    };
     try {
       ff = await getFfmpeg(setStatus);
       ff.on("progress", onProgress);
@@ -68,7 +73,7 @@ export default function MuteVideo({ initialFiles }: { initialFiles?: File[] }) {
         {busy ? "Working…" : "🔇 Remove audio"}
       </button>
 
-      {busy && <p style={{ color: "var(--muted)", marginTop: 12 }}>{status || "Working…"}</p>}
+      {busy && <WasmProgress status={status || "Working…"} pct={progressPct} />}
       {error && <p style={{ color: "#ff6b6b", marginTop: 12 }}>{error}</p>}
 
       {url && (
