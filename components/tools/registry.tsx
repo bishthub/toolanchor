@@ -191,6 +191,29 @@ const ImagePromptBuilder = dynamic(() => import("./ImagePromptBuilder"), { loadi
 const ToneDetector = dynamic(() => import("./ToneDetector"), { loading });
 const HeadlineAnalyzer = dynamic(() => import("./HeadlineAnalyzer"), { loading });
 
+// Batch 16 — Health, lifestyle & utilities
+const BodyFatCalculator = dynamic(() => import("./BodyFatCalculator"), { loading });
+const OvulationCalculator = dynamic(() => import("./OvulationCalculator"), { loading });
+const FuelCostCalculator = dynamic(() => import("./FuelCostCalculator"), { loading });
+const PomodoroTimer = dynamic(() => import("./PomodoroTimer"), { loading });
+const SleepCalculator = dynamic(() => import("./SleepCalculator"), { loading });
+const PpiCalculator = dynamic(() => import("./PpiCalculator"), { loading });
+const GradeCalculator = dynamic(() => import("./GradeCalculator"), { loading });
+const RgbToHex = dynamic(() => import("./RgbToHex"), { loading });
+const ShippingCalculator = dynamic(() => import("./ShippingCalculator"), { loading });
+
+// Batch 17 — More essential tools
+const PdfToWord = dynamic(() => import("./PdfToWord"), { loading });
+const ExcelToCsv = dynamic(() => import("./ExcelToCsv"), { loading });
+const JsonValidator = dynamic(() => import("./JsonValidator"), { loading });
+const CssMinifier = dynamic(() => import("./CssMinifier"), { loading });
+const HtmlPreview = dynamic(() => import("./HtmlPreview"), { loading });
+const DogAgeCalculator = dynamic(() => import("./DogAgeCalculator"), { loading });
+const CatAgeCalculator = dynamic(() => import("./CatAgeCalculator"), { loading });
+const BraSizeCalculator = dynamic(() => import("./BraSizeCalculator"), { loading });
+const RingSizeCalculator = dynamic(() => import("./RingSizeCalculator"), { loading });
+const MorseCodeConverter = dynamic(() => import("./MorseCodeConverter"), { loading });
+
 // Image-format landing pages reuse the ImageConverter engine with a preset
 // target format (users can still switch). HEIC needs the on-demand decoder.
 function HeicToJpg(p: ToolProps) { return <ImageConverter {...p} heic defaultFormat="jpeg" slug="heic-to-jpg" />; }
@@ -352,6 +375,27 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
 	"image-prompt-builder": ImagePromptBuilder,
 	"tone-detector": ToneDetector,
 	"headline-analyzer": HeadlineAnalyzer,
+	// Batch 16 — Health, lifestyle & utilities
+	"body-fat-calculator": BodyFatCalculator,
+	"ovulation-calculator": OvulationCalculator,
+	"fuel-cost-calculator": FuelCostCalculator,
+	"pomodoro-timer": PomodoroTimer,
+	"sleep-calculator": SleepCalculator,
+	"ppi-calculator": PpiCalculator,
+	"grade-calculator": GradeCalculator,
+	"rgb-to-hex": RgbToHex,
+	"shipping-calculator": ShippingCalculator,
+	// Batch 17 — More essential tools
+	"pdf-to-word": PdfToWord,
+	"excel-to-csv": ExcelToCsv,
+	"json-validator": JsonValidator,
+	"css-minifier": CssMinifier,
+	"html-preview": HtmlPreview,
+	"dog-age-calculator": DogAgeCalculator,
+	"cat-age-calculator": CatAgeCalculator,
+	"bra-size-calculator": BraSizeCalculator,
+	"ring-size-calculator": RingSizeCalculator,
+	"morse-code-converter": MorseCodeConverter,
 };
 
 export default function ToolRunner({
