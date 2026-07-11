@@ -235,6 +235,10 @@ const SubnetCalculator = dynamic(() => import("./SubnetCalculator"), { loading }
 const CountdownTimer = dynamic(() => import("./CountdownTimer"), { loading });
 const SmsCharacterCounter = dynamic(() => import("./SmsCharacterCounter"), { loading });
 
+// Batch 20 — PDF editing & Word conversion
+const PdfEditor = dynamic(() => import("./PdfEditor"), { loading });
+const WordToPdf = dynamic(() => import("./WordToPdf"), { loading });
+
 // Image-format landing pages reuse the ImageConverter engine with a preset
 // target format (users can still switch). HEIC needs the on-demand decoder.
 function HeicToJpg(p: ToolProps) { return <ImageConverter {...p} heic defaultFormat="jpeg" slug="heic-to-jpg" />; }
@@ -443,6 +447,9 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
 	"subnet-calculator": SubnetCalculator,
 	"countdown-timer": CountdownTimer,
 	"sms-character-counter": SmsCharacterCounter,
+	// Batch 20 — PDF editing & Word conversion
+	"pdf-editor": PdfEditor,
+	"word-to-pdf": WordToPdf,
 };
 
 export default function ToolRunner({

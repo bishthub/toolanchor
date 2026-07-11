@@ -2632,6 +2632,35 @@ export const TOOLS: Tool[] = [
     ],
     related: ["character-counter", "word-counter", "remove-line-breaks", "whitespace-remover"],
   },
+  // ── Batch 20 — PDF editing & Word conversion ───────────────────────────
+  {
+    slug: "pdf-editor", name: "PDF Editor — Fill & Annotate", category: "pdf", status: "live", trending: true,
+    description: "Edit a PDF online free — fill forms, add text, whiteout, highlights and checkmarks, then download. 100% private: your file never leaves your browser.",
+    keywords: ["pdf editor", "edit pdf online free", "fill pdf", "add text to pdf", "annotate pdf"],
+    answer: "To edit a PDF, open it here and use the Text, Whiteout, Highlight and Check tools to place annotations on top of the pages, then download the edited file. It overlays new content — it doesn't rewrite the existing text — and everything runs in your browser, so your document is never uploaded.",
+    intro: "PDF Editor lets you fill and annotate any PDF without installing software. Click to add text in the size and color you need, drag whiteout boxes to cover content, highlight passages, and drop ✓ or ✗ marks — perfect for filling out forms and marking up documents. Every page is rendered right in your browser and the edited PDF is rebuilt locally, so your file is never uploaded.",
+    steps: ["Choose a PDF file — every page appears in the editor.", "Pick a tool (Text, Whiteout, Highlight or Check) and click or drag on a page to place it; use Erase to remove anything.", "Click “Download edited PDF” to save the result."],
+    faqs: [
+      { q: "Can it edit the PDF's existing text?", a: "No — this editor overlays new content on top of the page rather than rewriting what's already there. To replace existing text, cover it with a Whiteout box and place new Text over it, which is how most PDF fillers work." },
+      { q: "Can I fill out a form with it?", a: "Yes. Click the Text tool and place answers directly over the form's fields and lines, and use the Check tool to tick boxes with a ✓ or ✗. It works on any PDF, even ones without interactive form fields." },
+      { q: "Is my document uploaded?", a: "No. The PDF is rendered, annotated and rebuilt entirely in your browser — it never leaves your device." },
+    ],
+    related: ["sign-pdf", "watermark-pdf", "merge-pdf", "compress-pdf"],
+  },
+  {
+    slug: "word-to-pdf", name: "Word to PDF Converter", category: "pdf", status: "live", trending: true,
+    description: "Convert Word (.docx) documents to crisp vector PDF in your browser — real selectable text, not a screenshot. Free, private, no upload, no sign-up.",
+    keywords: ["word to pdf", "docx to pdf", "convert word to pdf", "word to pdf converter free", "doc to pdf"],
+    answer: "A Word to PDF converter turns a .docx document into a PDF. This tool converts your document to clean HTML and drives the browser's native print-to-PDF engine, so the output is true vector — crisp, selectable text with headings, lists, tables and images preserved. Complex layouts are simplified. Everything runs locally; your document is never uploaded.",
+    intro: "Word to PDF Converter reads your .docx file, renders a live preview and saves it as a perfect-quality PDF using the browser's built-in print engine. Pick a page size and margins, then export vector output with selectable text — no upload, no watermark.",
+    steps: ["Choose a Word document (.docx) — it converts and previews instantly.", "Pick the page size (A4 or Letter) and margins.", "Click Save as PDF and choose 'Save as PDF' as the destination in the print dialog."],
+    faqs: [
+      { q: "Is the formatting preserved?", a: "Text, headings, lists, tables, images and links carry over cleanly. Intricate layout features — text boxes, multi-column layouts, headers and footers — are simplified; the tool notes when content was adjusted." },
+      { q: "Does it work with old .doc files?", a: "Only .docx (Office Open XML) is supported. For an old .doc file, open it in Word or Google Docs and save it as .docx first, then convert." },
+      { q: "Is my document uploaded?", a: "No — conversion and printing happen entirely in your browser; your file never leaves your device." },
+    ],
+    related: ["pdf-to-word", "html-to-pdf", "jpg-to-pdf", "merge-pdf"],
+  },
 ];
 
 // ── Derived helpers used across the site ──────────────────────────────────

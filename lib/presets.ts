@@ -212,12 +212,44 @@ const CASE_PRESETS: ToolPreset[] = CASES.map((c) => ({
   ],
 }));
 
+/* ── Countdown-timer duration presets ("5 minute timer" etc.) ────────── */
+
+interface TimerDef { slug: string; m: number; label: string; useCase: string; }
+
+const TIMERS: TimerDef[] = [
+  { slug: "1-minute-timer",  m: 1,  label: "1 Minute",  useCase: "quick tasks, plank holds and speed rounds" },
+  { slug: "5-minute-timer",  m: 5,  label: "5 Minute",  useCase: "short breaks, brewing tea and quick workouts" },
+  { slug: "10-minute-timer", m: 10, label: "10 Minute", useCase: "power naps, study sprints and timed quizzes" },
+  { slug: "15-minute-timer", m: 15, label: "15 Minute", useCase: "meetings, workouts and homework blocks" },
+  { slug: "20-minute-timer", m: 20, label: "20 Minute", useCase: "exercise sets, cooking and focused work" },
+  { slug: "25-minute-timer", m: 25, label: "25 Minute", useCase: "a classic Pomodoro focus session" },
+  { slug: "30-minute-timer", m: 30, label: "30 Minute", useCase: "workouts, baking and deep-work blocks" },
+  { slug: "60-minute-timer", m: 60, label: "1 Hour",    useCase: "exams, long study sessions and slow cooking" },
+];
+
+const TIMER_PRESETS: ToolPreset[] = TIMERS.map((t) => ({
+  slug: t.slug,
+  tool: "countdown-timer",
+  name: `${t.label} Timer`,
+  metaTitle: `${t.label} Timer — Online Countdown With Alarm`,
+  description: `A free ${t.label.toLowerCase()} countdown timer with an alarm — great for ${t.useCase}. Starts with one click and keeps counting accurately in background tabs.`,
+  answer: `This page opens a ${t.label.toLowerCase()} countdown timer — press Start and an alarm sounds when the time is up. It counts against a fixed end time, so it stays accurate even in a throttled background tab, and the remaining time shows in the tab title. Runs entirely in your browser.`,
+  params: { m: String(t.m) },
+  chip: `${t.label}`,
+  faqs: [
+    { q: `How do I set a ${t.label.toLowerCase()} timer?`, a: `The duration is already set on this page — just press Start. You can pause, resume or reset at any time.` },
+    { q: "Will the alarm sound if I switch tabs?", a: "Yes — the countdown tracks a fixed end time, so it stays accurate in background tabs, and the remaining time shows in the tab title." },
+    { q: "Is anything uploaded?", a: "No — the timer and alarm run entirely in your browser." },
+  ],
+}));
+
 export const PRESETS: ToolPreset[] = [
   ...RESIZE_PRESETS,
   ...COMPRESS_PRESETS,
   ...IMG_TARGET_PRESETS,
   ...PDF_TARGET_PRESETS,
   ...CASE_PRESETS,
+  ...TIMER_PRESETS,
 ];
 
 export function presetsForTool(toolSlug: string): ToolPreset[] {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePreset, presetNumber } from "@/lib/preset";
 
 const PRESETS = [
   { label: "1 min", ms: 60_000 },
@@ -21,10 +22,22 @@ function fmt(ms: number): string {
 
 type Status = "idle" | "running" | "paused" | "done";
 
-export default function CountdownTimer() {
+export default function CountdownTimer({ preset }: { preset?: Record<string, string> }) {
   const [hours, setHours] = useState("0");
   const [minutes, setMinutes] = useState("5");
   const [seconds, setSeconds] = useState("0");
+
+  // Preset pages (/tools/countdown-timer/<slug>) and ?m= deep links preset the
+  // duration in minutes.
+  const presetValues = usePreset(preset, ["m"]);
+  useEffect(() => {
+    const m = presetNumber(presetValues, "m", 1, 24 * 60);
+    if (m == null) return;
+    setHours(String(Math.floor(m / 60)));
+    setMinutes(String(m % 60));
+    setSeconds("0");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [presetValues]);
   const [status, setStatus] = useState<Status>("idle");
   const [remaining, setRemaining] = useState(0);
   const [flashOn, setFlashOn] = useState(false);

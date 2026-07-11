@@ -95,6 +95,27 @@ const ALIASES: Record<string, string[]> = {
   "screen-recorder": ["screen recorder", "record screen", "record my screen", "screen capture", "capture screen video", "screen record"],
   "passport-photo-maker": ["passport photo", "passport size photo", "visa photo", "id photo", "passport picture"],
   "signature-generator": ["signature", "make a signature", "draw signature", "create signature", "e-signature", "sign document"],
+  // Batches 18–19
+  "png-to-jpg": ["png to jpg", "png to jpeg", "convert png to jpg"],
+  "png-to-pdf": ["png to pdf", "convert png to pdf", "png images to pdf"],
+  "pdf-to-jpg": ["pdf to jpg", "pdf to jpeg", "convert pdf to jpg", "pdf pages to jpg"],
+  "html-to-pdf": ["html to pdf", "convert html to pdf", "save html as pdf", "webpage to pdf", "html file to pdf"],
+  "due-date-calculator": ["due date", "pregnancy due date", "when is my baby due", "how many weeks pregnant", "gestational age"],
+  "water-intake-calculator": ["water intake", "how much water should i drink", "daily water", "hydration calculator"],
+  "paypal-fee-calculator": ["paypal fee", "paypal fees", "how much does paypal take", "paypal calculator"],
+  "typing-speed-test": ["typing test", "typing speed", "wpm test", "words per minute", "how fast do i type"],
+  "random-name-picker": ["name picker", "pick a name", "random winner", "pick a winner", "raffle draw", "giveaway winner"],
+  "sql-formatter": ["format sql", "sql formatter", "beautify sql", "pretty print sql", "minify sql"],
+  "xml-formatter": ["format xml", "xml formatter", "validate xml", "beautify xml", "xml validator"],
+  "contrast-checker": ["contrast checker", "color contrast", "wcag contrast", "contrast ratio", "accessibility contrast"],
+  "csv-to-excel": ["csv to excel", "csv to xlsx", "convert csv to excel", "csv to spreadsheet"],
+  "xml-to-json": ["xml to json", "json to xml", "convert xml to json"],
+  "color-palette-generator": ["color palette", "colour palette", "color scheme", "matching colors", "complementary colors"],
+  "scientific-calculator": ["scientific calculator", "sin cos tan", "trig calculator", "log calculator"],
+  "fraction-calculator": ["fraction calculator", "add fractions", "simplify fraction", "mixed number", "fractions"],
+  "subnet-calculator": ["subnet calculator", "cidr", "subnet mask", "ip range", "network address"],
+  "countdown-timer": ["countdown timer", "set a timer", "timer", "5 minute timer", "10 minute timer", "timer with alarm"],
+  "sms-character-counter": ["sms character count", "sms length", "text message length", "sms segments", "160 characters"],
 };
 
 const STOP = new Set("a an the to my this that please can i want need help me with from of for into make do convert my our your it is".split(" "));
@@ -147,6 +168,24 @@ const ALIASES_ES: Record<string, string[]> = {
   "json-formatter": ["formatear json", "validar json", "embellecer json"],
   "invoice-generator": ["generar factura", "crear factura", "hacer una factura", "factura pdf"],
   "image-upscaler": ["ampliar imagen", "agrandar imagen", "aumentar resolución", "hacer imagen más grande", "escalar imagen a mayor"],
+  // Batches 18–20
+  "png-to-jpg": ["png a jpg", "convertir png a jpg"],
+  "png-to-pdf": ["png a pdf", "convertir png a pdf"],
+  "pdf-to-jpg": ["pdf a jpg", "convertir pdf a jpg"],
+  "html-to-pdf": ["html a pdf", "convertir html a pdf", "página web a pdf"],
+  "word-to-pdf": ["word a pdf", "docx a pdf", "convertir word a pdf"],
+  "pdf-editor": ["editar pdf", "editor de pdf", "rellenar pdf", "escribir en pdf"],
+  "due-date-calculator": ["fecha de parto", "calculadora de embarazo", "cuándo nace mi bebé", "semanas de embarazo"],
+  "water-intake-calculator": ["cuánta agua debo beber", "calculadora de agua", "consumo de agua diario"],
+  "paypal-fee-calculator": ["comisión paypal", "calculadora de comisiones paypal", "cuánto cobra paypal"],
+  "typing-speed-test": ["test de mecanografía", "velocidad de escritura", "prueba de mecanografía", "palabras por minuto"],
+  "random-name-picker": ["sorteo de nombres", "elegir ganador", "sorteo aleatorio"],
+  "scientific-calculator": ["calculadora científica"],
+  "fraction-calculator": ["calculadora de fracciones", "sumar fracciones", "simplificar fracciones"],
+  "countdown-timer": ["temporizador", "cuenta regresiva", "temporizador de 5 minutos", "poner un temporizador"],
+  "sms-character-counter": ["contador de caracteres sms", "longitud de sms"],
+  "color-palette-generator": ["paleta de colores", "generador de paletas", "combinación de colores"],
+  "contrast-checker": ["contraste de colores", "comprobar contraste"],
 };
 
 function aliasesFor(slug: string, locale: string): string[] {
