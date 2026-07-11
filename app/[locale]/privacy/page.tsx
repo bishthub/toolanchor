@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { SITE_NAME, SITE_EMAIL } from "@/lib/site";
+import { alternatesFor } from "@/lib/hreflang";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description: `How ${SITE_NAME} handles your data — the short version: your files and text are processed in your browser and are never uploaded.`,
-  alternates: { canonical: "/privacy" },
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Privacy Policy",
+    description: `How ${SITE_NAME} handles your data — the short version: your files and text are processed in your browser and are never uploaded.`,
+    alternates: alternatesFor("/privacy", locale),
+  };
+}
 
 export default function PrivacyPage() {
   return (

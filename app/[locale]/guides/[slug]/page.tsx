@@ -5,21 +5,22 @@ import { GUIDES, getGuide, guideUpdated } from "@/lib/guides";
 import { getTool } from "@/lib/tools";
 import { SITE_NAME, SITE_URL, LAUNCH_DATE, ORG_REF, formatUpdated } from "@/lib/site";
 import ToolCard from "@/components/ToolCard";
+import { alternatesFor } from "@/lib/hreflang";
 import JsonLd from "@/components/JsonLd";
 
 export function generateStaticParams() {
   return GUIDES.map((g) => ({ slug: g.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
+  const { locale, slug } = await params;
   const g = getGuide(slug);
   if (!g) return {};
   return {
     title: g.title,
     description: g.description,
     keywords: g.keywords,
-    alternates: { canonical: `/guides/${g.slug}` },
+    alternates: alternatesFor(`/guides/${g.slug}`, locale),
     openGraph: { title: `${g.title} — ${SITE_NAME}`, description: g.description, type: "article", url: `${SITE_URL}/guides/${g.slug}` },
   };
 }

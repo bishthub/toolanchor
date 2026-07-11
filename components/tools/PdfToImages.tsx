@@ -4,7 +4,10 @@ import { useEffect, useState } from "react";
 
 interface PageImg { page: number; url: string; }
 
-export default function PdfToImages({ initialFiles }: { initialFiles?: File[] }) {
+// `format` presets the export type so slug pages like /tools/pdf-to-jpg can
+// reuse this engine (users can still read pages out as the preset format).
+export default function PdfToImages({ initialFiles, format = "png" }: { initialFiles?: File[]; format?: "png" | "jpeg" }) {
+  const ext = format === "jpeg" ? "jpg" : "png";
   const [pages, setPages] = useState<PageImg[]>([]);
   const [scale, setScale] = useState(2);
   const [busy, setBusy] = useState(false);
@@ -45,8 +48,14 @@ export default function PdfToImages({ initialFiles }: { initialFiles?: File[] })
         canvas.height = viewport.height;
         const ctx = canvas.getContext("2d")!;
         await page.render({ canvas, canvasContext: ctx, viewport }).promise;
+        if (format === "jpeg") {
+          // JPG has no alpha — flatten onto white so transparent PDFs stay readable.
+          ctx.globalCompositeOperation = "destination-over";
+          ctx.fillStyle = "#fff";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
         const url: string = await new Promise((res) =>
-          canvas.toBlob((b) => res(URL.createObjectURL(b!)), "image/png")
+          canvas.toBlob((b) => res(URL.createObjectURL(b!)), `image/${format}`, 0.92)
         );
         out.push({ page: p, url });
       }
@@ -63,7 +72,7 @@ export default function PdfToImages({ initialFiles }: { initialFiles?: File[] })
   function download(p: PageImg) {
     const a = document.createElement("a");
     a.href = p.url;
-    a.download = `${name}-page-${p.page}.png`;
+    a.download = `${name}-page-${p.page}.${ext}`;
     a.click();
   }
 

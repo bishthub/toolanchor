@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import ToolAssistant from "@/components/ToolAssistant";
+import { alternatesFor } from "@/lib/hreflang";
 
-export const metadata: Metadata = {
-  title: "Ask — describe what you need",
-  description:
-    "Just tell us what you want to do and attach your file — we'll find the right free tool and run it, all in your browser. No AI guesswork, no uploads.",
-  alternates: { canonical: "/ask" },
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Ask — describe what you need",
+    description:
+      "Just tell us what you want to do and attach your file — we'll find the right free tool and run it, all in your browser. No AI guesswork, no uploads.",
+    alternates: alternatesFor("/ask", locale),
+  };
+}
 
 export default function AskPage() {
   return (

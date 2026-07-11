@@ -2,13 +2,17 @@ import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { WORKFLOWS } from "@/lib/workflows";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { alternatesFor } from "@/lib/hreflang";
 import JsonLd from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "Workflows — guided multi-step tasks",
-  description: `Guided, multi-step workflows that chain ${SITE_NAME}'s tools together — like turning photos into a compressed PDF — carrying your file from step to step, all in your browser.`,
-  alternates: { canonical: "/workflows" },
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Workflows — guided multi-step tasks",
+    description: `Guided, multi-step workflows that chain ${SITE_NAME}'s tools together — like turning photos into a compressed PDF — carrying your file from step to step, all in your browser.`,
+    alternates: alternatesFor("/workflows", locale),
+  };
+}
 
 export default function WorkflowsPage() {
   const jsonLd = {

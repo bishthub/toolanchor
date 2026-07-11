@@ -2,13 +2,17 @@ import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { GLOSSARY } from "@/lib/glossary";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { alternatesFor } from "@/lib/hreflang";
 import JsonLd from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "Glossary — Plain-English tech definitions",
-  description: `Clear, cited definitions of common tech terms — JWT, Base64, UUID, MIME type, HTTP status codes and more — each linked to the free ${SITE_NAME} tool that works with it.`,
-  alternates: { canonical: "/glossary" },
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Glossary — Plain-English tech definitions",
+    description: `Clear, cited definitions of common tech terms — JWT, Base64, UUID, MIME type, HTTP status codes and more — each linked to the free ${SITE_NAME} tool that works with it.`,
+    alternates: alternatesFor("/glossary", locale),
+  };
+}
 
 export default function GlossaryIndexPage() {
   const jsonLd = {

@@ -2,13 +2,17 @@ import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { ALTERNATIVES } from "@/lib/alternatives";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { alternatesFor } from "@/lib/hreflang";
 import JsonLd from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "Free Alternatives to Popular Tools",
-  description: `Free, private alternatives to iLovePDF, Smallpdf, remove.bg, TinyPNG, GPTZero and more — all running in your browser on ${SITE_NAME}.`,
-  alternates: { canonical: "/alternatives" },
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Free Alternatives to Popular Tools",
+    description: `Free, private alternatives to iLovePDF, Smallpdf, remove.bg, TinyPNG, GPTZero and more — all running in your browser on ${SITE_NAME}.`,
+    alternates: alternatesFor("/alternatives", locale),
+  };
+}
 
 export default function AlternativesPage() {
   const jsonLd = {

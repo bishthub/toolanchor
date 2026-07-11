@@ -214,9 +214,34 @@ const BraSizeCalculator = dynamic(() => import("./BraSizeCalculator"), { loading
 const RingSizeCalculator = dynamic(() => import("./RingSizeCalculator"), { loading });
 const MorseCodeConverter = dynamic(() => import("./MorseCodeConverter"), { loading });
 
+// Batch 18 — high-search-volume additions
+const DueDateCalculator = dynamic(() => import("./DueDateCalculator"), { loading });
+const WaterIntakeCalculator = dynamic(() => import("./WaterIntakeCalculator"), { loading });
+const PaypalFeeCalculator = dynamic(() => import("./PaypalFeeCalculator"), { loading });
+const TypingSpeedTest = dynamic(() => import("./TypingSpeedTest"), { loading });
+const RandomNamePicker = dynamic(() => import("./RandomNamePicker"), { loading });
+const SqlFormatter = dynamic(() => import("./SqlFormatter"), { loading });
+const XmlFormatter = dynamic(() => import("./XmlFormatter"), { loading });
+const ContrastChecker = dynamic(() => import("./ContrastChecker"), { loading });
+const CsvToExcel = dynamic(() => import("./CsvToExcel"), { loading });
+
+// Batch 19 — high-search-volume additions, wave 2
+const HtmlToPdf = dynamic(() => import("./HtmlToPdf"), { loading });
+const XmlToJson = dynamic(() => import("./XmlToJson"), { loading });
+const ColorPaletteGenerator = dynamic(() => import("./ColorPaletteGenerator"), { loading });
+const ScientificCalculator = dynamic(() => import("./ScientificCalculator"), { loading });
+const FractionCalculator = dynamic(() => import("./FractionCalculator"), { loading });
+const SubnetCalculator = dynamic(() => import("./SubnetCalculator"), { loading });
+const CountdownTimer = dynamic(() => import("./CountdownTimer"), { loading });
+const SmsCharacterCounter = dynamic(() => import("./SmsCharacterCounter"), { loading });
+
 // Image-format landing pages reuse the ImageConverter engine with a preset
 // target format (users can still switch). HEIC needs the on-demand decoder.
 function HeicToJpg(p: ToolProps) { return <ImageConverter {...p} heic defaultFormat="jpeg" slug="heic-to-jpg" />; }
+function PngToJpg(p: ToolProps) { return <ImageConverter {...p} defaultFormat="jpeg" slug="png-to-jpg" />; }
+// PDF-format landing pages reuse existing engines: JpgToPdf accepts any
+// browser-decodable image (incl. PNG); PdfToImages exports as the preset format.
+function PdfToJpg(p: ToolProps) { return <PdfToImages {...p} format="jpeg" />; }
 function WebpToJpg(p: ToolProps) { return <ImageConverter {...p} defaultFormat="jpeg" slug="webp-to-jpg" />; }
 function JpgToWebp(p: ToolProps) { return <ImageConverter {...p} defaultFormat="webp" slug="jpg-to-webp" />; }
 function PngToWebp(p: ToolProps) { return <ImageConverter {...p} defaultFormat="webp" slug="png-to-webp" />; }
@@ -396,6 +421,28 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
 	"bra-size-calculator": BraSizeCalculator,
 	"ring-size-calculator": RingSizeCalculator,
 	"morse-code-converter": MorseCodeConverter,
+	// Batch 18 — high-search-volume additions
+	"png-to-jpg": PngToJpg,
+	"due-date-calculator": DueDateCalculator,
+	"water-intake-calculator": WaterIntakeCalculator,
+	"paypal-fee-calculator": PaypalFeeCalculator,
+	"typing-speed-test": TypingSpeedTest,
+	"random-name-picker": RandomNamePicker,
+	"sql-formatter": SqlFormatter,
+	"xml-formatter": XmlFormatter,
+	"contrast-checker": ContrastChecker,
+	"csv-to-excel": CsvToExcel,
+	// Batch 19 — high-search-volume additions, wave 2
+	"png-to-pdf": JpgToPdf,
+	"pdf-to-jpg": PdfToJpg,
+	"html-to-pdf": HtmlToPdf,
+	"xml-to-json": XmlToJson,
+	"color-palette-generator": ColorPaletteGenerator,
+	"scientific-calculator": ScientificCalculator,
+	"fraction-calculator": FractionCalculator,
+	"subnet-calculator": SubnetCalculator,
+	"countdown-timer": CountdownTimer,
+	"sms-character-counter": SmsCharacterCounter,
 };
 
 export default function ToolRunner({

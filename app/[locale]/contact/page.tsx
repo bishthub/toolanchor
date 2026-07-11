@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { SITE_NAME, SITE_URL, SITE_EMAIL } from "@/lib/site";
+import { alternatesFor } from "@/lib/hreflang";
 import JsonLd from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: `Get in touch with ${SITE_NAME} — tool requests, bug reports, feedback and partnership enquiries.`,
-  alternates: { canonical: "/contact" },
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Contact",
+    description: `Get in touch with ${SITE_NAME} — tool requests, bug reports, feedback and partnership enquiries.`,
+    alternates: alternatesFor("/contact", locale),
+  };
+}
 
 export default function ContactPage() {
   const jsonLd = {

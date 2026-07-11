@@ -4,21 +4,22 @@ import { Link } from "@/i18n/navigation";
 import { GLOSSARY, getTerm, termUpdated } from "@/lib/glossary";
 import { getTool } from "@/lib/tools";
 import { SITE_NAME, SITE_URL, WEBSITE_ID, ORG_REF, formatUpdated } from "@/lib/site";
+import { alternatesFor } from "@/lib/hreflang";
 import JsonLd from "@/components/JsonLd";
 
 export function generateStaticParams() {
   return GLOSSARY.map((t) => ({ slug: t.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
+  const { locale, slug } = await params;
   const t = getTerm(slug);
   if (!t) return {};
   return {
     title: `What is ${t.term}?`,
     description: t.short,
     keywords: [t.term, ...(t.aka ?? [])],
-    alternates: { canonical: `/glossary/${t.slug}` },
+    alternates: alternatesFor(`/glossary/${t.slug}`, locale),
     openGraph: { title: `What is ${t.term}? — ${SITE_NAME}`, description: t.short, type: "article", url: `${SITE_URL}/glossary/${t.slug}` },
   };
 }

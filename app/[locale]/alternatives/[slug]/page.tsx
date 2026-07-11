@@ -5,21 +5,22 @@ import { ALTERNATIVES, getAlternative, alternativeUpdated } from "@/lib/alternat
 import { getTool } from "@/lib/tools";
 import { SITE_NAME, SITE_URL, WEBSITE_ID, formatUpdated } from "@/lib/site";
 import ToolCard from "@/components/ToolCard";
+import { alternatesFor } from "@/lib/hreflang";
 import JsonLd from "@/components/JsonLd";
 
 export function generateStaticParams() {
   return ALTERNATIVES.map((a) => ({ slug: a.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
+  const { locale, slug } = await params;
   const a = getAlternative(slug);
   if (!a) return {};
   return {
     title: a.title,
     description: a.description,
     keywords: a.keywords,
-    alternates: { canonical: `/alternatives/${a.slug}` },
+    alternates: alternatesFor(`/alternatives/${a.slug}`, locale),
     openGraph: { title: `${a.title} — ${SITE_NAME}`, description: a.description, type: "article", url: `${SITE_URL}/alternatives/${a.slug}` },
   };
 }

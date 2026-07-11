@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { SITE_NAME, SITE_EMAIL } from "@/lib/site";
+import { alternatesFor } from "@/lib/hreflang";
 
-export const metadata: Metadata = {
-  title: "Terms of Service",
-  description: `The terms for using ${SITE_NAME}'s free online tools.`,
-  alternates: { canonical: "/terms" },
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Terms of Service",
+    description: `The terms for using ${SITE_NAME}'s free online tools.`,
+    alternates: alternatesFor("/terms", locale),
+  };
+}
 
 export default function TermsPage() {
   return (

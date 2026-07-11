@@ -2,13 +2,17 @@ import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { SITE_NAME, SITE_URL, SITE_EMAIL, organizationNode } from "@/lib/site";
 import { LIVE_TOOLS, CATEGORIES } from "@/lib/tools";
+import { alternatesFor } from "@/lib/hreflang";
 import JsonLd from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: `What ${SITE_NAME} is, who it's for, and why every tool runs privately in your browser.`,
-  alternates: { canonical: "/about" },
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "About",
+    description: `What ${SITE_NAME} is, who it's for, and why every tool runs privately in your browser.`,
+    alternates: alternatesFor("/about", locale),
+  };
+}
 
 export default function AboutPage() {
   const jsonLd = {

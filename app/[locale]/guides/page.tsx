@@ -2,13 +2,17 @@ import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { GUIDES } from "@/lib/guides";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { alternatesFor } from "@/lib/hreflang";
 import JsonLd from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "Guides — How-to tutorials",
-  description: `Free step-by-step guides for everyday tasks — compress a PDF, remove an image background, extract text from an image and more, using ${SITE_NAME}'s in-browser tools.`,
-  alternates: { canonical: "/guides" },
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  return {
+    title: "Guides — How-to tutorials",
+    description: `Free step-by-step guides for everyday tasks — compress a PDF, remove an image background, extract text from an image and more, using ${SITE_NAME}'s in-browser tools.`,
+    alternates: alternatesFor("/guides", locale),
+  };
+}
 
 export default function GuidesPage() {
   const jsonLd = {
