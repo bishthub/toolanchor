@@ -116,6 +116,10 @@ const ALIASES: Record<string, string[]> = {
   "subnet-calculator": ["subnet calculator", "cidr", "subnet mask", "ip range", "network address"],
   "countdown-timer": ["countdown timer", "set a timer", "timer", "5 minute timer", "10 minute timer", "timer with alarm"],
   "sms-character-counter": ["sms character count", "sms length", "text message length", "sms segments", "160 characters"],
+  // Batch 20
+  "pdf-editor": ["edit pdf", "pdf editor", "fill pdf", "write on pdf", "add text to pdf", "annotate pdf", "fill out pdf form", "whiteout pdf", "ocr pdf", "make scanned pdf searchable"],
+  "word-to-pdf": ["word to pdf", "docx to pdf", "convert word to pdf", "doc to pdf"],
+  "word-editor": ["edit word document", "word editor", "docx editor", "edit docx", "open docx", "write a document", "document editor"],
 };
 
 const STOP = new Set("a an the to my this that please can i want need help me with from of for into make do convert my our your it is".split(" "));
@@ -186,6 +190,7 @@ const ALIASES_ES: Record<string, string[]> = {
   "sms-character-counter": ["contador de caracteres sms", "longitud de sms"],
   "color-palette-generator": ["paleta de colores", "generador de paletas", "combinación de colores"],
   "contrast-checker": ["contraste de colores", "comprobar contraste"],
+  "word-editor": ["editar documento word", "editor de word", "editar docx", "abrir docx"],
 };
 
 function aliasesFor(slug: string, locale: string): string[] {

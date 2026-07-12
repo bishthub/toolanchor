@@ -2634,18 +2634,19 @@ export const TOOLS: Tool[] = [
   },
   // ── Batch 20 — PDF editing & Word conversion ───────────────────────────
   {
-    slug: "pdf-editor", name: "PDF Editor — Fill & Annotate", category: "pdf", status: "live", trending: true,
-    description: "Edit a PDF online free — fill forms, add text, whiteout, highlights and checkmarks, then download. 100% private: your file never leaves your browser.",
-    keywords: ["pdf editor", "edit pdf online free", "fill pdf", "add text to pdf", "annotate pdf"],
-    answer: "To edit a PDF, open it here and use the Text, Whiteout, Highlight and Check tools to place annotations on top of the pages, then download the edited file. It overlays new content — it doesn't rewrite the existing text — and everything runs in your browser, so your document is never uploaded.",
-    intro: "PDF Editor lets you fill and annotate any PDF without installing software. Click to add text in the size and color you need, drag whiteout boxes to cover content, highlight passages, and drop ✓ or ✗ marks — perfect for filling out forms and marking up documents. Every page is rendered right in your browser and the edited PDF is rebuilt locally, so your file is never uploaded.",
-    steps: ["Choose a PDF file — every page appears in the editor.", "Pick a tool (Text, Whiteout, Highlight or Check) and click or drag on a page to place it; use Erase to remove anything.", "Click “Download edited PDF” to save the result."],
+    slug: "pdf-editor", name: "PDF Editor — Fill, Annotate & OCR", category: "pdf", status: "live", trending: true,
+    description: "Edit a PDF online free — add text, whiteout, highlights, pen drawings, checkmarks and images, then run OCR to make scans searchable. 100% private, no upload.",
+    keywords: ["pdf editor", "edit pdf online free", "fill pdf", "annotate pdf", "ocr pdf", "make scanned pdf searchable", "add text to pdf"],
+    answer: "To edit a PDF, open it here and place text, whiteout, highlights, checkmarks, freehand pen strokes or images on any page — then move, resize, undo and zoom until it's right, and download. Built-in OCR extracts the text from scanned pages and can embed an invisible text layer that makes the downloaded PDF selectable and searchable. Everything runs in your browser.",
+    intro: "PDF Editor lets you fill and annotate any PDF without installing software. Click to add multi-line text in the size and color you need, drag whiteout boxes to cover content, highlight passages, draw freehand with the pen, drop checkmarks and crosses, and stamp PNG or JPG images — then move, resize and edit anything with the Select tool, with full undo/redo and zoom. The built-in OCR reads every page, lets you copy the recognized text out, and can add an invisible text layer to the download so a scanned PDF becomes selectable and searchable. Every page is rendered and rebuilt locally, so your file is never uploaded.",
+    steps: ["Choose a PDF file — every page appears in the editor.", "Pick a tool (Text, Whiteout, Highlight, Pen, Check, Cross or Image) and click or drag on a page; use Select to move, resize, edit or delete anything, with undo/redo and zoom.", "Optionally run “OCR — extract text” to copy text out of scanned pages or embed an invisible searchable text layer.", "Click “Download PDF” to save the edited file."],
     faqs: [
-      { q: "Can it edit the PDF's existing text?", a: "No — this editor overlays new content on top of the page rather than rewriting what's already there. To replace existing text, cover it with a Whiteout box and place new Text over it, which is how most PDF fillers work." },
-      { q: "Can I fill out a form with it?", a: "Yes. Click the Text tool and place answers directly over the form's fields and lines, and use the Check tool to tick boxes with a ✓ or ✗. It works on any PDF, even ones without interactive form fields." },
-      { q: "Is my document uploaded?", a: "No. The PDF is rendered, annotated and rebuilt entirely in your browser — it never leaves your device." },
+      { q: "Can it edit the PDF's existing text?", a: "For scanned documents, yes: run OCR, then use “Edit on page” to convert the recognized lines into editable text you can correct, move and restyle right on the page. For digitally-created PDFs it overlays new content — cover old text with Whiteout and type the replacement over it, the same approach most PDF fillers use." },
+      { q: "Can I make a scanned PDF searchable?", a: "Yes. Run “OCR — extract text” and keep “Add invisible text layer” checked: the recognized words are embedded invisibly at their exact positions, so the downloaded PDF becomes selectable and searchable while looking identical. You can also copy the extracted text per page." },
+      { q: "Can I fill out a form with it?", a: "Yes. Place Text directly over the form's fields and lines, tick boxes with the Check or Cross tool, and stamp a signature image with the Image tool. It works on any PDF, even ones without interactive form fields." },
+      { q: "Is my document uploaded?", a: "No. The PDF is rendered, annotated, OCR'd and rebuilt entirely in your browser — it never leaves your device." },
     ],
-    related: ["sign-pdf", "watermark-pdf", "merge-pdf", "compress-pdf"],
+    related: ["sign-pdf", "word-to-pdf", "pdf-to-text", "compress-pdf"],
   },
   {
     slug: "word-to-pdf", name: "Word to PDF Converter", category: "pdf", status: "live", trending: true,
@@ -2659,7 +2660,21 @@ export const TOOLS: Tool[] = [
       { q: "Does it work with old .doc files?", a: "Only .docx (Office Open XML) is supported. For an old .doc file, open it in Word or Google Docs and save it as .docx first, then convert." },
       { q: "Is my document uploaded?", a: "No — conversion and printing happen entirely in your browser; your file never leaves your device." },
     ],
-    related: ["pdf-to-word", "html-to-pdf", "jpg-to-pdf", "merge-pdf"],
+    related: ["word-editor", "pdf-to-word", "html-to-pdf", "merge-pdf"],
+  },
+  {
+    slug: "word-editor", name: "Word Editor — Edit DOCX Online", category: "text", status: "live", trending: true,
+    description: "Open, edit and format Word documents right in your browser — headings, lists, tables and links — then export a real .docx or PDF. Free, private, no upload.",
+    keywords: ["word editor online", "edit docx online", "docx editor", "edit word document online free", "online document editor"],
+    answer: "Word Editor opens a .docx with a local converter and lets you edit it like a document — headings, lists, tables, links and formatting. Export a real .docx file or a crisp vector PDF, or save as .txt or .html. Drafts autosave to this browser and nothing is ever uploaded.",
+    intro: "Word Editor is a full document editor that runs entirely in your browser. Open a .docx and it converts to editable rich text — headings, lists, tables, links and images — or start from a blank page. Format with the toolbar while your draft autosaves locally, then download a real .docx that opens in Word or Google Docs, print a vector PDF, or save as .txt or .html — no upload, no watermark, no sign-up.",
+    steps: ["Open a .docx file — it converts to editable text instantly — or just start typing on the blank page.", "Edit and format with the toolbar: headings, bold, italic, lists, alignment and links. Your draft autosaves to this device as you type.", "Download the result as a real .docx or a vector PDF (or as .txt / .html)."],
+    faqs: [
+      { q: "Is the original formatting preserved?", a: "Text, headings, lists, tables, links and basic styling carry over cleanly. Complex layouts — text boxes, multi-column pages, headers and footers — are simplified on import; the editor notes when content was adjusted." },
+      { q: "Will the exported .docx open in Word or Google Docs?", a: "Yes. The editor builds a standard Office Open XML file, so it opens in Microsoft Word, Google Docs, LibreOffice and Pages with headings, lists, tables and hyperlinks intact." },
+      { q: "Is my document uploaded, and where do drafts go?", a: "Nothing is uploaded — opening, editing and exporting all happen in your browser. Drafts autosave to this browser's local storage on your device; use Discard draft or New document to remove them." },
+    ],
+    related: ["word-to-pdf", "pdf-to-word", "online-notepad", "word-counter"],
   },
 ];
 

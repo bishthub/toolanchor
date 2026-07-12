@@ -238,6 +238,7 @@ const SmsCharacterCounter = dynamic(() => import("./SmsCharacterCounter"), { loa
 // Batch 20 — PDF editing & Word conversion
 const PdfEditor = dynamic(() => import("./PdfEditor"), { loading });
 const WordToPdf = dynamic(() => import("./WordToPdf"), { loading });
+const WordEditor = dynamic(() => import("./WordEditor"), { loading });
 
 // Image-format landing pages reuse the ImageConverter engine with a preset
 // target format (users can still switch). HEIC needs the on-demand decoder.
@@ -450,6 +451,7 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
 	// Batch 20 — PDF editing & Word conversion
 	"pdf-editor": PdfEditor,
 	"word-to-pdf": WordToPdf,
+	"word-editor": WordEditor,
 };
 
 export default function ToolRunner({

@@ -598,6 +598,83 @@ export const GUIDES: Guide[] = [
       { label: "Estimated date of delivery — Wikipedia", url: "https://en.wikipedia.org/wiki/Estimated_date_of_delivery" },
     ],
   },
+  {
+    slug: "how-to-edit-a-pdf-without-acrobat",
+    title: "How to Edit a PDF Without Acrobat (Free, No Upload)",
+    description: "Fill forms, add text, whiteout mistakes, highlight and sign a PDF for free in your browser — no Adobe Acrobat, no upload, no watermark.",
+    keywords: ["edit pdf without acrobat", "edit pdf free", "how to edit a pdf", "write on a pdf", "fill out a pdf"],
+    toolSlug: "pdf-editor",
+    intro: "Most PDF edits don't need Acrobat: filling in a form, fixing a date, covering an old address, ticking a box, highlighting a clause. All of that can be done free, in your browser, without the file ever leaving your device.",
+    answer: "To edit a PDF without Acrobat, open it in a browser-based PDF editor: add text boxes over form fields, use whiteout to cover content and type corrections over it, highlight passages and place checkmarks, then download the edited file. The free PDF Editor here does all of this locally — no upload, no watermark.",
+    steps: [
+      "Open the free PDF Editor and choose your file.",
+      "Use Text to type anywhere, Whiteout to cover content, Highlight and Check to mark it up.",
+      "Move, resize or edit anything with the Select tool.",
+      "Download the edited PDF.",
+    ],
+    sections: [
+      { h2: "What kind of edits does this cover?", body: "Overlay editing handles the everyday cases: completing forms that were never made fillable, correcting a line by covering it with whiteout and typing the fix, adding notes and dates, ticking boxes, highlighting terms and stamping a signature or logo image. It doesn't rewrite the document's original text layer — that requires reflowing the file's internals, which is what desktop editors charge for." },
+      { h2: "Replacing existing text", body: "The universal trick — the same one PDF-filler services use — is whiteout-plus-text: draw a white box over the old content and place new text on top. In the downloaded file the result is flattened into the page, exactly like the output from commercial fillers." },
+      { h2: "Why in-browser is safer for documents", body: "Contracts, IDs and statements shouldn't be uploaded to a random server just to add a date. A local editor renders and rebuilds the PDF on your device, so nothing is transmitted — you can even use it offline once loaded." },
+    ],
+    faqs: [
+      { q: "Is it really free with no watermark?", a: "Yes — no sign-up, no watermark, no page limits." },
+      { q: "Can I sign a PDF too?", a: "Yes — use the pen tool to draw a signature, or the dedicated Sign PDF tool for a reusable drawn signature." },
+      { q: "Is my PDF uploaded?", a: "No — rendering, editing and saving all happen in your browser." },
+    ],
+    related: ["sign-pdf", "word-to-pdf", "compress-pdf"],
+  },
+  {
+    slug: "how-to-make-a-scanned-pdf-searchable",
+    title: "How to Make a Scanned PDF Searchable (Free OCR)",
+    description: "Turn a scanned PDF into a searchable, selectable document with free in-browser OCR — no upload. How invisible text layers work, step by step.",
+    keywords: ["make scanned pdf searchable", "searchable pdf", "ocr pdf free", "scanned pdf to text", "pdf ocr online"],
+    toolSlug: "pdf-editor",
+    intro: "A scanned PDF is just pictures of pages — you can't search it, select text or copy a paragraph. OCR (optical character recognition) fixes that by reading the images and embedding an invisible text layer behind them, and it can run entirely in your browser.",
+    answer: "To make a scanned PDF searchable, run OCR on its pages and embed the recognized words as an invisible text layer aligned with the scan. The free PDF Editor here does this locally: open the PDF, click OCR, then download — the result looks identical but becomes selectable and searchable. Nothing is uploaded.",
+    steps: [
+      "Open the free PDF Editor and choose your scanned PDF.",
+      "Click “OCR — extract text” and let it read each page.",
+      "Copy the extracted text if that's all you need — or keep the invisible-text-layer option ticked.",
+      "Download the PDF: it now supports search, text selection and copy-paste.",
+    ],
+    sections: [
+      { h2: "How a searchable scan works", body: "OCR software recognizes each word in the page image along with its exact position. Those words are then written into the PDF as transparent text placed precisely over the printed words. Viewers show the original scan, but search, selection and screen readers use the hidden layer underneath — the standard technique used by professional scanning software." },
+      { h2: "What affects OCR accuracy?", body: "Resolution and contrast matter most: clean 300-DPI scans of printed text recognize very well; phone photos at an angle, low light or handwriting reduce accuracy. If a page reads poorly, re-scan it flat and well-lit rather than fighting the output." },
+      { h2: "Privacy: why local OCR matters", body: "Scanned documents are usually the sensitive ones — contracts, records, IDs. Running OCR in your browser (via WebAssembly) means the pages are never transmitted to a server, which is a real difference from most online OCR services." },
+    ],
+    faqs: [
+      { q: "Does OCR change how the PDF looks?", a: "No — the scan stays pixel-identical. The recognized text is embedded invisibly behind the image." },
+      { q: "Which languages are supported?", a: "English works out of the box; recognition quality is best on clean printed text." },
+      { q: "Is my document uploaded for OCR?", a: "No — the OCR engine runs in your browser via WebAssembly. The document never leaves your device." },
+    ],
+    related: ["pdf-to-text", "image-to-text", "compress-pdf"],
+  },
+  {
+    slug: "how-to-edit-a-word-document-online-free",
+    title: "How to Edit a Word Document Online Free (No Microsoft Account)",
+    description: "Open, edit and format a .docx file in your browser and export it back to Word or PDF — free, no Microsoft 365, no Google account, no upload.",
+    keywords: ["edit word document online free", "edit docx online", "open docx without word", "free word editor", "edit doc file online"],
+    toolSlug: "word-editor",
+    intro: "You don't need Microsoft 365 or a Google account to open and edit a .docx file. A browser-based editor can read the document locally, let you edit and format it, and export a real .docx or a print-quality PDF — without the file ever being uploaded.",
+    answer: "To edit a Word document online free, open the .docx in a browser-based word editor: the document converts locally, you edit with familiar formatting tools (headings, bold, lists, alignment), then download it back as .docx or export a PDF. The Word Editor here runs entirely in your browser with local draft autosave.",
+    steps: [
+      "Open the free Word Editor and choose your .docx file.",
+      "Edit the text and format with the toolbar — headings, bold, lists, alignment, links.",
+      "Download as .docx to keep working in Word, or Save as PDF for a final copy.",
+    ],
+    sections: [
+      { h2: "What survives the round trip?", body: "Text, headings, bold/italic/underline, lists, alignment, links, images and simple tables convert cleanly in both directions. Heavily designed layouts — text boxes, multiple columns, headers and footers, tracked changes — are simplified on import, so use the desktop app for those documents." },
+      { h2: "When this beats Word or Google Docs", body: "Quick edits on a machine without Office, fixing a document before sending, drafting something that must not touch a cloud account, or opening a .docx someone sent when you have nothing installed. The file converts and saves locally, so there's no sign-in and nothing stored on a server." },
+      { h2: "Old .doc files", body: "The binary .doc format from pre-2007 Word isn't supported by browser converters. Open the file in any modern word processor once and re-save it as .docx, then edit it here." },
+    ],
+    faqs: [
+      { q: "Will the exported .docx open in Word and Google Docs?", a: "Yes — the editor writes a standard Office Open XML file that opens in Word, Google Docs, Pages and LibreOffice." },
+      { q: "Do I need an account?", a: "No — no Microsoft, Google or ToolAnchor account. Drafts autosave to your own browser storage." },
+      { q: "Is my document uploaded?", a: "No — conversion, editing and export all run in your browser. The document never leaves your device." },
+    ],
+    related: ["word-to-pdf", "pdf-to-word", "online-notepad"],
+  },
 ];
 
 export function getGuide(slug: string): Guide | undefined {
