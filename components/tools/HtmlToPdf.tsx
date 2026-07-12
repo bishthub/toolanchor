@@ -112,7 +112,8 @@ export default function HtmlToPdf() {
               borderRadius: "var(--radius-sm)", background: "#fff",
             }}
             title="HTML to PDF preview"
-            sandbox="allow-same-origin"
+            // allow-modals lets the sandboxed preview open the print dialog.
+            sandbox="allow-same-origin allow-modals"
           />
         </div>
       </div>

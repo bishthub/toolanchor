@@ -2663,6 +2663,20 @@ export const TOOLS: Tool[] = [
     related: ["word-editor", "pdf-to-word", "html-to-pdf", "merge-pdf"],
   },
   {
+    slug: "markdown-to-pdf", name: "Markdown to PDF Converter", category: "pdf", status: "live", trending: true,
+    description: "Convert Markdown to a clean, print-ready PDF in your browser — tables, code, task lists and images, in GitHub, serif or clean themes. Free, no upload.",
+    keywords: ["markdown to pdf", "md to pdf", "convert markdown to pdf", "markdown to pdf converter", "readme to pdf"],
+    answer: "A Markdown to PDF converter renders Markdown — headings, tables, fenced code, task lists, images and blockquotes — as a styled document and saves it via the browser's native print-to-PDF engine, so the output is true vector with crisp, selectable text. Paste or open a .md file, pick a theme, and everything runs in your browser with nothing uploaded.",
+    intro: "Markdown to PDF Converter turns your Markdown into a polished, print-ready PDF — GitHub-flavoured tables, fenced code blocks, task lists, nested lists and images all render, with a live preview and a choice of GitHub, clean-sans or serif themes.",
+    steps: ["Paste your Markdown or open a .md file.", "Pick a theme, page size and margins — the preview updates live.", "Click Save as PDF and choose 'Save as PDF' as the print destination."],
+    faqs: [
+      { q: "Which Markdown features are supported?", a: "GitHub-flavoured Markdown: headings, bold/italic/strikethrough, links and images, fenced code blocks with a language label, blockquotes, nested and ordered lists, task lists and pipe tables with column alignment." },
+      { q: "Why is the PDF quality so good?", a: "Instead of a screenshot, the tool prints the rendered document with the browser's native PDF engine — the result is vector output with crisp, selectable text at any zoom." },
+      { q: "Is my Markdown uploaded?", a: "No — parsing, rendering and printing all happen in your browser. Your content never leaves your device." },
+    ],
+    related: ["html-to-pdf", "markdown-preview", "html-to-markdown", "word-to-pdf"],
+  },
+  {
     slug: "word-editor", name: "Word Editor — Edit DOCX Online", category: "text", status: "live", trending: true,
     description: "Open, edit and format Word documents right in your browser — headings, lists, tables and links — then export a real .docx or PDF. Free, private, no upload.",
     keywords: ["word editor online", "edit docx online", "docx editor", "edit word document online free", "online document editor"],

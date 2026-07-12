@@ -157,7 +157,7 @@ export default function WordToPdf({ initialFiles }: { initialFiles?: File[] }) {
                 borderRadius: "var(--radius-sm)", background: "#fff",
               }}
               title="Word to PDF preview"
-              sandbox="allow-same-origin"
+              sandbox="allow-same-origin allow-modals"
             />
           </div>
 

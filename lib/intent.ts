@@ -120,6 +120,7 @@ const ALIASES: Record<string, string[]> = {
   "pdf-editor": ["edit pdf", "pdf editor", "fill pdf", "write on pdf", "add text to pdf", "annotate pdf", "fill out pdf form", "whiteout pdf", "ocr pdf", "make scanned pdf searchable"],
   "word-to-pdf": ["word to pdf", "docx to pdf", "convert word to pdf", "doc to pdf"],
   "word-editor": ["edit word document", "word editor", "docx editor", "edit docx", "open docx", "write a document", "document editor"],
+  "markdown-to-pdf": ["markdown to pdf", "md to pdf", "convert markdown to pdf", "readme to pdf", "render markdown"],
 };
 
 const STOP = new Set("a an the to my this that please can i want need help me with from of for into make do convert my our your it is".split(" "));
