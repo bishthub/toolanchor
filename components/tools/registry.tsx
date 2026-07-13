@@ -241,6 +241,18 @@ const WordToPdf = dynamic(() => import("./WordToPdf"), { loading });
 const WordEditor = dynamic(() => import("./WordEditor"), { loading });
 const MarkdownToPdf = dynamic(() => import("./MarkdownToPdf"), { loading });
 
+// Batch 21 — 2026 cluster expansion (resume, AI-text, metadata, media)
+const ResumeChecker = dynamic(() => import("./ResumeChecker"), { loading });
+const TextBehindImage = dynamic(() => import("./TextBehindImage"), { loading });
+const TokenCounter = dynamic(() => import("./TokenCounter"), { loading });
+const SpeechToText = dynamic(() => import("./SpeechToText"), { loading });
+const InstagramFonts = dynamic(() => import("./InstagramFonts"), { loading });
+const OcrPdf = dynamic(() => import("./OcrPdf"), { loading });
+const SubtitleConverter = dynamic(() => import("./SubtitleConverter"), { loading });
+const RentReceiptGenerator = dynamic(() => import("./RentReceiptGenerator"), { loading });
+const ExifEditor = dynamic(() => import("./ExifEditor"), { loading });
+const AiTextCleaner = dynamic(() => import("./AiTextCleaner"), { loading });
+
 // Image-format landing pages reuse the ImageConverter engine with a preset
 // target format (users can still switch). HEIC needs the on-demand decoder.
 function HeicToJpg(p: ToolProps) { return <ImageConverter {...p} heic defaultFormat="jpeg" slug="heic-to-jpg" />; }
@@ -454,6 +466,17 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
 	"word-to-pdf": WordToPdf,
 	"word-editor": WordEditor,
 	"markdown-to-pdf": MarkdownToPdf,
+	// Batch 21 — 2026 cluster expansion
+	"resume-checker": ResumeChecker,
+	"text-behind-image": TextBehindImage,
+	"token-counter": TokenCounter,
+	"speech-to-text": SpeechToText,
+	"instagram-fonts": InstagramFonts,
+	"ocr-pdf": OcrPdf,
+	"subtitle-converter": SubtitleConverter,
+	"rent-receipt-generator": RentReceiptGenerator,
+	"exif-editor": ExifEditor,
+	"ai-text-cleaner": AiTextCleaner,
 };
 
 export default function ToolRunner({
