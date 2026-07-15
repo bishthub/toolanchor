@@ -2948,6 +2948,21 @@ export const TOOLS: Tool[] = [
     ],
     related: ["wordle-solver", "random-name-picker", "word-counter", "reverse-text"], updated: "2026-07-16",
   },
+  {
+    slug: "mesh-gradient-generator", name: "Mesh Gradient Generator", category: "image", status: "live", trending: true,
+    description: "Create beautiful mesh gradient wallpapers and backgrounds — pick a palette, shuffle the composition and download up to 4K. Free, no watermark, in your browser.",
+    keywords: ["mesh gradient generator", "gradient wallpaper", "gradient background generator", "aesthetic wallpaper maker", "4k gradient wallpaper", "blurry gradient background", "gradient maker"],
+    answer: "A mesh gradient generator blends soft, overlapping color blobs into the smooth, aesthetic gradients used in wallpapers, hero backgrounds and app designs. Pick a palette, shuffle until you like the composition, add optional film grain, and download a watermark-free PNG at up to 4K (3840×2160) — or sized for your phone. Everything renders locally in your browser.",
+    intro: "Mesh Gradient Generator creates the soft, blurry multi-color gradients you see in modern wallpapers, landing pages and app backgrounds. Choose from curated palettes, set how many color blobs to blend, shuffle until the composition feels right, and export a crisp PNG — desktop, 4K or phone-sized — with optional film grain for texture. No watermark, no sign-up, and it all renders in your browser.",
+    steps: ["Pick a palette and the number of color blobs.", "Shuffle the composition until you like it (add film grain for texture).", "Choose a size — desktop, 4K or phone — and download the PNG."],
+    faqs: [
+      { q: "What is a mesh gradient?", a: "A gradient blended from multiple color points scattered across the canvas rather than a single linear fade — producing the soft, organic, out-of-focus look popular in wallpapers and UI design." },
+      { q: "Can I use these commercially?", a: "Yes — the wallpapers you generate are yours, watermark-free, for personal or commercial use." },
+      { q: "What sizes can I download?", a: "1920×1080, 2560×1440, 4K (3840×2160), phone (1170×2532) and square (2048×2048). The preview and the export share the same composition, so what you see is what you get." },
+      { q: "Is anything uploaded?", a: "No — rendering happens entirely in your browser with the Canvas API." },
+    ],
+    related: ["css-gradient-generator", "color-palette-generator", "text-behind-image", "screenshot-beautifier"], updated: "2026-07-16",
+  },
 ];
 
 // ── Derived helpers used across the site ──────────────────────────────────
