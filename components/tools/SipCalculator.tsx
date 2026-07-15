@@ -7,16 +7,21 @@ import ShareResult from "@/components/ShareResult";
 const money = (n: number) =>
   Number.isFinite(n) ? n.toLocaleString(undefined, { maximumFractionDigits: 0 }) : "—";
 
-export default function SipCalculator() {
+export default function SipCalculator({ preset }: { preset?: Record<string, string> }) {
   const [monthly, setMonthly] = useState("");
   const [rate, setRate] = useState("");
   const [years, setYears] = useState("");
 
   useEffect(() => {
+    // Shared-result URL params win over page presets (/tools/sip-calculator/for-25-years).
     const s = readShared(["amt", "r", "y"]);
-    if (s.amt) setMonthly(s.amt);
-    if (s.r) setRate(s.r);
-    if (s.y) setYears(s.y);
+    const amt = s.amt ?? preset?.amt;
+    const r = s.r ?? preset?.r;
+    const y = s.y ?? preset?.y;
+    if (amt) setMonthly(amt);
+    if (r) setRate(r);
+    if (y) setYears(y);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const p = parseFloat(monthly);

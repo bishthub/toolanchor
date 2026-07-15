@@ -245,6 +245,56 @@ const TIMER_PRESETS: ToolPreset[] = TIMERS.map((t) => ({
   ],
 }));
 
+/* ── "Days until <holiday>" presets — evergreen countdown queries ────── */
+// The tool resolves m/d to the NEXT occurrence, so these pages never go stale.
+
+interface HolidayDef { slug: string; name: string; m: number; d: number; blurb: string; }
+
+const HOLIDAYS: HolidayDef[] = [
+  { slug: "christmas",       name: "Christmas",        m: 12, d: 25, blurb: "December 25th — the most counted-down day of the year" },
+  { slug: "new-year",        name: "New Year",         m: 1,  d: 1,  blurb: "January 1st — the start of the new year" },
+  { slug: "halloween",       name: "Halloween",        m: 10, d: 31, blurb: "October 31st — costumes, candy and pumpkins" },
+  { slug: "valentines-day",  name: "Valentine's Day",  m: 2,  d: 14, blurb: "February 14th" },
+  { slug: "4th-of-july",     name: "the 4th of July",  m: 7,  d: 4,  blurb: "US Independence Day" },
+  { slug: "summer",          name: "Summer",           m: 6,  d: 21, blurb: "the June solstice — the astronomical start of northern-hemisphere summer" },
+];
+
+const DAYS_UNTIL_PRESETS: ToolPreset[] = HOLIDAYS.map((h) => ({
+  slug: h.slug,
+  tool: "days-until-calculator",
+  name: `Days Until ${h.name.replace(/^the /, "The ")}`,
+  metaTitle: `How Many Days Until ${h.name.replace(/^the /, "the ")}? — Live Countdown`,
+  description: `Count down the exact days until ${h.name} (${h.blurb}) — plus weeks, hours and minutes. Always up to date, free, in your browser.`,
+  answer: `This page counts the exact days until ${h.name}, always measured to the next occurrence — so it stays correct year after year. You'll also see the countdown in weeks, months, hours and minutes, and you can switch the target to any other date. It runs entirely in your browser.`,
+  params: { m: String(h.m), d: String(h.d) },
+  chip: `Until ${h.name.replace(/^the /, "")}`,
+  faqs: [
+    { q: `How many days until ${h.name}?`, a: `The live counter above shows the exact number of days until ${h.name}, calculated from today's date to the next occurrence — along with weeks, hours and minutes.` },
+    { q: "Does it count today?", a: "The count is the number of midnights between today and the target date — the standard way countdowns are measured, so the day itself isn't included." },
+    { q: "Can I count down to a different date?", a: "Yes — change the target date above to any day (a birthday, a deadline, a trip) and every figure updates instantly." },
+  ],
+}));
+
+/* ── SIP duration presets — "sip calculator for 25 years" queries ─────── */
+
+const SIP_YEARS = [10, 15, 20, 25, 30];
+
+const SIP_PRESETS: ToolPreset[] = SIP_YEARS.map((y) => ({
+  slug: `for-${y}-years`,
+  tool: "sip-calculator",
+  name: `SIP Calculator for ${y} Years`,
+  metaTitle: `SIP Calculator for ${y} Years — Monthly Investment Growth`,
+  description: `Calculate what a monthly SIP grows to in ${y} years: total invested, estimated returns and final value at your expected rate. Free, instant, private.`,
+  answer: `To see what a SIP is worth after ${y} years, enter your monthly amount and expected annual return — the time period is already set to ${y} years. The calculator shows the total you'll invest (months × amount), the estimated returns from compounding, and the final value. Over ${y >= 20 ? "long horizons like this, compounding typically makes returns exceed the amount invested" : "this horizon, compounding contributes a substantial share of the final value"}. Everything runs in your browser.`,
+  params: { y: String(y) },
+  chip: `${y} years`,
+  faqs: [
+    { q: `How much will a SIP grow in ${y} years?`, a: `It depends on the monthly amount and the return rate: enter both above (the ${y}-year period is pre-filled) and you'll see the invested total, estimated returns and final value instantly. At 12% annual return, a ${y}-year SIP's final value is roughly ${y >= 25 ? "4–6×" : y >= 20 ? "3–4×" : y >= 15 ? "2.5–3×" : "2×"} the amount invested.` },
+    { q: "Is a longer SIP better?", a: "Compounding accelerates with time — the last years of a long SIP typically add more value than the first years combined. That's why starting early matters more than starting big." },
+    { q: "Are the returns guaranteed?", a: "No — the calculation assumes a constant annual return, but market returns vary year to year. Treat the result as an estimate for planning, not a promise." },
+  ],
+}));
+
 export const PRESETS: ToolPreset[] = [
   ...RESIZE_PRESETS,
   ...COMPRESS_PRESETS,
@@ -252,6 +302,8 @@ export const PRESETS: ToolPreset[] = [
   ...PDF_TARGET_PRESETS,
   ...CASE_PRESETS,
   ...TIMER_PRESETS,
+  ...DAYS_UNTIL_PRESETS,
+  ...SIP_PRESETS,
 ];
 
 export function presetsForTool(toolSlug: string): ToolPreset[] {
