@@ -5,6 +5,7 @@ import { getTool, LIVE_TOOLS, relatedTools, toolAnswer, toolUpdated } from "@/li
 import { getLocalizedTool, getLocalizedCategory, localizeTool } from "@/lib/i18n-content";
 import { alternatesFor, localeUrl } from "@/lib/hreflang";
 import { presetsForTool } from "@/lib/presets";
+import { isEmbeddable } from "@/lib/embed";
 import { SITE_NAME, SITE_URL, LAUNCH_DATE, ORG_REF, WEBSITE_ID, formatUpdated } from "@/lib/site";
 import { getTranslations } from "next-intl/server";
 import ToolPageRunner from "@/components/ToolPageRunner";
@@ -202,6 +203,14 @@ export default async function ToolPage({
           <ToolPageRunner slug={tool.slug} />
         </div>
       </div>
+
+      {isEmbeddable(tool.slug) && (
+        <p style={{ margin: "-14px 0 26px", fontSize: ".85rem" }}>
+          <Link href={`/widgets?tool=${tool.slug}`} style={{ color: "var(--muted)" }}>
+            Embed this {tool.category === "calculator" ? "calculator" : "tool"} on your website →
+          </Link>
+        </p>
+      )}
 
       <DoNext slug={tool.slug} fallback={[...(tool.related ?? []), ...related.map((rt) => rt.slug)]} />
 

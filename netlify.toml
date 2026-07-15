@@ -19,6 +19,25 @@
     Permissions-Policy = "camera=(self), microphone=(self), display-capture=(self), clipboard-read=(self), clipboard-write=(self)"
     X-XSS-Protection = "0"   # modern browsers ignore this; kept for strictness
 
+# ── Embeddable widgets: /embed/* must be framable by any origin ─────────────
+# CSP frame-ancestors overrides X-Frame-Options in every modern browser, so
+# the site-wide SAMEORIGIN above stays for everything else.
+[[headers]]
+  for = "/embed/*"
+  [headers.values]
+    Content-Security-Policy = "frame-ancestors *"
+
+[[headers]]
+  for = "/es/embed/*"
+  [headers.values]
+    Content-Security-Policy = "frame-ancestors *"
+
+[[headers]]
+  for = "/embed.js"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+    Access-Control-Allow-Origin = "*"
+
 # ── Immutable asset caching (fingerprinted by Next.js) ───────────────────
 [[headers]]
   for = "/_next/static/*"
