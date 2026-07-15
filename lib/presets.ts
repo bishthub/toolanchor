@@ -99,6 +99,7 @@ const COMPRESS_PRESETS: ToolPreset[] = [
     params: { q: "0.5" },
     chip: "For email · 50%",
     faqs: [
+      { q: "How do I compress photos to send via email?", a: "Load your photos on this page — each one is re-compressed at 50% JPEG quality, typically cutting the size by 75–90% — then download and attach the smaller copies to your email. It's free, and the photos never leave your device." },
       { q: "Why do my photos fail to send by email?", a: "Most providers cap attachments (Gmail: 25 MB). Modern phone photos can be 5–12 MB each, so a few photos exceed the cap — compressing them first fixes it." },
       { q: "Is 50% quality too low?", a: "For photos viewed in an email client, 50% is usually fine. If you see artifacts, try the 70% web preset instead." },
     ],
@@ -167,12 +168,13 @@ const PDF_TARGET_PRESETS: ToolPreset[] = PDF_TARGETS.map((t) => ({
   tool: "compress-pdf",
   name: `Compress PDF to ${t.label}`,
   metaTitle: `Compress PDF to ${t.label} — Free, No Upload`,
-  description: `Shrink a PDF to under ${t.label} for ${t.context}. Free and private — pages are re-rendered at progressively lower quality in your browser until the file fits, never uploaded.`,
+  description: `Reduce a PDF's file size to under ${t.label} for ${t.context}. Free and private — pages are re-rendered at progressively lower quality in your browser until the file fits, never uploaded.`,
   answer: `To compress a PDF to ${t.label}, this tool re-renders the pages at progressively lower quality and resolution until the file drops under ${t.label}. Drop your PDF and it targets ${t.label} automatically. If ${t.label} isn't reachable, it delivers the smallest version it can and tells you the exact size rather than faking success. Processing happens locally in your browser.`,
   params: { kb: String(t.kb) },
   chip: `≤ ${t.label}`,
   faqs: [
-    { q: `How do I compress a PDF to ${t.label}?`, a: `Load your PDF here and it steps the image quality and resolution down until the file is under ${t.label}, then lets you download it. You'll see the final size first.` },
+    { q: `How do I reduce a PDF's size to ${t.label}?`, a: `Load your PDF here and it steps the image quality and resolution down until the file is under ${t.label}, then lets you download it. You'll see the final size first.` },
+    { q: `Can I compress a PDF to ${t.label} without losing quality?`, a: `Some quality loss is unavoidable when targeting a fixed size — but the tool always uses the highest quality that still fits under ${t.label}, so it loses no more than necessary. The closer your original is to ${t.label}, the less visible the difference.` },
     { q: "Will the text stay selectable?", a: "No — to hit a strict size target, pages are re-rendered as images, so text becomes part of the image. Keep the original if you need selectable text." },
     { q: `What if the PDF can't reach ${t.label}?`, a: `Very long or dense PDFs may not fit ${t.label} while staying readable. In that case the tool shows the smallest size it achieved instead of claiming success.` },
     { q: "Is my PDF uploaded?", a: "No — compression runs entirely in your browser." },
