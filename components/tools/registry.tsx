@@ -253,6 +253,12 @@ const RentReceiptGenerator = dynamic(() => import("./RentReceiptGenerator"), { l
 const ExifEditor = dynamic(() => import("./ExifEditor"), { loading });
 const AiTextCleaner = dynamic(() => import("./AiTextCleaner"), { loading });
 
+// Batch 22 — trending searches, July 2026
+const AiHumanizer = dynamic(() => import("./AiHumanizer"), { loading });
+const WordleSolver = dynamic(() => import("./WordleSolver"), { loading });
+const BracketGenerator = dynamic(() => import("./BracketGenerator"), { loading });
+const VideoPromptBuilder = dynamic(() => import("./VideoPromptBuilder"), { loading });
+
 // Image-format landing pages reuse the ImageConverter engine with a preset
 // target format (users can still switch). HEIC needs the on-demand decoder.
 function HeicToJpg(p: ToolProps) { return <ImageConverter {...p} heic defaultFormat="jpeg" slug="heic-to-jpg" />; }
@@ -477,6 +483,11 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
 	"rent-receipt-generator": RentReceiptGenerator,
 	"exif-editor": ExifEditor,
 	"ai-text-cleaner": AiTextCleaner,
+	// Batch 22 — trending searches, July 2026
+	"ai-humanizer": AiHumanizer,
+	"wordle-solver": WordleSolver,
+	"bracket-generator": BracketGenerator,
+	"video-prompt-builder": VideoPromptBuilder,
 };
 
 export default function ToolRunner({

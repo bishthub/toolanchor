@@ -2866,6 +2866,72 @@ export const TOOLS: Tool[] = [
     ],
     related: ["ai-content-detector", "whitespace-remover", "case-converter", "word-counter"], updated: "2026-07-14",
   },
+
+  // ── Batch 22 — trending searches, July 2026 ─────────────────────────────
+  {
+    slug: "ai-humanizer", name: "AI Humanizer — Humanize AI Text", category: "text", status: "live", trending: true,
+    description: "Humanize AI text for free: replace robotic AI buzzwords and filler, add contractions and make ChatGPT or Claude writing read naturally. In your browser, no upload.",
+    keywords: ["ai humanizer", "humanize ai text", "humanize chatgpt text", "ai to human text converter", "make ai text sound human", "ai text humanizer", "humanize ai writing", "remove ai words"],
+    answer: "To humanize AI text, paste it here — the tool rewrites the tell-tale patterns of AI writing: buzzwords like \"delve\", \"leverage\", \"pivotal\" and \"seamless\" become plain English, filler like \"it's important to note that\" is trimmed, stiff phrasing gains contractions, and em-dash overuse can be toned down. It's transparent rule-based rewriting that runs entirely in your browser — your text is never uploaded.",
+    intro: "AI Humanizer rewrites the patterns that make AI-generated text sound like AI: the over-used buzzwords (\"delve\", \"leverage\", \"robust\", \"seamless\", \"tapestry\"), the filler phrases (\"it's important to note that\", \"in today's fast-paced world\"), the missing contractions and the em-dash habit. Unlike black-box humanizers, it uses transparent word-level rules and shows how many changes it made — so you stay in control of the final text. Everything runs locally in your browser.",
+    steps: ["Paste your AI-generated text (from ChatGPT, Claude, Gemini…).", "Choose what to fix: buzzwords and filler, contractions, em-dashes.", "Click Humanize, review the result and copy it."],
+    faqs: [
+      { q: "How do I make AI text sound human?", a: "The fastest wins are removing the words AI over-uses (delve, leverage, pivotal, seamless, foster), cutting filler openers, using contractions, and varying sentence length. This tool applies the first three automatically and shows you every category it changed — then give it one human pass yourself." },
+      { q: "Will this bypass AI detectors?", a: "It reduces the vocabulary signals detectors look for, but no honest tool can guarantee bypassing them — detectors also weigh sentence rhythm and structure. Treat the output as a strong first pass, then edit in your own voice. For checking, pair it with the AI Content Detector." },
+      { q: "Is this an AI rewriting my text?", a: "No — it's a transparent, rule-based rewriter. Your text is transformed by a fixed list of word and phrase substitutions in your browser, which means it's fast, private and predictable, and never invents new content." },
+      { q: "Does it change my meaning?", a: "The substitutions are meaning-preserving (e.g. \"utilize\" → \"use\"), and removed filler carries no content. Still, always review the result — especially trimmed sentence openers." },
+      { q: "Is my text uploaded?", a: "No — humanizing runs entirely in your browser. Nothing you paste leaves your device." },
+    ],
+    related: ["paraphrasing-tool", "ai-text-cleaner", "ai-content-detector", "readability-checker"], updated: "2026-07-16",
+  },
+  {
+    slug: "wordle-solver", name: "Wordle Solver & Helper", category: "text", status: "live", trending: true,
+    description: "Solve today's Wordle: enter your green, yellow and gray letters and get every possible answer, best guesses first. Free, instant, in your browser.",
+    keywords: ["wordle solver", "wordle helper", "wordle answer finder", "5 letter words", "five letter word finder", "wordle cheat", "todays wordle help", "word finder wordle"],
+    answer: "A Wordle solver narrows down the answer from your clues: type the green letters in their positions, the yellow letters where you saw them, and the gray letters to exclude — every remaining possible answer from the official 2,314-word list is shown instantly, ranked so the most useful next guess comes first. It runs entirely in your browser.",
+    intro: "Wordle Solver turns your clues into the answer. Enter what you know from your guesses so far — green letters in their exact spots, yellow letters at the positions where they appeared, and the gray letters that aren't in the word — and it filters the official Wordle answer list down to every word that still fits, sorted with the strongest next guesses first. Use it to rescue a streak on the last row or to learn better opening words.",
+    steps: ["Type your green letters into the position boxes.", "Add yellow letters in the box where they appeared, and list the gray letters.", "Pick your next guess from the ranked suggestions — repeat after each round."],
+    faqs: [
+      { q: "How do I solve today's Wordle?", a: "Enter the clues from the guesses you've already made: greens go in their exact position boxes, yellows in the position boxes where you saw them, grays in the excluded list. The words remaining are the only possible answers — the top-ranked ones make the best next guess." },
+      { q: "What's a good Wordle starting word?", a: "Words that cover the most common letters — CRANE, SLATE, ADIEU and RAISE are popular. With no clues entered, this solver's ranked list shows exactly which words carry the most frequent letters." },
+      { q: "What word list does it use?", a: "The official list of 2,314 five-letter Wordle answers, so every suggestion is a word that can actually be the solution — no obscure dictionary noise." },
+      { q: "Does it handle repeated letters?", a: "Yes — a letter marked gray is only fully excluded if it isn't also marked green or yellow, matching how Wordle scores duplicate letters." },
+      { q: "Is this cheating?", a: "That's between you and your streak — many people use it to learn, to verify a deduction, or only on the final guess. Nothing is tracked and nothing leaves your browser." },
+    ],
+    related: ["random-name-picker", "word-counter", "list-randomizer", "reverse-text"], updated: "2026-07-16",
+  },
+  {
+    slug: "bracket-generator", name: "Bracket & Sweepstake Generator", category: "text", status: "live", trending: true,
+    description: "Make a random tournament bracket or run a sweepstake draw: enter teams, get fair crypto-secure matchups or team assignments. Free, no sign-up, in your browser.",
+    keywords: ["bracket generator", "tournament bracket maker", "sweepstake generator", "world cup sweepstake", "random bracket", "matchup generator", "office sweepstake draw", "knockout bracket generator"],
+    answer: "A bracket generator draws a random single-elimination tournament from any list of teams or players — enter one per line and it shuffles them into fair matchups with byes handled automatically, from the first round to the final. Sweepstake mode instead deals the teams out evenly among the people in your office or family draw. Both use the cryptographically-secure Web Crypto API and run entirely in your browser.",
+    intro: "Bracket & Sweepstake Generator sets up your competition in seconds. Bracket mode shuffles any list of teams or players into a random single-elimination bracket — quarter-finals, semi-finals and final — with byes placed automatically when the numbers don't divide evenly. Sweepstake mode runs the classic office draw: it deals the teams out fairly among your participants, perfect for a World Cup, March Madness or fantasy-league kickoff. Draws are powered by the cryptographically-secure Web Crypto API, so they're genuinely fair.",
+    steps: ["Choose Bracket or Sweepstake mode.", "Paste your teams (and for a sweepstake, your people), one per line.", "Hit Draw, then copy the bracket or assignments to share."],
+    faqs: [
+      { q: "How do I run a World Cup sweepstake?", a: "Switch to Sweepstake mode, paste the teams in one box and the people taking part in the other, and hit Draw. Teams are dealt out round-robin after a crypto-secure shuffle, so counts differ by at most one and nobody can rig it. Copy the result and share it with the group." },
+      { q: "What if my team count isn't a power of two?", a: "Bracket mode pads the field with byes up to the next bracket size (4, 8, 16, 32…), so an odd field like 6 or 12 teams still produces a clean knockout bracket." },
+      { q: "Is the draw actually random?", a: "Yes — shuffles use the browser's Web Crypto API (the same randomness source used for cryptography), not a predictable pseudo-random trick." },
+      { q: "Can I redo the draw?", a: "Hit Draw again for a fresh shuffle. If the group wants a witnessed draw, do it once on a shared screen — nothing is stored, so each draw is final unless you re-run it." },
+      { q: "Is my list uploaded?", a: "No — the draw happens entirely in your browser. Your teams and names never leave your device." },
+    ],
+    related: ["random-name-picker", "list-randomizer", "random-number-generator", "dice-roller"], updated: "2026-07-16",
+  },
+  {
+    slug: "video-prompt-builder", name: "AI Video Prompt Builder (Sora, Veo)", category: "text", status: "live", trending: true,
+    description: "Build structured JSON prompts for Sora 2, Veo 3.1 and Nano Banana — scene, action, camera movement, lighting, audio and duration. Free, in your browser.",
+    keywords: ["ai video prompt generator", "sora prompt generator", "veo 3 prompt", "json prompt generator", "nano banana prompt", "video generation prompt", "sora 2 prompts", "veo prompt builder"],
+    answer: "An AI video prompt builder assembles a structured prompt for video models like Sora 2 and Veo 3.1: fill in the scene, action, shot type, camera movement, lighting, mood, audio and duration, and it outputs a clean JSON prompt — the format that gives these models the most reliable control — or a plain-text version. It also builds edit prompts for Nano Banana images. Everything runs in your browser.",
+    intro: "AI Video Prompt Builder constructs detailed, structured prompts for today's video generators — Sora 2, Veo 3.1 — and for Nano Banana image generation and editing. Instead of guessing at magic words, you fill in the parts a video model actually parses: scene, action, shot type, camera movement, lighting, mood, audio cues, duration and aspect ratio. Get the result as a JSON prompt (the format prompt engineers use for repeatable, controllable output) or as plain text, ready to paste.",
+    steps: ["Pick your model (Sora 2, Veo 3.1 or Nano Banana) and output format.", "Describe the scene and action, then set camera, lighting, mood, audio and duration.", "Copy the generated JSON or text prompt into your generator."],
+    faqs: [
+      { q: "Why use a JSON prompt for Sora or Veo?", a: "Structured prompts separate the scene, camera, lighting and audio into labelled fields, which makes the model follow each instruction more reliably and makes it easy to tweak one variable between generations. It's become the standard workflow for repeatable AI video output." },
+      { q: "Does this generate the video?", a: "No — it only builds the prompt text. Paste it into Sora, Google Flow/Gemini (for Veo), or your Nano Banana image workflow." },
+      { q: "What makes a good AI video prompt?", a: "Be concrete about one scene and one action, specify the shot type and a single camera movement, name the lighting, and keep the duration short (5–10 s). Contradictory instructions (two camera moves, day and night) are the most common cause of bad generations." },
+      { q: "Can I write audio and dialogue cues?", a: "Yes — Sora 2 and Veo 3.1 generate synchronized audio, and the builder has an audio field for ambience, sound effects or short quoted dialogue." },
+      { q: "Is anything uploaded?", a: "No — the prompt is assembled entirely in your browser." },
+    ],
+    related: ["image-prompt-builder", "prompt-generator", "token-counter", "video-to-gif"], updated: "2026-07-16",
+  },
 ];
 
 // ── Derived helpers used across the site ──────────────────────────────────
