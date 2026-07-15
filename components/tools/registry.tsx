@@ -258,6 +258,7 @@ const AiHumanizer = dynamic(() => import("./AiHumanizer"), { loading });
 const WordleSolver = dynamic(() => import("./WordleSolver"), { loading });
 const BracketGenerator = dynamic(() => import("./BracketGenerator"), { loading });
 const VideoPromptBuilder = dynamic(() => import("./VideoPromptBuilder"), { loading });
+const WordUnscrambler = dynamic(() => import("./WordUnscrambler"), { loading });
 
 // Image-format landing pages reuse the ImageConverter engine with a preset
 // target format (users can still switch). HEIC needs the on-demand decoder.
@@ -488,6 +489,7 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
 	"wordle-solver": WordleSolver,
 	"bracket-generator": BracketGenerator,
 	"video-prompt-builder": VideoPromptBuilder,
+	"word-unscrambler": WordUnscrambler,
 };
 
 export default function ToolRunner({

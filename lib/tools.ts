@@ -2898,7 +2898,7 @@ export const TOOLS: Tool[] = [
       { q: "Does it handle repeated letters?", a: "Yes — a letter marked gray is only fully excluded if it isn't also marked green or yellow, matching how Wordle scores duplicate letters." },
       { q: "Is this cheating?", a: "That's between you and your streak — many people use it to learn, to verify a deduction, or only on the final guess. Nothing is tracked and nothing leaves your browser." },
     ],
-    related: ["random-name-picker", "word-counter", "list-randomizer", "reverse-text"], updated: "2026-07-16",
+    related: ["word-unscrambler", "random-name-picker", "word-counter", "list-randomizer"], updated: "2026-07-16",
   },
   {
     slug: "bracket-generator", name: "Bracket & Sweepstake Generator", category: "text", status: "live", trending: true,
@@ -2931,6 +2931,22 @@ export const TOOLS: Tool[] = [
       { q: "Is anything uploaded?", a: "No — the prompt is assembled entirely in your browser." },
     ],
     related: ["image-prompt-builder", "prompt-generator", "token-counter", "video-to-gif"], updated: "2026-07-16",
+  },
+  {
+    slug: "word-unscrambler", name: "Word Unscrambler & Anagram Solver", category: "text", status: "live", trending: true,
+    description: "Unscramble letters into words: enter your tiles (with ? blanks) and get every valid word with Scrabble points, longest first. Free, instant, in your browser.",
+    keywords: ["word unscrambler", "unscramble letters", "anagram solver", "unscramble words", "scrabble word finder", "words with friends helper", "jumble solver", "letters to words", "word finder from letters"],
+    answer: "A word unscrambler finds every word you can make from a set of letters. Type your letters — including up to three ? wildcards for blank tiles — and all valid words from the 168,000-word ENABLE dictionary (the list used by Words with Friends) appear instantly, grouped by length with Scrabble points shown, longest and highest-scoring first. Filters for starts-with, ends-with, contains and exact length help you fit the board. Everything runs in your browser.",
+    intro: "Word Unscrambler turns a rack of letters into every playable word. It checks your letters — blanks included — against the public-domain ENABLE dictionary of about 168,000 words, the same list Words with Friends uses, and ranks results longest first with Scrabble points beside each word. Board-fitting filters (starts with, ends with, contains, exact length) narrow the list to words that actually fit your game — Scrabble, Words with Friends, Wordscapes, Text Twist, anagrams or the daily Jumble.",
+    steps: ["Type your letters (use ? for a blank tile — up to 3).", "Optionally filter by starts-with, ends-with, contains, or exact length.", "Pick a word — results are grouped by length with Scrabble points shown."],
+    faqs: [
+      { q: "How do I unscramble letters into words?", a: "Enter the letters on this page — every word that can be built from them is found instantly and grouped by length, highest-scoring first. Add filters like \"ends with\" to match your board." },
+      { q: "Which dictionary does it use?", a: "ENABLE — a public-domain list of ~168,000 words that Words with Friends is based on and that overlaps heavily with Scrabble dictionaries. Some tournament-only Scrabble words may differ, so check your game's dictionary for competitive play." },
+      { q: "How do blank tiles work?", a: "Type ? for each blank (up to three). The solver treats it as any letter and finds every word your rack can reach. Remember a blank scores 0 in Scrabble even though the shown points assume the real letter." },
+      { q: "Does it work for Wordscapes, Text Twist and Jumble?", a: "Yes — those games draw from standard English word lists, so unscrambling your letters here finds the answers. Use the exact-length filter when the puzzle wants a specific word size." },
+      { q: "Are my letters sent to a server?", a: "No — the dictionary downloads once from this site (about 500 KB) and all unscrambling runs in your browser. After the first visit it even works offline." },
+    ],
+    related: ["wordle-solver", "random-name-picker", "word-counter", "reverse-text"], updated: "2026-07-16",
   },
 ];
 
