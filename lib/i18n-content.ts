@@ -5,9 +5,11 @@
 import { getTool, getCategory, type Tool, type Category, type CategoryId } from "@/lib/tools";
 import { ES_TOOLS } from "@/content/es/tools";
 import { ES_CATEGORIES } from "@/content/es/categories";
+import { PT_TOOLS } from "@/content/pt/tools";
+import { PT_CATEGORIES } from "@/content/pt/categories";
 
-const TOOL_OVERRIDES: Record<string, Record<string, Partial<Tool>>> = { es: ES_TOOLS };
-const CATEGORY_OVERRIDES: Record<string, Partial<Record<CategoryId, Partial<Category>>>> = { es: ES_CATEGORIES };
+const TOOL_OVERRIDES: Record<string, Record<string, Partial<Tool>>> = { es: ES_TOOLS, pt: PT_TOOLS };
+const CATEGORY_OVERRIDES: Record<string, Partial<Record<CategoryId, Partial<Category>>>> = { es: ES_CATEGORIES, pt: PT_CATEGORIES };
 
 export function localizeTool(tool: Tool, locale: string): Tool {
   const o = TOOL_OVERRIDES[locale]?.[tool.slug];

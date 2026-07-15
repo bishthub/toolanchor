@@ -1,0 +1,67 @@
+{
+  "nav": {
+    "ask": "Perguntar",
+    "workflows": "Fluxos",
+    "guides": "Guias",
+    "allTools": "Todas as ferramentas A–Z"
+  },
+  "footer": {
+    "tagline": "Ferramentas online gratuitas que funcionam inteiramente no seu navegador. Sem uploads, sem cadastro, sem limites — {count} ferramentas e contando.",
+    "browse": "Explorar",
+    "allToolsAZ": "Todas as ferramentas (A–Z)",
+    "askTask": "Perguntar (descreva uma tarefa)",
+    "workflows": "Fluxos de trabalho",
+    "guides": "Guias",
+    "glossary": "Glossário",
+    "alternatives": "Alternativas",
+    "categories": "Categorias",
+    "company": "Empresa",
+    "about": "Sobre",
+    "contact": "Contato",
+    "privacy": "Privacidade",
+    "terms": "Termos",
+    "inBrowser": "100% no navegador · nada é enviado",
+    "freeForever": "© {site}. Grátis para sempre."
+  },
+  "toolPage": {
+    "home": "Início",
+    "howToUse": "Como usar {name}",
+    "faq": "Perguntas frequentes",
+    "related": "{category} relacionadas",
+    "lastUpdated": "Última atualização: {date}",
+    "popularPresets": "Predefinições populares:",
+    "runsInBrowser": "Funciona no seu navegador",
+    "localOptInAi": "Local + IA opcional"
+  },
+  "toolsIndex": {
+    "metaTitle": "Todas as Ferramentas A–Z",
+    "metaDescription": "O diretório completo de A a Z com todas as ferramentas online gratuitas do {site} — PDF, imagem, texto, desenvolvedor e calculadoras, tudo privado e no navegador.",
+    "eyebrow": "A caixa de ferramentas completa",
+    "title": "Todas as ferramentas — de A a Z",
+    "lede": "Todas as ferramentas do {site} em um só lugar — {count} e contando. Vá direto a uma letra, role a lista ou filtre abaixo.",
+    "filter": "Filtrar ferramentas…",
+    "matching": "{count, plural, one {# ferramenta} other {# ferramentas}} para “{q}”",
+    "noMatch": "Nenhuma ferramenta encontrada. Tente “pdf”, “imagem” ou “json”."
+  },
+  "home": {
+    "eyebrow": "Grátis · Privado · No navegador",
+    "titleTail": "Direto no seu <em>navegador.</em>",
+    "srHeading": "Comprimir PDFs, redimensionar imagens, cortar vídeos, formatar JSON —",
+    "sub": "{count} ferramentas rápidas, gratuitas e privadas para PDF, imagem, vídeo, texto, código e contas do dia a dia. Seus arquivos nunca saem do seu dispositivo — e você pode comprovar: abra a aba Rede do navegador e veja que nada é enviado.",
+    "searchHint": "Buscar {count} ferramentas — juntar PDF, redimensionar imagem, contar palavras…",
+    "dropHint": "…ou arraste um arquivo para qualquer lugar e mostramos o que dá para fazer com ele.",
+    "trustLiveTools": "ferramentas ativas",
+    "trustUploads": "uploads",
+    "trustFree": "grátis",
+    "trustSignup": "cadastro",
+    "trendingHead": "Novas e em <em>alta</em>",
+    "trendingTag": "recém-adicionada",
+    "popularHead": "Ferramentas populares",
+    "viewAll": "Ver todas as {count} →",
+    "assistantHead": "Não sabe o nome da ferramenta? <em>Só descreva.</em>",
+    "assistantBlurb": "Escreva o que você quer fazer — ou arraste um arquivo — e abrimos a ferramenta certa na hora.",
+    "browseHead": "Explorar por <em>categoria</em>",
+    "allN": "Todas as {count} →",
+    "browseAll": "Ver todas as {count} ferramentas A–Z →"
+  }
+}

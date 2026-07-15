@@ -178,9 +178,9 @@ function Builder({ tools }: { tools: Tool[] }) {
         />
       </div>
 
-      <div>
+      <div style={{ position: "sticky", top: 24 }}>
         <div className="field" style={{ marginBottom: 8 }}>
-          <label>Live preview</label>
+          <label>Live preview — exactly as it will appear on your site</label>
         </div>
         <div style={{ maxWidth: width === "100%" ? undefined : width }}>
           <iframe

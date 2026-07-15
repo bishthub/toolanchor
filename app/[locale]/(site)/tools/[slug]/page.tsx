@@ -29,6 +29,7 @@ const FILE_CATEGORIES = new Set(["pdf", "image", "media"]);
 const TITLE_TAIL: Record<string, { file: string; other: string }> = {
   en: { file: "Free Online, No Upload", other: "Free Online Tool" },
   es: { file: "Gratis y Sin Subir Archivos", other: "Herramienta Online Gratis" },
+  pt: { file: "Grátis e Sem Upload", other: "Ferramenta Online Grátis" },
 };
 
 export async function generateMetadata({
@@ -204,15 +205,29 @@ export default async function ToolPage({
         </div>
       </div>
 
-      {isEmbeddable(tool.slug) && (
-        <p style={{ margin: "-14px 0 26px", fontSize: ".85rem" }}>
-          <Link href={`/widgets?tool=${tool.slug}`} style={{ color: "var(--muted)" }}>
-            Embed this {tool.category === "calculator" ? "calculator" : "tool"} on your website →
-          </Link>
-        </p>
-      )}
-
       <DoNext slug={tool.slug} fallback={[...(tool.related ?? []), ...related.map((rt) => rt.slug)]} />
+
+      {/* Widget promo — turns every visitor who likes a tool into a potential embed (backlink). */}
+      <aside className="widget-promo">
+        <div>
+          <strong>
+            {isEmbeddable(tool.slug)
+              ? `Want this ${tool.category === "calculator" ? "calculator" : "tool"} on your website?`
+              : "Want a free widget for your website?"}
+          </strong>
+          <p>
+            Free embeddable widget — matches your site&apos;s theme and colors, auto-resizes,
+            and collects zero data from your visitors. One paste to install.
+          </p>
+        </div>
+        <Link
+          href={isEmbeddable(tool.slug) ? `/widgets?tool=${tool.slug}` : "/widgets"}
+          className="btn secondary"
+          style={{ whiteSpace: "nowrap" }}
+        >
+          Get the widget →
+        </Link>
+      </aside>
 
       {/* How to use — body content for SEO */}
       <section className="content-block">
