@@ -675,6 +675,42 @@ export const GUIDES: Guide[] = [
     ],
     related: ["word-to-pdf", "pdf-to-word", "online-notepad"],
   },
+  {
+    slug: "which-apps-remove-exif-data",
+    title: "Which Apps Strip EXIF Data From Your Photos? (2026 Reference)",
+    description: "WhatsApp, Instagram and X strip photo metadata — iMessage, email and cloud drives don't. The complete 2026 reference on where your EXIF (and GPS location) survives, and how to check any photo yourself.",
+    keywords: ["which apps remove exif data", "does whatsapp remove exif", "does instagram remove metadata", "photo metadata privacy", "exif gps privacy", "does imessage send location metadata"],
+    toolSlug: "image-metadata-viewer",
+    intro: "Every photo your phone takes carries hidden EXIF metadata: the exact GPS coordinates of where it was taken, the date and time down to the second, and your device model. Whether that data reaches the person you send the photo to depends entirely on which app you use — and the differences are bigger than most people expect. This reference collects the current behavior of the major platforms, and shows you how to verify any photo yourself in seconds.",
+    answer: "Social platforms (Instagram, Facebook, X, Reddit, LinkedIn) and messengers that recompress photos (WhatsApp, Signal, Telegram in photo mode) strip EXIF metadata, including GPS location. But iMessage, email attachments, cloud drives (Google Drive, Dropbox) and any app's \"send as file/document\" option preserve it — recipients can read your location from the file. Check any photo with a local EXIF viewer before sharing.",
+    steps: [
+      "Open the free Image Metadata Viewer (runs locally — the photo isn't uploaded).",
+      "Load a photo you received through the app you're curious about.",
+      "If you see camera, date and GPS fields, that path preserves metadata; if it's empty, the app stripped it.",
+      "Before sharing anything sensitive yourself, strip metadata with the Image Metadata Remover.",
+    ],
+    sections: [
+      { h2: "Apps that strip EXIF (metadata does not reach the recipient)", body: "The major social platforms remove metadata from photos when they process uploads: Instagram, Facebook, X (Twitter), Reddit, LinkedIn and TikTok all re-encode images, and the copies other users see or download carry no EXIF. The same goes for messengers that recompress photos on send: WhatsApp, Signal, and Telegram (when sending as a regular photo). Note the platform itself still receives your original file server-side — stripping protects you from other users, not from the platform." },
+      { h2: "Paths that preserve EXIF (your location travels with the photo)", body: "iMessage sends photos essentially as-is — including GPS coordinates. Email attachments preserve everything. Cloud storage and file-sharing (Google Drive, Dropbox, OneDrive, AirDrop) transfer the original file byte-for-byte. And every messenger's \"send as file/document\" option (WhatsApp and Telegram both have one) deliberately skips recompression — which also skips the metadata stripping. If you share originals through any of these, the recipient can read exactly where and when the photo was taken." },
+      { h2: "The 'send as document' trap", body: "The most common way people leak location by accident: choosing the higher-quality file/document option in WhatsApp or Telegram. Photo mode strips metadata as a side effect of recompression; document mode sends the original untouched. Higher quality and metadata privacy pull in opposite directions here — if you want both, strip the EXIF first, then send as a document." },
+      { h2: "What's actually in there", body: "A typical smartphone photo embeds: GPS latitude/longitude (usually within a few meters), altitude, capture date and time, device make and model, lens and exposure settings, and sometimes the editing software used. Camera-original files can also carry a thumbnail of the unedited image. Individually harmless; together they can reveal your home address, workplace and daily patterns from a handful of shared photos." },
+      { h2: "Verify it yourself — don't take our word for it", body: "Platform behavior changes, and this page describes the state of mid-2026. The reliable way to know what an app does is to test it: send yourself a photo through the app, download it, and open it in the metadata viewer below. The check runs locally in your browser, so the photo you're inspecting is never uploaded anywhere. That's also the honest caveat of this reference: treat 'stripped' as 'stripped today', and re-verify for anything sensitive." },
+    ],
+    faqs: [
+      { q: "Does WhatsApp remove EXIF data from photos?", a: "Yes — photos sent normally are recompressed and lose their metadata, including GPS. But 'send as document' preserves the original file, metadata included." },
+      { q: "Does iMessage send my location with photos?", a: "Photos sent via iMessage keep their EXIF metadata, including GPS coordinates, unless you strip it first. iOS lets you remove location per-share via the Options button on the share sheet." },
+      { q: "Do screenshots contain location data?", a: "Screenshots carry no camera EXIF (no GPS, no camera model) — taking a screenshot of a photo is a crude but effective way to strip metadata, at the cost of quality." },
+      { q: "Does stripping EXIF protect me from the platform itself?", a: "No — platforms strip metadata from what other users see, but your original upload (with metadata) reaches their servers. If that matters, remove metadata locally before uploading." },
+      { q: "How do I remove EXIF before sharing?", a: "Use the Image Metadata Remover — it re-encodes the photo cleanly in your browser, deleting GPS and all other metadata, without the image ever leaving your device." },
+    ],
+    related: ["image-metadata-remover", "exif-editor", "image-metadata-viewer"],
+    updated: "2026-07-16",
+    sources: [
+      { label: "EXIF standard (CIPA)", url: "https://www.cipa.jp/e/std/std-sec.html" },
+      { label: "IPTC Photo Metadata Standard", url: "https://iptc.org/standards/photo-metadata/" },
+      { label: "Exif — Wikipedia", url: "https://en.wikipedia.org/wiki/Exif" },
+    ],
+  },
 ];
 
 export function getGuide(slug: string): Guide | undefined {
