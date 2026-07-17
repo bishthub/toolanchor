@@ -11,3 +11,6 @@ next-env.d.ts
 # Local Netlify folder
 .netlify
 *.tsbuildinfo
+
+# Internal marketing docs — never publish
+SUBMISSIONS.md
