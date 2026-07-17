@@ -3,11 +3,12 @@
 // Wraps ToolRunner on tool/preset pages so a file handed off from another
 // tool ("Continue with →") is auto-loaded, with a small provenance note.
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ToolRunner from "@/components/tools/registry";
 import WorkflowBar from "@/components/WorkflowBar";
 import { takeHandoff, type Handoff } from "@/lib/handoff";
 import { getTool } from "@/lib/tools";
+import { trackEvent } from "@/lib/track";
 
 export default function ToolPageRunner({
   slug,
@@ -17,6 +18,14 @@ export default function ToolPageRunner({
   preset?: Record<string, string>;
 }) {
   const [handoff] = useState<Handoff | null>(() => takeHandoff());
+  // "tool_used" = first real interaction with the tool this page view —
+  // separates people who actually use it from those who land and bounce.
+  const used = useRef(false);
+  const markUsed = () => {
+    if (used.current) return;
+    used.current = true;
+    trackEvent("tool_used", { tool: slug });
+  };
   const files = handoff?.files ?? [];
   const first = files[0];
   const fromName =
@@ -32,11 +41,18 @@ export default function ToolPageRunner({
           {fromName ? ` from ${fromName}` : ""} — keep going below.
         </p>
       )}
-      <ToolRunner
-        slug={slug}
-        initialFiles={files.length ? files : undefined}
-        preset={preset}
-      />
+      <div
+        style={{ display: "contents" }}
+        onPointerDownCapture={markUsed}
+        onKeyDownCapture={markUsed}
+        onDropCapture={markUsed}
+      >
+        <ToolRunner
+          slug={slug}
+          initialFiles={files.length ? files : undefined}
+          preset={preset}
+        />
+      </div>
     </>
   );
 }

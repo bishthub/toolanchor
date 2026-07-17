@@ -101,7 +101,7 @@ export default async function PresetPage({
       style={{ ["--cat" as string]: `var(--cat-${tool.category})` }}
     >
       <JsonLd data={jsonLd} />
-      <ToolUsageTracker slug={tool.slug} />
+      <ToolUsageTracker slug={tool.slug} preset={p.slug} />
 
       <nav className="breadcrumb" aria-label="Breadcrumb">
         <Link href="/">Home</Link>
