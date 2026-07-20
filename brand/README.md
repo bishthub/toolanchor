@@ -15,6 +15,7 @@ profiles, and press.
 ## Screenshots & demo
 
 - `screenshots/*.png` — retina (2560×1600) captures of the live site, dark mode
+- `toolanchor-tour.mp4` — 29s captioned product tour (6 tools + intro/outro); upload to YouTube for Product Hunt
 - `toolanchor-demo.mp4` / `toolanchor-demo.gif` — ~6s walkthrough (homepage → QR generator rendering live)
 
 Regenerate by re-running the capture scripts (they drive headless Chrome against the live

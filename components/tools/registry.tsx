@@ -261,6 +261,16 @@ const VideoPromptBuilder = dynamic(() => import("./VideoPromptBuilder"), { loadi
 const WordUnscrambler = dynamic(() => import("./WordUnscrambler"), { loading });
 const MeshGradientGenerator = dynamic(() => import("./MeshGradientGenerator"), { loading });
 
+// Batch 23 — women's health & family cluster
+const PeriodCalculator = dynamic(() => import("./PeriodCalculator"), { loading });
+const PregnancyWeekCalculator = dynamic(() => import("./PregnancyWeekCalculator"), { loading });
+const ConceptionDateCalculator = dynamic(() => import("./ConceptionDateCalculator"), { loading });
+const PregnancyWeightGainCalculator = dynamic(() => import("./PregnancyWeightGainCalculator"), { loading });
+const IdealWeightCalculator = dynamic(() => import("./IdealWeightCalculator"), { loading });
+const ChildHeightPredictor = dynamic(() => import("./ChildHeightPredictor"), { loading });
+const ChineseGenderPredictor = dynamic(() => import("./ChineseGenderPredictor"), { loading });
+const MenstrualCycleCalculator = dynamic(() => import("./MenstrualCycleCalculator"), { loading });
+
 // Image-format landing pages reuse the ImageConverter engine with a preset
 // target format (users can still switch). HEIC needs the on-demand decoder.
 function HeicToJpg(p: ToolProps) { return <ImageConverter {...p} heic defaultFormat="jpeg" slug="heic-to-jpg" />; }
@@ -492,6 +502,15 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
 	"video-prompt-builder": VideoPromptBuilder,
 	"word-unscrambler": WordUnscrambler,
 	"mesh-gradient-generator": MeshGradientGenerator,
+	// Batch 23 — women's health & family cluster
+	"period-calculator": PeriodCalculator,
+	"pregnancy-week-calculator": PregnancyWeekCalculator,
+	"conception-date-calculator": ConceptionDateCalculator,
+	"pregnancy-weight-gain-calculator": PregnancyWeightGainCalculator,
+	"ideal-weight-calculator": IdealWeightCalculator,
+	"child-height-predictor": ChildHeightPredictor,
+	"chinese-gender-predictor": ChineseGenderPredictor,
+	"menstrual-cycle-calculator": MenstrualCycleCalculator,
 };
 
 export default function ToolRunner({
