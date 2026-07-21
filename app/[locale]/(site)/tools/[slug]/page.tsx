@@ -30,6 +30,7 @@ const TITLE_TAIL: Record<string, { file: string; other: string }> = {
   en: { file: "Free Online, No Upload", other: "Free Online Tool" },
   es: { file: "Gratis y Sin Subir Archivos", other: "Herramienta Online Gratis" },
   pt: { file: "Grátis e Sem Upload", other: "Ferramenta Online Grátis" },
+  hi: { file: "मुफ़्त, बिना अपलोड", other: "मुफ़्त ऑनलाइन टूल" },
 };
 
 export async function generateMetadata({
