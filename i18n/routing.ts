@@ -4,7 +4,7 @@ import { defineRouting } from "next-intl/routing";
 // prefix); other locales are prefixed (/es/…). English is prerendered at build;
 // non-English pages render on-demand (ISR) so build time stays flat.
 export const routing = defineRouting({
-  locales: ["en", "es", "pt", "hi"],
+  locales: ["en", "es", "pt", "hi", "id"],
   defaultLocale: "en",
   localePrefix: "as-needed",
 });

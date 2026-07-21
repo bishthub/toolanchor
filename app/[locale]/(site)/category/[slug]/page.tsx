@@ -18,6 +18,15 @@ export function generateStaticParams() {
   return CATEGORIES.map((c) => ({ slug: c.id }));
 }
 
+// See TITLE_TAIL in tools/[slug]/page.tsx for the same convention.
+const TITLE_TAIL: Record<string, string> = {
+  en: "Free & Private",
+  es: "Gratis y Privado",
+  pt: "Grátis e Privado",
+  hi: "मुफ़्त और प्राइवेट",
+  id: "Gratis & Privat",
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -26,8 +35,9 @@ export async function generateMetadata({
   const { locale, slug } = await params;
   const cat = getLocalizedCategory(slug as CategoryId, locale);
   if (!cat) return {};
+  const tail = TITLE_TAIL[locale] ?? TITLE_TAIL.en;
   return {
-    title: `${cat.name} — Free & Private`,
+    title: `${cat.name} — ${tail}`,
     description: cat.blurb,
     alternates: alternatesFor(`/category/${cat.id}`, locale),
   };

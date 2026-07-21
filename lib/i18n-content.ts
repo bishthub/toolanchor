@@ -9,9 +9,11 @@ import { PT_TOOLS } from "@/content/pt/tools";
 import { PT_CATEGORIES } from "@/content/pt/categories";
 import { HI_TOOLS } from "@/content/hi/tools";
 import { HI_CATEGORIES } from "@/content/hi/categories";
+import { ID_TOOLS } from "@/content/id/tools";
+import { ID_CATEGORIES } from "@/content/id/categories";
 
-const TOOL_OVERRIDES: Record<string, Record<string, Partial<Tool>>> = { es: ES_TOOLS, pt: PT_TOOLS, hi: HI_TOOLS };
-const CATEGORY_OVERRIDES: Record<string, Partial<Record<CategoryId, Partial<Category>>>> = { es: ES_CATEGORIES, pt: PT_CATEGORIES, hi: HI_CATEGORIES };
+const TOOL_OVERRIDES: Record<string, Record<string, Partial<Tool>>> = { es: ES_TOOLS, pt: PT_TOOLS, hi: HI_TOOLS, id: ID_TOOLS };
+const CATEGORY_OVERRIDES: Record<string, Partial<Record<CategoryId, Partial<Category>>>> = { es: ES_CATEGORIES, pt: PT_CATEGORIES, hi: HI_CATEGORIES, id: ID_CATEGORIES };
 
 export function localizeTool(tool: Tool, locale: string): Tool {
   const o = TOOL_OVERRIDES[locale]?.[tool.slug];

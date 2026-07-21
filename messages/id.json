@@ -1,0 +1,67 @@
+{
+  "nav": {
+    "ask": "Tanya",
+    "workflows": "Alur Kerja",
+    "guides": "Panduan",
+    "allTools": "Semua alat A–Z"
+  },
+  "footer": {
+    "tagline": "Alat online gratis yang berjalan sepenuhnya di browser Anda. Tanpa unggah, tanpa daftar, tanpa batas — {count} alat dan terus bertambah.",
+    "browse": "Jelajahi",
+    "allToolsAZ": "Semua alat (A–Z)",
+    "askTask": "Tanya (jelaskan tugas)",
+    "workflows": "Alur Kerja",
+    "guides": "Panduan",
+    "glossary": "Glosarium",
+    "alternatives": "Alternatif",
+    "categories": "Kategori",
+    "company": "Perusahaan",
+    "about": "Tentang",
+    "contact": "Kontak",
+    "privacy": "Privasi",
+    "terms": "Ketentuan",
+    "inBrowser": "100% di browser · tidak ada yang diunggah",
+    "freeForever": "© {site}. Gratis selamanya."
+  },
+  "toolPage": {
+    "home": "Beranda",
+    "howToUse": "Cara menggunakan {name}",
+    "faq": "Pertanyaan yang sering diajukan",
+    "related": "{category} terkait",
+    "lastUpdated": "Terakhir diperbarui: {date}",
+    "popularPresets": "Preset populer:",
+    "runsInBrowser": "Berjalan di browser Anda",
+    "localOptInAi": "Lokal + AI opsional"
+  },
+  "toolsIndex": {
+    "metaTitle": "Semua Alat A–Z",
+    "metaDescription": "Direktori A–Z lengkap dari setiap alat online gratis di {site} — alat PDF, gambar, teks, developer, dan kalkulator, semuanya privat dan berjalan di browser.",
+    "eyebrow": "Kotak alat lengkap",
+    "title": "Semua alat — A sampai Z",
+    "lede": "Semua alat di {site} dalam satu tempat — {count} dan terus bertambah. Lompat ke huruf tertentu, gulir semuanya, atau filter langsung di bawah.",
+    "filter": "Filter semua alat…",
+    "matching": "{count, plural, one {# alat} other {# alat}} cocok dengan “{q}”",
+    "noMatch": "Tidak ada alat yang cocok. Coba “pdf”, “image”, atau “json”."
+  },
+  "home": {
+    "eyebrow": "Gratis · Privat · Di browser",
+    "titleTail": "Langsung di <em>browser Anda.</em>",
+    "srHeading": "Kompres PDF, ubah ukuran gambar, potong video, format JSON —",
+    "sub": "{count} alat cepat, gratis, dan mengutamakan privasi untuk PDF, gambar, video, teks, kode, dan hitungan sehari-hari. File Anda tidak pernah meninggalkan perangkat Anda — dan Anda bisa membuktikannya: buka tab Network di browser dan lihat tidak ada yang diunggah.",
+    "searchHint": "Cari {count} alat — gabung PDF, ubah ukuran gambar, hitung kata…",
+    "dropHint": "…atau letakkan file di mana saja dan kami akan menunjukkan apa yang bisa Anda lakukan dengannya.",
+    "trustLiveTools": "alat aktif",
+    "trustUploads": "unggahan",
+    "trustFree": "gratis",
+    "trustSignup": "daftar",
+    "trendingHead": "Baru & <em>tren</em>",
+    "trendingTag": "baru ditambahkan",
+    "popularHead": "Alat populer",
+    "viewAll": "Lihat semua {count} →",
+    "assistantHead": "Tidak tahu nama alatnya? <em>Jelaskan saja.</em>",
+    "assistantBlurb": "Ketik apa yang ingin Anda lakukan — atau letakkan file — dan kami akan membuka alat yang tepat secara instan.",
+    "browseHead": "Jelajahi berdasarkan <em>kategori</em>",
+    "allN": "Semua {count} →",
+    "browseAll": "Jelajahi semua {count} alat A–Z →"
+  }
+}
