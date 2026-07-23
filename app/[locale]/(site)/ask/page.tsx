@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default function AskPage() {
   return (
     <div className="container tool-page">
-      <div className="tool-head" style={{ textAlign: "center" }}>
+      <div className="tool-head" style={{ textAlign: "center", margin: "0 auto" }}>
         <span className="eyebrow" style={{ justifyContent: "center" }}>Tell us what you need</span>
         <h1>What do you want to do?</h1>
         <p className="lede" style={{ marginLeft: "auto", marginRight: "auto" }}>
