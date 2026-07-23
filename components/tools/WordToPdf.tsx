@@ -12,14 +12,16 @@ function isDocx(f: File): boolean {
 }
 
 function buildDoc(bodyHtml: string, size: PageSize, margin: Margin): string {
-  const marginCss = margin === "none" ? " margin: 0;" : margin === "narrow" ? " margin: 10mm;" : "";
+  // @page margin stays 0 so the browser doesn't stamp its date/title/URL header
+  // and footer onto the PDF; the chosen margin is applied as body padding instead.
+  const pad = margin === "none" ? "0" : margin === "narrow" ? "10mm" : "18mm";
   return `<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <style>
-  @page { size: ${size};${marginCss} }
-  body { font-family: Georgia, "Times New Roman", serif; color: #1a1a1a; line-height: 1.55; padding: 24px; max-width: none; }
+  @page { size: ${size}; margin: 0; }
+  body { font-family: Georgia, "Times New Roman", serif; color: #1a1a1a; line-height: 1.55; padding: ${pad}; max-width: none; }
   h1 { font-size: 1.7rem; margin: 1.1em 0 .45em; line-height: 1.25; }
   h2 { font-size: 1.35rem; margin: 1em 0 .4em; line-height: 1.3; }
   h3 { font-size: 1.15rem; margin: .9em 0 .35em; }

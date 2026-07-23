@@ -270,6 +270,9 @@ const IdealWeightCalculator = dynamic(() => import("./IdealWeightCalculator"), {
 const ChildHeightPredictor = dynamic(() => import("./ChildHeightPredictor"), { loading });
 const ChineseGenderPredictor = dynamic(() => import("./ChineseGenderPredictor"), { loading });
 const MenstrualCycleCalculator = dynamic(() => import("./MenstrualCycleCalculator"), { loading });
+// Batch 24 — UGC creator auto-fill cluster
+const GoogleFormFiller = dynamic(() => import("./GoogleFormFiller"), { loading });
+const InvoiceFiller = dynamic(() => import("./InvoiceFiller"), { loading });
 
 // Image-format landing pages reuse the ImageConverter engine with a preset
 // target format (users can still switch). HEIC needs the on-demand decoder.
@@ -511,6 +514,9 @@ const REGISTRY: Record<string, React.ComponentType<ToolProps>> = {
 	"child-height-predictor": ChildHeightPredictor,
 	"chinese-gender-predictor": ChineseGenderPredictor,
 	"menstrual-cycle-calculator": MenstrualCycleCalculator,
+	// Batch 24 — UGC creator auto-fill cluster
+	"google-form-filler": GoogleFormFiller,
+	"invoice-filler": InvoiceFiller,
 };
 
 export default function ToolRunner({

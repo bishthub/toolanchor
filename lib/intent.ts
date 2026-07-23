@@ -27,6 +27,8 @@ export const FILE_AUTOLOAD = new Set<string>([
   "svg-to-png", "screenshot-beautifier", "collage-maker",
   // Batch 12 — PDF security + image upscaler
   "protect-pdf", "unlock-pdf", "image-upscaler",
+  // Batch 24 — UGC creator auto-fill cluster
+  "invoice-filler",
 ]);
 
 // Extra natural-language phrases that should map strongly to a slug.

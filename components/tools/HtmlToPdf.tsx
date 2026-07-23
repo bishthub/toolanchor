@@ -27,8 +27,10 @@ type PageSize = "A4" | "Letter";
 type Margin = "default" | "none" | "narrow";
 
 function injectPageCss(html: string, size: PageSize, margin: Margin): string {
-  const marginCss = margin === "none" ? " margin: 0;" : margin === "narrow" ? " margin: 10mm;" : "";
-  const style = `<style>@page { size: ${size};${marginCss} }</style>`;
+  // @page margin stays 0 so the browser doesn't stamp its date/title/URL header
+  // and footer onto the PDF; the chosen margin is applied as body padding instead.
+  const pad = margin === "none" ? "0" : margin === "narrow" ? "10mm" : "18mm";
+  const style = `<style>@page { size: ${size}; margin: 0; } @media print { body { padding: ${pad}; } }</style>`;
   if (/<head[^>]*>/i.test(html)) return html.replace(/<head[^>]*>/i, (m) => m + style);
   if (/<html[^>]*>/i.test(html)) return html.replace(/<html[^>]*>/i, (m) => m + `<head>${style}</head>`);
   return style + html;

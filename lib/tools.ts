@@ -3075,6 +3075,51 @@ export const TOOLS: Tool[] = [
     ],
     related: ["css-gradient-generator", "color-palette-generator", "text-behind-image", "screenshot-beautifier"], updated: "2026-07-16",
   },
+  // Batch 24 — UGC creator auto-fill cluster
+  {
+    slug: "google-form-filler", name: "Google Form Auto-Filler", category: "text", status: "live", trending: true,
+    description: "Paste a Google Form link and get it pre-filled with your saved details — name, socials, UPI, PAN, bank info. Review, then submit. Details stay on your device.",
+    keywords: ["google form auto filler", "autofill google form", "prefill google form", "google form prefill link", "auto fill forms online", "ugc creator form filler", "influencer collab form"],
+    intro: "Google Form Auto-Filler is built for UGC creators and freelancers who type the same details into every brand collab form. Save your name, handles, follower counts, UPI, PAN and bank details once — stored only in your browser — then paste any Google Form link. We read the questions, match them to your saved details, and open the form pre-filled so you just review and hit Submit.",
+    answer: "Save your details once (stored only in your browser), paste a Google Form link, and the tool matches each question to your saved info and generates Google's official pre-filled link. The form opens with answers already typed in — you review, complete anything left, and submit it yourself.",
+    steps: [
+      "Open “My details” and save the info you type into every form — name, email, socials, UPI, bank details.",
+      "Paste the Google Form link (docs.google.com/forms or forms.gle) and click “Load form”.",
+      "Review the auto-matched answers, edit or fill any the tool skipped.",
+      "Click “Open pre-filled form” — the form opens with your answers typed in. Check it and press Submit.",
+    ],
+    faqs: [
+      { q: "Does it submit the form for me?", a: "No — and that's deliberate. It opens the form with your answers already filled in using Google's official pre-fill link format. You review everything and press Submit yourself, so nothing is ever sent without your approval." },
+      { q: "Where are my details stored?", a: "Only in your browser's local storage on your device. They are never uploaded, synced, or seen by us. Only the form's public link is sent to our server so we can read its questions — never your answers or personal data." },
+      { q: "Which question types can be pre-filled?", a: "Short answer, paragraph, multiple choice, dropdown, checkboxes, linear scale, and date questions. File uploads, time questions and grids can't be pre-filled (a Google Forms limitation) — the tool flags those so you can answer them on the form." },
+      { q: "Why does it say the form requires sign-in?", a: "Some forms are restricted to signed-in Google users or specific organisations. Those pages can't be read or pre-filled from outside — you'll need to open the form directly in your browser." },
+      { q: "Does it work with forms.gle short links?", a: "Yes. Short links are resolved to the full form automatically." },
+    ],
+    related: ["invoice-filler", "invoice-generator", "rent-receipt-generator", "word-counter"],
+    updated: "2026-07-23",
+  },
+  {
+    slug: "invoice-filler", name: "Invoice Auto-Filler", category: "pdf", status: "live", trending: true,
+    description: "Upload an invoice or contract (Word or PDF) and auto-fill your saved details — bank account, UPI, PAN, address — plus amount and invoice number. 100% in your browser.",
+    keywords: ["invoice filler", "auto fill invoice", "fill docx online", "auto fill word document", "pdf form filler", "fill invoice template", "ugc creator invoice", "autofill documents"],
+    intro: "Invoice Auto-Filler saves UGC creators and freelancers from retyping bank details into every invoice a brand sends. Save your details once — bank account, IFSC, UPI, PAN, GSTIN, address — then upload the brand's .docx or PDF invoice. The tool fills {{placeholders}}, “Label: ____” blanks, empty table cells and PDF form fields, shows you a preview, and gives you the filled file back. Nothing is uploaded — it all happens in your browser.",
+    answer: "Save your bank account, UPI, PAN and address once (stored only in your browser), then upload a .docx or PDF invoice. The tool fills placeholders, blank fields and PDF form fields with your details plus the amount and invoice number, shows a preview, and downloads the filled file — entirely on your device.",
+    steps: [
+      "Open “My details” and save your bank account, IFSC, UPI, PAN and address once.",
+      "Enter this document's specifics — client name, invoice number, date and amount.",
+      "Upload the .docx or PDF invoice/contract the brand sent you.",
+      "Click auto-fill, check the preview and the list of what was filled, then download the completed file.",
+    ],
+    faqs: [
+      { q: "Is my invoice or bank information uploaded anywhere?", a: "No. The document is opened and filled entirely in your browser with JavaScript, and your saved details live only in your browser's local storage. Nothing ever reaches a server." },
+      { q: "What can it fill in a Word document?", a: "Three patterns: placeholders like {{name}}, {{upi}} or [Account Number]; labels followed by blanks like “Bank Name: ______”; and invoice-style tables where a label cell (e.g. “IFSC Code”) is followed by an empty cell." },
+      { q: "What about PDFs?", a: "If the PDF has fillable form fields, they're detected, matched to your saved details, and filled — with an option to flatten the result so values can't be changed. If a PDF has no form fields there's nothing to fill into; ask for the .docx version or use our PDF Editor to place text manually." },
+      { q: "Does it change my document's formatting?", a: "Filling preserves the document's structure and styling. In rare cases where a placeholder is split across differently-formatted characters, that one line is normalised to a single style — the preview shows you exactly what you'll download." },
+      { q: "Can I use it for contracts and collab agreements, not just invoices?", a: "Yes — it works on any .docx or fillable PDF. Anywhere your name, address, PAN or payment details belong, the same placeholder and label matching applies." },
+    ],
+    related: ["google-form-filler", "invoice-generator", "pdf-editor", "sign-pdf", "word-editor"],
+    updated: "2026-07-24",
+  },
 ];
 
 // ── Derived helpers used across the site ──────────────────────────────────

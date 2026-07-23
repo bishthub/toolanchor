@@ -46,8 +46,9 @@ function buildExportHtml(bodyHtml: string, title: string): string {
 <meta charset="utf-8">
 <title>${escapeHtml(title)}</title>
 <style>
-  @page { size: A4; }
+  @page { size: A4; margin: 0; }
   body { font-family: Georgia, "Times New Roman", serif; color: #1a1a1a; line-height: 1.55; padding: 24px; max-width: 52rem; margin: 0 auto; }
+  @media print { body { padding: 18mm 16mm; max-width: none; } }
   h1 { font-size: 1.7rem; margin: 1.1em 0 .45em; line-height: 1.25; }
   h2 { font-size: 1.35rem; margin: 1em 0 .4em; line-height: 1.3; }
   h3 { font-size: 1.15rem; margin: .9em 0 .35em; }
