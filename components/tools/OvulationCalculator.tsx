@@ -34,11 +34,17 @@ export default function OvulationCalculator() {
     const fertileStart = addDays(ovulation, -5);
     const fertileEnd = new Date(ovulation);
     const periodEnd = addDays(start, 4); // ~5 day period
+    const nextPeriod = addDays(start, cycleLen);
     const dueDate = addDays(ovulation, 266); // 38 weeks from conception
-    return { start, cycleLen, ovDay, ovulation, fertileStart, fertileEnd, periodEnd, dueDate };
+    return { start, cycleLen, ovDay, ovulation, fertileStart, fertileEnd, periodEnd, nextPeriod, dueDate };
   }, [lmp, cycle]);
 
   const fmt = (d: Date) => d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+  const fmtShort = (d: Date) => d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  const fmtRange = (a: Date, b: Date) =>
+    a.getMonth() === b.getMonth()
+      ? `${a.toLocaleDateString("en-US", { month: "short", day: "numeric" })} – ${b.getDate()}`
+      : `${a.toLocaleDateString("en-US", { month: "short", day: "numeric" })} – ${b.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
 
   // Classify a calendar date into its cycle phase
   const kindFor = (d: Date): DayKind => {
@@ -91,11 +97,37 @@ export default function OvulationCalculator() {
       </div>
 
       {!result && (
-        <p className="ovu-empty">Enter the first day of your last period to see your fertile window, ovulation day and estimated due date.</p>
+        <div className="ovu-empty">
+          <div className="ovu-empty-ico" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" />
+            </svg>
+          </div>
+          <p>Enter the first day of your last period to see your <strong>fertile window</strong>, <strong>ovulation day</strong> and <strong>estimated due date</strong>.</p>
+        </div>
       )}
 
       {result && (
         <>
+          {/* Headline answers — the numbers people came for, up front */}
+          <div className="ovu-hero">
+            <div className="ovu-hcard ovu-hcard--accent">
+              <div className="ovu-hk">Ovulation day</div>
+              <div className="ovu-hv">{fmtShort(result.ovulation)}</div>
+              <div className="ovu-hm">Cycle day {result.ovDay}</div>
+            </div>
+            <div className="ovu-hcard">
+              <div className="ovu-hk">Fertile window</div>
+              <div className="ovu-hv">{fmtRange(result.fertileStart, result.fertileEnd)}</div>
+              <div className="ovu-hm">Your 6 most fertile days</div>
+            </div>
+            <div className="ovu-hcard">
+              <div className="ovu-hk">Estimated due date</div>
+              <div className="ovu-hv">{fmtShort(result.dueDate)}</div>
+              <div className="ovu-hm">If you conceive this cycle</div>
+            </div>
+          </div>
+
           {/* Cycle phase timeline */}
           <div className="ovu-tl">
             <div className="ovu-tl-bar">
@@ -142,12 +174,13 @@ export default function OvulationCalculator() {
             <span className="ovu-lg"><i className="dot ovulation" />Ovulation</span>
           </div>
 
-          {/* Key dates */}
-          <div className="stats">
-            <div className="stat"><div className="n" style={{ fontSize: "1rem" }}>{fmt(result.fertileStart)}</div><div className="l">Fertile window starts</div></div>
-            <div className="stat"><div className="n" style={{ fontSize: "1rem" }}>{fmt(result.ovulation)}</div><div className="l">Ovulation (day {result.ovDay})</div></div>
-            <div className="stat"><div className="n" style={{ fontSize: "1rem" }}>{fmt(result.fertileEnd)}</div><div className="l">Fertile window ends</div></div>
-            <div className="stat"><div className="n" style={{ fontSize: "1rem" }}>{fmt(result.dueDate)}</div><div className="l">Estimated due date</div></div>
+          {/* Full date breakdown */}
+          <div className="ovu-dates">
+            <div className="ovu-drow"><span className="ovu-dl">Fertile window starts</span><span className="ovu-dv">{fmt(result.fertileStart)}</span></div>
+            <div className="ovu-drow"><span className="ovu-dl">Ovulation day</span><span className="ovu-dv">{fmt(result.ovulation)}</span></div>
+            <div className="ovu-drow"><span className="ovu-dl">Fertile window ends</span><span className="ovu-dv">{fmt(result.fertileEnd)}</span></div>
+            <div className="ovu-drow"><span className="ovu-dl">Next period expected</span><span className="ovu-dv">{fmt(result.nextPeriod)}</span></div>
+            <div className="ovu-drow"><span className="ovu-dl">Estimated due date</span><span className="ovu-dv">{fmt(result.dueDate)}</span></div>
           </div>
         </>
       )}
@@ -156,8 +189,51 @@ export default function OvulationCalculator() {
 
       <style jsx>{`
         .ovu-empty {
-          margin-top: 4px; color: var(--muted); font-size: 0.9rem; line-height: 1.55;
+          margin-top: 8px; display: flex; align-items: center; gap: 14px;
+          padding: 18px 20px; border: 1px dashed var(--border); border-radius: var(--radius);
+          background: var(--bg-2); color: var(--muted); font-size: 0.9rem; line-height: 1.55;
         }
+        .ovu-empty strong { color: var(--text); font-weight: 600; }
+        .ovu-empty-ico {
+          flex: none; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
+          color: var(--accent); background: var(--accent-soft); border: 1px solid var(--ring);
+        }
+        /* Headline result cards */
+        .ovu-hero {
+          display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+          gap: 12px; margin-top: 22px;
+        }
+        .ovu-hcard {
+          padding: 16px 16px 15px; border: 1px solid var(--border); border-radius: var(--radius);
+          background: var(--bg-2);
+        }
+        .ovu-hcard--accent {
+          background: var(--accent-soft); border-color: var(--ring);
+          box-shadow: 0 0 0 1px var(--ring), var(--shadow-sm);
+        }
+        .ovu-hk {
+          font-family: var(--font-mono), monospace; font-size: 0.62rem; letter-spacing: 0.07em;
+          text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+        }
+        .ovu-hcard--accent .ovu-hk { color: var(--accent); }
+        .ovu-hv {
+          font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 1.28rem;
+          letter-spacing: -0.02em; line-height: 1.15; color: var(--text);
+        }
+        .ovu-hcard--accent .ovu-hv { color: var(--accent); }
+        .ovu-hm { margin-top: 5px; font-size: 0.76rem; color: var(--muted); }
+        /* Full date breakdown */
+        .ovu-dates {
+          margin-top: 24px; border: 1px solid var(--border); border-radius: var(--radius);
+          overflow: hidden; background: var(--bg-2);
+        }
+        .ovu-drow {
+          display: flex; justify-content: space-between; align-items: center; gap: 12px;
+          padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 0.9rem;
+        }
+        .ovu-drow:last-child { border-bottom: none; }
+        .ovu-dl { color: var(--muted); }
+        .ovu-dv { font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
         /* Timeline */
         .ovu-tl { margin-top: 22px; }
         .ovu-tl-bar {

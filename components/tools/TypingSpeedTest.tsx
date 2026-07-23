@@ -20,6 +20,17 @@ function randomPassage(): string {
   return PASSAGES[Math.floor(Math.random() * PASSAGES.length)];
 }
 
+// Rating vs. the widely-cited ~40 WPM average — this is the "what is a good
+// typing speed" answer people search for, shown right on their result.
+function rating(wpm: number): { label: string; note: string; tier: "hi" | "mid" | "lo" } {
+  if (wpm >= 90) return { label: "Professional", note: "Top-tier — faster than about 95% of typists.", tier: "hi" };
+  if (wpm >= 70) return { label: "Fast", note: "Well above the ~40 WPM average.", tier: "hi" };
+  if (wpm >= 55) return { label: "Above average", note: "Comfortably above the ~40 WPM average.", tier: "hi" };
+  if (wpm >= 40) return { label: "Average", note: "Right around the ~40 WPM average.", tier: "mid" };
+  if (wpm >= 25) return { label: "Below average", note: "A little under the ~40 WPM average — keep practising.", tier: "lo" };
+  return { label: "Beginner", note: "Practice a few minutes a day and speed climbs quickly.", tier: "lo" };
+}
+
 export default function TypingSpeedTest() {
   const [passage, setPassage] = useState("");
   const [typed, setTyped] = useState("");
@@ -76,43 +87,49 @@ export default function TypingSpeedTest() {
   const wpm = minutes > 0 ? Math.round(correct / 5 / minutes) : 0;
   const accuracy = typed.length > 0 ? Math.round((correct / typed.length) * 100) : 100;
   const timeLeft = Math.max(0, Math.ceil((DURATION_MS - elapsed) / 1000));
+  const progress = Math.min(100, (elapsed / DURATION_MS) * 100);
+  const r = rating(wpm);
 
   return (
-    <div>
+    <div className="tst">
+      {/* Result hero — headline WPM + how it compares to the average */}
+      {finished && (
+        <div className="tst-result">
+          <div className="tst-result-num">
+            <span className="tst-wpm">{wpm}</span>
+            <span className="tst-wpm-u">WPM</span>
+          </div>
+          <div className="tst-result-info">
+            <span className={`tst-badge tst-badge--${r.tier}`}>{r.label}</span>
+            <span className="tst-result-note">{r.note}</span>
+            <span className="tst-result-sub">{accuracy}% accuracy · {errors} error{errors === 1 ? "" : "s"}</span>
+          </div>
+        </div>
+      )}
+
       <div className="field">
         <label>Type this passage</label>
-        <div
-          style={{
-            padding: "14px 16px",
-            background: "var(--bg-2)",
-            border: "1px solid var(--border)",
-            borderRadius: "var(--radius-sm)",
-            fontSize: "1.02rem",
-            lineHeight: 1.7,
-            userSelect: "none",
-          }}
-        >
+        <div className="tst-passage">
           {passage
             ? passage.split("").map((ch, i) => {
                 const isTyped = i < typed.length;
                 const isWrong = isTyped && typed[i] !== ch;
+                const isCaret = !finished && i === typed.length;
+                const cls = isCaret ? "tst-caret" : isTyped ? (isWrong ? "tst-wrong" : "tst-right") : "tst-todo";
                 return (
-                  <span
-                    key={i}
-                    style={{
-                      color: isTyped ? (isWrong ? "var(--danger)" : "var(--ok)") : "var(--muted)",
-                      textDecoration: isWrong ? "underline" : undefined,
-                    }}
-                  >
-                    {ch}
-                  </span>
+                  <span key={i} className={cls}>{ch}</span>
                 );
               })
             : "Loading passage…"}
         </div>
       </div>
 
-      <div className="field">
+      {/* Live timer bar */}
+      <div className="tst-bar" role="progressbar" aria-valuenow={Math.round(progress)} aria-valuemin={0} aria-valuemax={100}>
+        <span style={{ width: `${progress}%` }} className={finished ? "is-done" : ""} />
+      </div>
+
+      <div className="field" style={{ marginTop: 16 }}>
         <label htmlFor="tst">Type here — the 60-second timer starts on your first keystroke</label>
         <textarea
           id="tst"
@@ -128,12 +145,6 @@ export default function TypingSpeedTest() {
         />
       </div>
 
-      {finished && (
-        <div className="mono" style={{ fontSize: "1.4rem", fontWeight: 800, textAlign: "center", margin: "6px 0 4px" }}>
-          {wpm} WPM at {accuracy}% accuracy
-        </div>
-      )}
-
       <div className="stats">
         <div className="stat"><div className="n">{timeLeft}s</div><div className="l">Time left</div></div>
         <div className="stat"><div className="n">{wpm}</div><div className="l">WPM</div></div>
@@ -146,6 +157,58 @@ export default function TypingSpeedTest() {
       </button>
 
       <p className="privacy-note">🔒 The test runs entirely in your browser — nothing you type is uploaded.</p>
+
+      <style jsx>{`
+        .tst-result {
+          display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+          padding: 20px 22px; margin-bottom: 20px;
+          border: 1px solid var(--ring); border-radius: var(--radius);
+          background: var(--accent-soft); box-shadow: 0 0 0 1px var(--ring), var(--shadow-sm);
+          animation: tst-rise .3s var(--ease-out) both;
+        }
+        @keyframes tst-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+        .tst-result-num { display: flex; align-items: baseline; gap: 7px; }
+        .tst-wpm {
+          font-family: var(--font-display), sans-serif; font-weight: 800; font-size: 3rem;
+          line-height: 1; letter-spacing: -0.03em; color: var(--accent); font-variant-numeric: tabular-nums;
+        }
+        .tst-wpm-u {
+          font-family: var(--font-mono), monospace; font-size: 0.82rem; font-weight: 600;
+          letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase;
+        }
+        .tst-result-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+        .tst-badge {
+          align-self: flex-start; font-size: 0.72rem; font-weight: 650; letter-spacing: 0.03em;
+          text-transform: uppercase; padding: 3px 9px; border-radius: 999px;
+        }
+        .tst-badge--hi { background: color-mix(in srgb, var(--ok) 16%, transparent); color: var(--ok); }
+        .tst-badge--mid { background: var(--accent-soft); color: var(--accent); box-shadow: inset 0 0 0 1px var(--ring); }
+        .tst-badge--lo { background: var(--surface-2); color: var(--muted); }
+        .tst-result-note { font-size: 0.9rem; color: var(--text); font-weight: 550; }
+        .tst-result-sub { font-size: 0.8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+        .tst-passage {
+          padding: 14px 16px; background: var(--bg-2); border: 1px solid var(--border);
+          border-radius: var(--radius-sm); font-size: 1.02rem; line-height: 1.7; user-select: none;
+        }
+        .tst-todo { color: var(--muted); }
+        .tst-right { color: var(--ok); }
+        .tst-wrong { color: var(--danger); text-decoration: underline; text-underline-offset: 2px; }
+        .tst-caret {
+          color: var(--text); background: var(--accent-soft);
+          box-shadow: -2px 0 0 var(--accent); border-radius: 1px;
+        }
+
+        .tst-bar {
+          height: 6px; margin-top: 14px; border-radius: 999px;
+          background: var(--surface-2); overflow: hidden;
+        }
+        .tst-bar > span {
+          display: block; height: 100%; background: var(--accent); border-radius: 999px;
+          transition: width .1s linear;
+        }
+        .tst-bar > span.is-done { background: var(--ok); }
+      `}</style>
     </div>
   );
 }
